@@ -86,6 +86,9 @@ module Taobao
           @attr_names += [:totalResults]
           @attr_names += [:lastModified]
         end
+        if array_elements.keys.include?(name)
+          return false
+        end
         @attr_names.include?(name.to_sym)
       end
 
@@ -102,6 +105,7 @@ module Taobao
         if attr_name?(name)
           @stack.push("#{name}=".to_sym)
         end
+
 
         if k = elm_name_to_class(name)
           @stack.push(k.new)

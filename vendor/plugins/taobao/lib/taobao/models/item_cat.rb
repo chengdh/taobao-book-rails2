@@ -11,7 +11,9 @@ module Taobao
        :cid,
        :parent_cid,
        :name,
-       :is_parent
+       :is_parent,
+       :status,
+       :sort_order
       ]
     end
     

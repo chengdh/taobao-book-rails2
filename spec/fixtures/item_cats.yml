@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  cid: 1
+  parent_cid: 1
+  name: MyString
+  is_parent: false
+  status: MyString
+  sort_order: 1
+
+two:
+  cid: 1
+  parent_cid: 1
+  name: MyString
+  is_parent: false
+  status: MyString
+  sort_order: 1
