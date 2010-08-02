@@ -1,0 +1,17 @@
+development:
+            app_key: test
+            app_secret: test
+            rest_endpoint: http://gw.api.tbsandbox.com/router/rest
+            auth_url: http://open.taobao.com/isv/authorize.php?appkey=
+
+test:
+            app_key: test
+            app_secret: test
+            rest_endpoint: http://gw.api.tbsandbox.com/router/rest
+            auth_url: http://open.taobao.com/isv/authorize.php?appkey=
+
+production:
+            app_key: test
+            app_secret: test
+            rest_endpoint: http://gw.api.taobao.com/router/rest
+            auth_url: http://container.open.taobao.com/container?appkey=
