@@ -9,10 +9,22 @@ module Taobao
     def self.attr_names
       [
        :pid,
+       :parent_pid,
+       :parent_vid,
        :name,
+       :is_key_prop,
+       :is_sale_prop,
+       :is_color_prop,
+       :is_enum_prop,
+       :is_input_prop,
+       :is_item_prop,
        :must,
        :multi,
-       :prop_values
+       :prop_values,
+       :status,
+       :sort_order,
+       :child_template,
+       :is_allow_alias
       ]
     end
     

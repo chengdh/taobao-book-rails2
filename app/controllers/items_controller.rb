@@ -1,9 +1,9 @@
 class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
+  # 测试
   def index
     @items = Item.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @items }

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-16" standalone="no"?>
+<rsp>
+
+       <lastModified>2009-09-04 14:46:59</lastModified>
+       <prop_value>
+               <cid>50010527</cid>
+               <pid>20000</pid>
+               <prop_name>品牌</prop_name>
+               <vid>47471</vid>
+               <name>Absorba</name>
+               <status>normal</status>
+               <sort_order>0</sort_order>
+       </prop_value>
+       <prop_value>
+               <cid>50010527</cid>
+               <pid>20000</pid>
+               <prop_name>品牌</prop_name>
+               <vid>45455</vid>
+               <name>Carter's</name>
+               <status>normal</status>
+               <sort_order>0</sort_order>
+       </prop_value>
+       <prop_value>
+               <cid>50010527</cid>
+               <pid>20000</pid>
+               <prop_name>品牌</prop_name>
+               <vid>60353</vid>
+               <name>A-爱儿健</name>
+               <status>normal</status>
+               <sort_order>1</sort_order>
+       </prop_value>
+
+</rsp>

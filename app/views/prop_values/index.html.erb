@@ -1,0 +1,28 @@
+<h1>Listing prop_values</h1>
+
+<table>
+  <tr>
+    <th>Vid</th>
+    <th>Cid</th>
+    <th>Pid</th>
+    <th>Prop name</th>
+    <th>Name</th>
+  </tr>
+
+<% @prop_values.each do |prop_value| %>
+  <tr>
+    <td><%=h prop_value.vid %></td>
+    <td><%=h prop_value.cid %></td>
+    <td><%=h prop_value.pid %></td>
+    <td><%=h prop_value.prop_name %></td>
+    <td><%=h prop_value.name %></td>
+    <td><%= link_to 'Show', prop_value %></td>
+    <td><%= link_to 'Edit', edit_prop_value_path(prop_value) %></td>
+    <td><%= link_to 'Destroy', prop_value, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New prop_value', new_prop_value_path %>

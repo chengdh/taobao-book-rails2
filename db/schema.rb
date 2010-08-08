@@ -9,14 +9,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100802083114) do
+ActiveRecord::Schema.define(:version => 20100808095429) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid"
-    t.string   "name",       :null => false
-    t.boolean  "is_parent"
-    t.string   "status"
+    t.string   "name",       :limit => 60
+    t.boolean  "is_parent",                :default => false
+    t.string   "status",     :limit => 20
     t.integer  "sort_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "item_props", :primary_key => "pid", :force => true do |t|
+    t.integer  "cid",                                             :null => false
+    t.string   "name",           :limit => 60, :default => "",    :null => false
+    t.integer  "parent_pid"
+    t.integer  "parent_vid"
+    t.boolean  "is_key_prop",                  :default => false
+    t.boolean  "is_sale_prop",                 :default => false
+    t.boolean  "is_color_prop",                :default => false
+    t.boolean  "is_enum_prop",                 :default => false
+    t.boolean  "is_input_prop",                :default => false
+    t.boolean  "is_item_prop",                 :default => false
+    t.boolean  "must",                         :default => false
+    t.boolean  "multi",                        :default => false
+    t.string   "status",         :limit => 60
+    t.integer  "sort_order"
+    t.string   "child_template", :limit => 60
+    t.boolean  "is_allow_alias",               :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -24,9 +45,9 @@ ActiveRecord::Schema.define(:version => 20100802083114) do
   create_table "items", :primary_key => "num_iid", :force => true do |t|
     t.string   "iid",            :limit => 32
     t.string   "detail_url",     :limit => 200
-    t.string   "title",          :limit => 60,                                                            :null => false
-    t.string   "nick",           :limit => 60,                                                            :null => false
-    t.string   "type",           :limit => 20,                                                            :null => false
+    t.string   "title",          :limit => 60,                                      :default => "",       :null => false
+    t.string   "nick",           :limit => 60,                                      :default => "",       :null => false
+    t.string   "type",           :limit => 20,                                      :default => "",       :null => false
     t.integer  "cid",                                                                                     :null => false
     t.text     "desc",           :limit => 16777215,                                                      :null => false
     t.string   "pic_url",        :limit => 200
@@ -61,6 +82,17 @@ ActiveRecord::Schema.define(:version => 20100802083114) do
     t.boolean  "one_station",                                                       :default => false
     t.string   "second_kill",    :limit => 20
     t.string   "auto_fill",      :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "prop_values", :primary_key => "vid", :force => true do |t|
+    t.integer  "pid"
+    t.string   "name",       :limit => 60, :default => "", :null => false
+    t.string   "name_alias", :limit => 60
+    t.boolean  "is_parent"
+    t.string   "status",     :limit => 20
+    t.integer  "sort_order",               :default => 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end

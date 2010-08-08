@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-16" standalone="no"?>
+<rsp>
+
+       <totalResults>1</totalResults>
+       <item>
+               <iid>3f9f1794e1100375f3a1e58b64feab73</iid>
+               <title>qweqweqweqwe</title>
+               <nick>hz0799</nick>
+               <type>fixed</type>
+               <cid>150401</cid>
+               <delist_time>2009-11-18 19:32:41</delist_time>
+               <location/>
+               <price>31.00</price>
+               <post_fee>0.00</post_fee>
+       </item>
+</rsp>

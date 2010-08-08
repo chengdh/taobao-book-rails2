@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  p_id: 1
+  c_id: 1
+  name: MyString
+
+two:
+  p_id: 1
+  c_id: 1
+  name: MyString

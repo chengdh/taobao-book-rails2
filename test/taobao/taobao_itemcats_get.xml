@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-16" standalone="no"?>
+<rsp>
+
+       <item_cat>
+               <cid>50010527</cid>
+               <parent_cid>50008165</parent_cid>
+               <name>衬衫</name>
+               <is_parent>false</is_parent>
+               <status>normal</status>
+               <sort_order>7</sort_order>
+       </item_cat>
+
+</rsp>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-16" standalone="no"?>
+<rsp>
+
+      <item_prop>
+               <pid>20000</pid>
+               <name>品牌</name>
+               <parent_pid>0</parent_pid>
+               <parent_vid>0</parent_vid>
+               <status>normal</status>
+               <sort_order>0</sort_order>
+      </item_prop>
+      <item_prop>
+               <pid>21692</pid>
+               <name>衬衫款式</name>
+               <parent_pid>0</parent_pid>
+               <parent_vid>0</parent_vid>
+               <status>normal</status>
+               <sort_order>0</sort_order>
+      </item_prop>
+      <item_prop>
+               <pid>1632501</pid>
+               <name>货号</name>
+               <parent_pid>0</parent_pid>
+               <parent_vid>0</parent_vid>
+               <status>normal</status>
+               <sort_order>0</sort_order>
+      </item_prop>
+
+</rsp>

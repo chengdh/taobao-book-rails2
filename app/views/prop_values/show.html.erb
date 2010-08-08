@@ -1,0 +1,28 @@
+<p>
+  <b>Vid:</b>
+  <%=h @prop_value.vid %>
+</p>
+
+<p>
+  <b>Cid:</b>
+  <%=h @prop_value.cid %>
+</p>
+
+<p>
+  <b>Pid:</b>
+  <%=h @prop_value.pid %>
+</p>
+
+<p>
+  <b>Prop name:</b>
+  <%=h @prop_value.prop_name %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @prop_value.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_prop_value_path(@prop_value) %> |
+<%= link_to 'Back', prop_values_path %>

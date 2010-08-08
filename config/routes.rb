@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :prop_values
+
+  map.resources :item_props
+
   map.resources :items
 
   # The priority is based upon order of creation: first created -> highest priority.

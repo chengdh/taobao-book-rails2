@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  vid: 1
+  cid: 1
+  pid: 1
+  prop_name: MyString
+  name: MyString
+
+two:
+  vid: 1
+  cid: 1
+  pid: 1
+  prop_name: MyString
+  name: MyString

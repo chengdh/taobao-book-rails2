@@ -1,0 +1,18 @@
+<p>
+  <b>P:</b>
+  <%=h @item_prop.p_id %>
+</p>
+
+<p>
+  <b>C:</b>
+  <%=h @item_prop.c_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @item_prop.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_prop_path(@item_prop) %> |
+<%= link_to 'Back', item_props_path %>

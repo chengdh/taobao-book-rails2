@@ -4,17 +4,16 @@ require 'pp'
 
 module Taobao
   class Parse
-    DEBUG = true
+    DEBUG = false
 
     class MyListener
       include REXML::StreamListener
       attr_accessor :result
 
       class TotalArray < Array
-        #以下属性在2.0中无用
         attr_accessor :total
-        attr_accessor :totalResults
-        attr_accessor :lastModified
+        attr_accessor :total_results
+        attr_accessor :last_modified
         attr_accessor :list
 
         def push_sym(stack)
@@ -23,28 +22,28 @@ module Taobao
 
       def model_classes
         [
-         Taobao::Arg,
-         Taobao::ErrorRsp,
-         Taobao::SimpleUserInfo,
-         Taobao::AppSubscControl,
-         Taobao::User,
-         Taobao::Location,
-         Taobao::UserCredit,
-         Taobao::ItemCat,
-         Taobao::ItemCategory,
-         Taobao::ItemProp,
-         Taobao::NotifyItem,
-         Taobao::SellerCat,
-         Taobao::PropValue,
-         Taobao::Item,
-         Taobao::ItemCategory,
-         Taobao::ItemSearch,
-         Taobao::Trade,
-         Taobao::Product,
-         Taobao::ProductImg,
-         Taobao::ProductPropImg,
-         Taobao::Shop,
-         Taobao::TaobaokeItem
+          Taobao::Arg,
+          Taobao::ErrorRsp,
+          Taobao::SimpleUserInfo,
+          Taobao::AppSubscControl,
+          Taobao::User,
+          Taobao::Location,
+          Taobao::UserCredit,
+          Taobao::ItemCat,
+          Taobao::ItemCategory,
+          Taobao::ItemProp,
+          Taobao::NotifyItem,
+          Taobao::SellerCat,
+          Taobao::PropValue,
+          Taobao::Item,
+          Taobao::ItemCategory,
+          Taobao::ItemSearch,
+          Taobao::Trade,
+          Taobao::Product,
+          Taobao::ProductImg,
+          Taobao::ProductPropImg,
+          Taobao::Shop,
+          Taobao::TaobaokeItem
         ]
       end
 
@@ -83,11 +82,8 @@ module Taobao
           @attr_names = []
           model_classes.each { |k| @attr_names += k.attr_names }
           @attr_names += [:total]
-          @attr_names += [:totalResults]
-          @attr_names += [:lastModified]
-        end
-        if array_elements.keys.include?(name)
-          return false
+          @attr_names += [:total_results]
+          @attr_names += [:last_modified]
         end
         @attr_names.include?(name.to_sym)
       end
@@ -98,8 +94,6 @@ module Taobao
 
       def tag_start(name, attrs)
         pp("tag_start[begin] --- #{name} --- #{attrs.inspect} --- #{@stack.inspect}") if DEBUG
-        return if (name !="error_response") && (name.include?("response") || name.include?("total_results"))
-
         s_size = @stack.size
 
         if attr_name?(name)
@@ -114,17 +108,21 @@ module Taobao
         end
 
         if @stack.size == s_size # nothing get push to stack
-          pp "unknown tag #{name}"
-          @stack.push :no_op
+          if @stack.size == 0
+            pp "push root tag "  if DEBUG
+            #加入一个空的根元素
+            @stack.push TotalArray.new
+          else
+            pp "unknown tag #{name}"
+            @stack.push :no_op
+          end
         end
-
         pp("tag_start  [end] --- #{name} --- #{attrs.inspect} --- #{@stack.inspect}") if DEBUG
       end
 
       def tag_end(name)
         pp("tag_end  [begin] --- #{name} --- #{@stack.inspect}") if DEBUG
 
-        return if (name !="error_response") && (name.include?("response") || name.include?("total_results"))
         @result = @stack.pop
 
         if @result == :no_op
@@ -133,7 +131,15 @@ module Taobao
           pp("  tag_end: assign #{@stack.last}") if DEBUG
           s = @stack.pop
           if s != :no_op
-            @stack.last.send(s, @result)
+            #FIXME 在调用taobao.items.get时,此处会出错,当出错时,重新将@result压入栈
+            #判断@stack.last是否具有对应的方法
+            if @stack.last.methods.include?(s.to_s)
+              @stack.last.send(s, @result)
+            end
+          end
+          #如果相邻两个元素都是数组,则将两个数组合并
+          if @stack.last.kind_of? Array and @result.kind_of? Array
+            @result.each {|i| @stack.last.push(i)}
           end
 
           if @stack.last.is_a? Taobao::Model and name == @stack.last.class.elm_name
@@ -144,6 +150,8 @@ module Taobao
               @stack.push(elm)
             end
           end
+        elsif @stack.last.kind_of? Array and @result.kind_of? Array
+          @result.each {|i| @stack.last.push(i)}
         elsif @result.kind_of? Array and @stack.size > 0
           pp("  tag_end: assign #{@stack.last}") if DEBUG
           s = @stack.pop
@@ -155,7 +163,6 @@ module Taobao
           pp("  tag_end: add to array") if DEBUG
           @stack.last.push @result
         end
-
         pp("tag_end    [end] --- #{name} --- #{@stack.inspect}") if DEBUG
       end
 
@@ -168,7 +175,6 @@ module Taobao
       def cdata(content)
         text(content)
       end
-
     end
 
     def process(data)

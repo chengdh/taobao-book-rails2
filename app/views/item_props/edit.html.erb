@@ -1,0 +1,24 @@
+<h1>Editing item_prop</h1>
+
+<% form_for(@item_prop) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :p_id %><br />
+    <%= f.text_field :p_id %>
+  </p>
+  <p>
+    <%= f.label :c_id %><br />
+    <%= f.text_field :c_id %>
+  </p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @item_prop %> |
+<%= link_to 'Back', item_props_path %>

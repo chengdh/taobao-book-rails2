@@ -1,0 +1,24 @@
+<h1>Listing item_props</h1>
+
+<table>
+  <tr>
+    <th>P</th>
+    <th>C</th>
+    <th>Name</th>
+  </tr>
+
+<% @item_props.each do |item_prop| %>
+  <tr>
+    <td><%=h item_prop.p_id %></td>
+    <td><%=h item_prop.c_id %></td>
+    <td><%=h item_prop.name %></td>
+    <td><%= link_to 'Show', item_prop %></td>
+    <td><%= link_to 'Edit', edit_item_prop_path(item_prop) %></td>
+    <td><%= link_to 'Destroy', item_prop, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New item_prop', new_item_prop_path %>

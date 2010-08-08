@@ -1,0 +1,32 @@
+<h1>Editing prop_value</h1>
+
+<% form_for(@prop_value) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :vid %><br />
+    <%= f.text_field :vid %>
+  </p>
+  <p>
+    <%= f.label :cid %><br />
+    <%= f.text_field :cid %>
+  </p>
+  <p>
+    <%= f.label :pid %><br />
+    <%= f.text_field :pid %>
+  </p>
+  <p>
+    <%= f.label :prop_name %><br />
+    <%= f.text_field :prop_name %>
+  </p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @prop_value %> |
+<%= link_to 'Back', prop_values_path %>
