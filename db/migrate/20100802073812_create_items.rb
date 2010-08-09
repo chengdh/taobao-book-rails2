@@ -6,7 +6,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :detail_url,:limit => 200
       t.string :title,:null => false,:limit => 60
       t.string :nick,:null => false,:limit => 60
-      t.string :type,:null => false,:limit => 20
+      t.string :item_type,:null => false,:limit => 20
       t.integer :cid,:null => false
       t.text :desc,:null => false,:limit => 25000
       t.string :pic_url,:limit => 200

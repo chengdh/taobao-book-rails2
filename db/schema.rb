@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100808095429) do
+ActiveRecord::Schema.define(:version => 20100809023619) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid"
@@ -42,12 +42,26 @@ ActiveRecord::Schema.define(:version => 20100808095429) do
     t.datetime "updated_at"
   end
 
+  create_table "item_pvs", :id => false, :force => true do |t|
+    t.integer  "num_iid",                                     :null => false
+    t.integer  "pid",                                         :null => false
+    t.string   "prop_name",  :limit => 60, :default => "",    :null => false
+    t.integer  "vid",                                         :null => false
+    t.string   "name",       :limit => 60, :default => "",    :null => false
+    t.string   "name_alias", :limit => 60
+    t.boolean  "is_parent",                :default => false
+    t.string   "status",     :limit => 20
+    t.integer  "sort_order",               :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "items", :primary_key => "num_iid", :force => true do |t|
     t.string   "iid",            :limit => 32
     t.string   "detail_url",     :limit => 200
     t.string   "title",          :limit => 60,                                      :default => "",       :null => false
     t.string   "nick",           :limit => 60,                                      :default => "",       :null => false
-    t.string   "type",           :limit => 20,                                      :default => "",       :null => false
+    t.string   "item_type",      :limit => 20,                                      :default => "",       :null => false
     t.integer  "cid",                                                                                     :null => false
     t.text     "desc",           :limit => 16777215,                                                      :null => false
     t.string   "pic_url",        :limit => 200

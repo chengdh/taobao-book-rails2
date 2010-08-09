@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  num_iid: 1
+  pid: 1
+
+two:
+  num_iid: 1
+  pid: 1

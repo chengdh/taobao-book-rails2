@@ -14,13 +14,14 @@ class ItemCat < ActiveRecord::Base
         #对boolean型的属性进行转换
         val=1 if val=='true'
         val=0 if val=='false'
-        itemcat.send("#{attr}=",val)
+        itemcat.send("#{attr}=",val) if (itemcat.attributes.keys - ["cid"]).include?("#{attr}")
       end
+      itemcat.id = the_item_cat.cid
       itemcat.save
       #同步item_prop
-      ItemProp.synchronize(sess,itemcat.cid) if !itemcat.is_parent
+      #ItemProp.synchronize(sess,itemcat.cid) if !itemcat.is_parent
       #同步prop_value
-      PropValue.synchronize(sess,itemcat.cid) if !itemcat.is_parent
+      #PropValue.synchronize(sess,itemcat.cid) if !itemcat.is_parent
     end
   end
 end

@@ -22,9 +22,10 @@ class ItemProp < ActiveRecord::Base
         #对boolean型的属性进行转换
         val=1 if val=='true'
         val=0 if val=='false'
-        item_prop.send("#{attr}=",val)
+        item_prop.send("#{attr}=",val) if (item_prop.attributes.keys - ["pid"]).include?("#{attr}")
         item_prop.cid = c_id
       end
+      item_prop.id = the_item_prop.pid
       item_prop.save
     end
   end
