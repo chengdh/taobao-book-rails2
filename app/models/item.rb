@@ -3,26 +3,30 @@ class Item < ActiveRecord::Base
   belongs_to :item_cat,:foreign_key => "cid"
   has_many :item_pvs,:foreign_key => 'num_iid'
 
-  #同步给定用户的商品信息
-  def self.synchronize(sess,nick)
-    items = sess.invoke("taobao.items.get","fields" =>"num_iid,cid","nicks" => nick)
-    item_fields = Taobao::Item.fields(:exclude => ['increment'])
+  #同步当前登录用户的在售商品信息
+  #需要sessionkey登录验证
+  def self.synchronize(sess)
+    items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'session' => sess.session_key)
+    item_fields = Taobao::Item.fields
     items.each do |the_item|
-      the_item = sess.invoke("taobao.item.get","fields" => item_fields,"nick" =>nick,"num_iid" => the_item.num_iid).first
       item = Item.new
       item = Item.find(the_item.num_iid) if Item.exists?(the_item.num_iid)
+
+      remote_item = sess.invoke("taobao.item.get","fields" => item_fields,"num_iid" => the_item.num_iid).first
+
       #increment 属性在active_record底层已经定义
-      (Taobao::Item.attr_names - [:increment]).each do |attr|
-        val = the_item.send(attr)
+      (Taobao::Item.attr_names ).each do |attr|
+        val = remote_item.send(attr)
         #对boolean型的属性进行转换
         val=1 if val=='true'
         val=0 if val=='false'
-        item.send("#{attr}=",val) if (item.attributes.keys - ['type','num_iid']).include?("#{attr}")
+        if (item.attributes.keys - ['increment']).include?("#{attr}") or item.methods.include?("#{attr}=")
+          item.send("#{attr}=",val)       
+        end
       end
       #type属性是rails 保留属性,因此更名为item_type
-      item.item_type = the_item.type
-      item.id = the_item.num_iid
-
+      item.item_type = remote_item.type
+      item.id = remote_item.num_iid
       item.save
     end
   end

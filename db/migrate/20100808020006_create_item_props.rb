@@ -1,11 +1,11 @@
 class CreateItemProps < ActiveRecord::Migration
   def self.up
     create_table :item_props,:id => false do |t|
-      t.integer :pid,:null => false
-      t.integer :cid,:null => false
+      t.integer :pid,:null => false,:limit => 5
+      t.integer :cid,:null => false,:limit => 5
       t.string :name,:null => false,:limit => 60
-      t.integer :parent_pid
-      t.integer :parent_vid
+      t.integer :parent_pid,:limit => 5
+      t.integer :parent_vid,:limit => 5
       t.boolean :is_key_prop,:default => false
       t.boolean :is_sale_prop,:default => false
       t.boolean :is_color_prop,:default => false

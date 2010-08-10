@@ -2,12 +2,12 @@ class CreateItems < ActiveRecord::Migration
   def self.up
     create_table :items,:id=>false do |t|
       t.string :iid,:limit => 32
-      t.integer :num_iid,:null => false
+      t.integer :num_iid,:null => false,:limit => 5
       t.string :detail_url,:limit => 200
       t.string :title,:null => false,:limit => 60
       t.string :nick,:null => false,:limit => 60
       t.string :item_type,:null => false,:limit => 20
-      t.integer :cid,:null => false
+      t.integer :cid,:null => false,:limit => 5
       t.text :desc,:null => false,:limit => 25000
       t.string :pic_url,:limit => 200
       t.integer :num,:default => 0
@@ -29,10 +29,11 @@ class CreateItems < ActiveRecord::Migration
       #t.string :increment
       t.boolean :auto_repost,:default => true
       t.string :approve_status,:default => "onsale"
-      t.integer :postage_id
-      t.integer :product_id
+      t.integer :postage_id,:limit => 5
+      t.integer :product_id,:limit => 5
       t.decimal :auction_point,:precision => 15,:scale => 2
-      t.integer :outer_id
+      t.integer :outer_id,:limit => 5
+
       t.boolean :is_virtural,:default => false
       t.boolean :is_taobao,:default => true
       t.boolean :is_ex,:default => false

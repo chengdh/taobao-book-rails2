@@ -19,9 +19,9 @@ class ItemCat < ActiveRecord::Base
       itemcat.id = the_item_cat.cid
       itemcat.save
       #同步item_prop
-      #ItemProp.synchronize(sess,itemcat.cid) if !itemcat.is_parent
+      ItemProp.synchronize(sess,itemcat.id) if !itemcat.is_parent
       #同步prop_value
-      #PropValue.synchronize(sess,itemcat.cid) if !itemcat.is_parent
+      PropValue.synchronize(sess,"cid" => itemcat.id,'fields' => Taobao::PropValue.fields,'datetime' =>'2001-01-01 00:00:00') if !itemcat.is_parent
     end
   end
 end

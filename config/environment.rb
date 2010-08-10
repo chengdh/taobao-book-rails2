@@ -24,6 +24,7 @@ Rails::Initializer.run do |config|
   config.gem 'fastercsv'   
   config.gem 'searchlogic'   
   config.gem "rubyist-aasm", :source => "http://gems.github.com", :lib => 'aasm' 
+  config.gem "nokogiri"   #用于解析html
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
