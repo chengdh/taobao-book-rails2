@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100809023619) do
+ActiveRecord::Schema.define(:version => 20100811094022) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -17,6 +17,15 @@ ActiveRecord::Schema.define(:version => 20100809023619) do
     t.boolean  "is_parent",                :default => false
     t.string   "status",     :limit => 20
     t.integer  "sort_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "item_imgs", :force => true do |t|
+    t.integer  "num_iid",    :limit => 8,                   :null => false
+    t.string   "url",        :limit => 100, :default => "", :null => false
+    t.integer  "position"
+    t.datetime "created"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -42,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20100809023619) do
     t.datetime "updated_at"
   end
 
-  create_table "item_pvs", :id => false, :force => true do |t|
+  create_table "item_pvs", :force => true do |t|
     t.integer  "num_iid",    :limit => 8,                     :null => false
     t.integer  "pid",        :limit => 8,                     :null => false
     t.string   "prop_name",  :limit => 60, :default => "",    :null => false
@@ -52,6 +61,13 @@ ActiveRecord::Schema.define(:version => 20100809023619) do
     t.boolean  "is_parent",                :default => false
     t.string   "status",     :limit => 20
     t.integer  "sort_order",               :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "item_seller_cats", :id => false, :force => true do |t|
+    t.integer  "num_iid",    :limit => 8, :null => false
+    t.integer  "cid",        :limit => 8, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -98,6 +114,8 @@ ActiveRecord::Schema.define(:version => 20100809023619) do
     t.string   "auto_fill",      :limit => 20
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state",          :limit => 20
+    t.string   "city",           :limit => 20
   end
 
   create_table "prop_values", :primary_key => "vid", :force => true do |t|
@@ -107,6 +125,40 @@ ActiveRecord::Schema.define(:version => 20100809023619) do
     t.boolean  "is_parent"
     t.string   "status",     :limit => 20
     t.integer  "sort_order",               :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "seller_cats", :primary_key => "cid", :force => true do |t|
+    t.integer  "sid",        :limit => 8,   :null => false
+    t.integer  "parent_cid", :limit => 8
+    t.string   "name",       :limit => 60
+    t.string   "pic_url",    :limit => 100
+    t.integer  "sort_order"
+    t.datetime "created"
+    t.datetime "modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shop_scores", :primary_key => "sid", :force => true do |t|
+    t.integer  "item_score",     :default => 0
+    t.integer  "service_score",  :default => 0
+    t.integer  "delivery_score", :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shops", :primary_key => "sid", :force => true do |t|
+    t.integer  "cid",          :limit => 8,                   :null => false
+    t.string   "nick",         :limit => 20,  :default => "", :null => false
+    t.string   "title",        :limit => 200
+    t.string   "desc",         :limit => 500
+    t.string   "bulletin",     :limit => 500
+    t.string   "pic_path",     :limit => 200
+    t.integer  "remain_count"
+    t.datetime "created"
+    t.datetime "modified"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

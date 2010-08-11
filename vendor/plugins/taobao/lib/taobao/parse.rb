@@ -36,6 +36,7 @@ module Taobao
           Taobao::SellerCat,
           Taobao::PropValue,
           Taobao::Item,
+          Taobao::ItemImg,
           Taobao::ItemCategory,
           Taobao::ItemSearch,
           Taobao::Trade,
@@ -43,6 +44,7 @@ module Taobao
           Taobao::ProductImg,
           Taobao::ProductPropImg,
           Taobao::Shop,
+          Taobao::ShopScore,
           Taobao::TaobaokeItem
         ]
       end
@@ -62,6 +64,7 @@ module Taobao
           "product_imgs" => TotalArray,
           "items" => TotalArray,
           "item_props" => TotalArray,
+          "item_imgs" => TotalArray,
           "item_cats" => TotalArray,
           "notify_items" => TotalArray,
           "item_categories" => TotalArray,

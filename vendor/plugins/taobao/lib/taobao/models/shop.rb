@@ -16,7 +16,9 @@ module Taobao
        :bulletin,
        :pic_path,
        :created,
-       :modified
+       :modified,
+       :remain_count,
+       :shop_score
       ]
     end
 

@@ -1,6 +1,6 @@
 class CreateItemPvs < ActiveRecord::Migration
   def self.up
-    create_table :item_pvs,:id => false do |t|
+    create_table :item_pvs do |t|
       t.integer :num_iid,:null => false,:limit => 5
       t.integer :pid,:null => false,:limit => 5
       t.string :prop_name,:null => false,:limit => 60

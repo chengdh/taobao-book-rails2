@@ -21,7 +21,7 @@ class PropValue < ActiveRecord::Base
         #对boolean型的属性进行转换
         val=1 if val=='true'
         val=0 if val=='false'
-        prop_value.send("#{attr}=",val) if (prop_value.attributes.keys - ["vid"]).include?("#{attr}")
+        prop_value.send("#{attr}=",val) if (prop_value.attributes.keys).include?("#{attr}")
       end
       prop_value.id = pv.vid
       prop_value.save

@@ -14,7 +14,7 @@ class ItemCat < ActiveRecord::Base
         #对boolean型的属性进行转换
         val=1 if val=='true'
         val=0 if val=='false'
-        itemcat.send("#{attr}=",val) if (itemcat.attributes.keys - ["cid"]).include?("#{attr}")
+        itemcat.send("#{attr}=",val) if (itemcat.attributes.keys).include?("#{attr}")
       end
       itemcat.id = the_item_cat.cid
       itemcat.save

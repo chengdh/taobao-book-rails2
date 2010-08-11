@@ -1,23 +1,21 @@
 require 'taobao/model'
 
 module Taobao
-  class SellerCat < Model
+  class ItemImg < Model
     def self.elm_name
-      "seller_cat"
+      "item_img"
     end
-
+    
     def self.attr_names
       [
-       :cid,
-       :parent_cid,
-       :name,
-       :pic_url,
-       :sort_order,
-       :created,
-       :modified
+       :id,
+       :url,
+       :position,
+       :is_parent,
+       :created
       ]
     end
-
+    
     for a in attr_names
       attr_accessor a
     end

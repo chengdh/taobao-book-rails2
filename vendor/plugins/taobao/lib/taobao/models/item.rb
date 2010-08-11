@@ -26,6 +26,7 @@ module Taobao
        :increment,
        :input_pids,
        :input_str,
+       :item_imgs,
        :is_3D,
        :is_ex,
        :is_timing,

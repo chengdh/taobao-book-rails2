@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :seller_cats
+
   map.resources :prop_values
 
   map.resources :item_props

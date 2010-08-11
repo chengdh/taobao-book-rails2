@@ -1,0 +1,16 @@
+<h1>Editing seller_cat</h1>
+
+<% form_for(@seller_cat) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :cid %><br />
+    <%= f.text_field :cid %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @seller_cat %> |
+<%= link_to 'Back', seller_cats_path %>

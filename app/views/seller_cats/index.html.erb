@@ -1,0 +1,20 @@
+<h1>Listing seller_cats</h1>
+
+<table>
+  <tr>
+    <th>Cid</th>
+  </tr>
+
+<% @seller_cats.each do |seller_cat| %>
+  <tr>
+    <td><%=h seller_cat.cid %></td>
+    <td><%= link_to 'Show', seller_cat %></td>
+    <td><%= link_to 'Edit', edit_seller_cat_path(seller_cat) %></td>
+    <td><%= link_to 'Destroy', seller_cat, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New seller_cat', new_seller_cat_path %>

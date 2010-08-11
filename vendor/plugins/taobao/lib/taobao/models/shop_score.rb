@@ -1,20 +1,16 @@
 require 'taobao/model'
-
+#店铺积分
 module Taobao
-  class SellerCat < Model
+  class ShopScore < Model
     def self.elm_name
-      "seller_cat"
+      "shop_score"
     end
 
     def self.attr_names
       [
-       :cid,
-       :parent_cid,
-       :name,
-       :pic_url,
-       :sort_order,
-       :created,
-       :modified
+        :item_score,
+        :service_score,
+        :delivery_score
       ]
     end
 
