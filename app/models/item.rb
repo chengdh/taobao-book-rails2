@@ -73,7 +73,9 @@ class Item < ActiveRecord::Base
       item_sku = Sku.new
       Taobao::Sku.attr_names.each {|attr| item_sku.send("#{attr}=",sku.send("#{attr}")) if item_sku.attributes.keys.include?("#{attr}")}
       item_sku.id = sku.sku_id
+      #同步sku properties
       self.skus << item_sku
+      item_sku.syn_sku_pvs(sku.properties)
     end
   end
   #同步商品属性值

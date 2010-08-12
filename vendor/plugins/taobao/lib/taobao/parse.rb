@@ -46,7 +46,9 @@ module Taobao
           Taobao::Shop,
           Taobao::ShopScore,
           Taobao::TaobaokeItem,
-          Taobao::Sku
+          Taobao::Sku,
+          Taobao::Postage,
+          Taobao::PostageMode
 
         ]
       end
@@ -74,7 +76,9 @@ module Taobao
           "products" => TotalArray,
           "seller_cats" => TotalArray,
           "args" => TotalArray,
-          "skus" => TotalArray
+          "skus" => TotalArray,
+          "postages" => TotalArray,
+          "postage_modes" => TotalArray
         }
       end
 

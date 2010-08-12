@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100812023204) do
+ActiveRecord::Schema.define(:version => 20100812122806) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -119,6 +119,31 @@ ActiveRecord::Schema.define(:version => 20100812023204) do
     t.string   "city",           :limit => 20
   end
 
+  create_table "postage_modes", :force => true do |t|
+    t.integer  "postage_id",   :limit => 8,                                                 :null => false
+    t.string   "postage_type", :limit => 20,                                :default => "", :null => false
+    t.decimal  "price",                      :precision => 15, :scale => 2
+    t.decimal  "increase",                   :precision => 15, :scale => 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "postages", :primary_key => "postage_id", :force => true do |t|
+    t.string   "name",             :limit => 60,                                 :default => "", :null => false
+    t.string   "memo",             :limit => 200,                                :default => "", :null => false
+    t.decimal  "post_price",                      :precision => 15, :scale => 2
+    t.decimal  "post_increase",                   :precision => 15, :scale => 2
+    t.decimal  "express_price",                   :precision => 15, :scale => 2
+    t.decimal  "express_increase",                :precision => 15, :scale => 2
+    t.decimal  "ems_price",                       :precision => 15, :scale => 2
+    t.decimal  "ems_increase",                    :precision => 15, :scale => 2
+    t.string   "nick",             :limit => 60,                                 :default => "", :null => false
+    t.datetime "created"
+    t.datetime "modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "prop_values", :primary_key => "vid", :force => true do |t|
     t.integer  "pid",        :limit => 8
     t.string   "name",       :limit => 60, :default => "", :null => false
@@ -160,6 +185,20 @@ ActiveRecord::Schema.define(:version => 20100812023204) do
     t.integer  "remain_count"
     t.datetime "created"
     t.datetime "modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sku_pvs", :force => true do |t|
+    t.integer  "sku_id",     :limit => 8,                     :null => false
+    t.integer  "pid",        :limit => 8,                     :null => false
+    t.string   "prop_name",  :limit => 60, :default => "",    :null => false
+    t.integer  "vid",        :limit => 8,                     :null => false
+    t.string   "name",       :limit => 60, :default => "",    :null => false
+    t.string   "name_alias", :limit => 60
+    t.boolean  "is_parent",                :default => false
+    t.string   "status",     :limit => 20
+    t.integer  "sort_order",               :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

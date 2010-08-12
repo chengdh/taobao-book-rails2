@@ -26,7 +26,8 @@ class Shop < ActiveRecord::Base
   #同步店铺积分
   def syn_shop_score(sess,shop_score)
     return if shop_score.blank?
-    self.shop_score.destroy
+    ShopScore.destroy(self.id) if ShopScore.exists?(self.id)
+
     new_score = ShopScore.new
     Taobao::ShopScore.attr_names.each do |attr|
       val = shop_score.send(attr)
@@ -35,7 +36,7 @@ class Shop < ActiveRecord::Base
       val=0 if val=='false'
       new_score.send("#{attr}=",val) if new_score.attributes.keys.include?("#{attr}")
     end
-    new_score.sid = self.id
+    new_score.id = self.id
     new_score.save
   end
 end
