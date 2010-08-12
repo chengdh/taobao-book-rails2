@@ -11,7 +11,6 @@ module Taobao
        :id,
        :url,
        :position,
-       :is_parent,
        :created
       ]
     end

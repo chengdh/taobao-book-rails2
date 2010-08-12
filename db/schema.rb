@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100811094022) do
+ActiveRecord::Schema.define(:version => 20100812023204) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20100811094022) do
   end
 
   create_table "item_imgs", :force => true do |t|
+    t.integer  "img_id",     :limit => 8,                   :null => false
     t.integer  "num_iid",    :limit => 8,                   :null => false
     t.string   "url",        :limit => 100, :default => "", :null => false
     t.integer  "position"
@@ -65,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20100811094022) do
     t.datetime "updated_at"
   end
 
-  create_table "item_seller_cats", :id => false, :force => true do |t|
+  create_table "item_seller_cats", :force => true do |t|
     t.integer  "num_iid",    :limit => 8, :null => false
     t.integer  "cid",        :limit => 8, :null => false
     t.datetime "created_at"
@@ -159,6 +160,18 @@ ActiveRecord::Schema.define(:version => 20100811094022) do
     t.integer  "remain_count"
     t.datetime "created"
     t.datetime "modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "skus", :primary_key => "sku_id", :force => true do |t|
+    t.integer  "num_iid",    :limit => 8,                                 :null => false
+    t.integer  "quantity"
+    t.decimal  "price",                    :precision => 15, :scale => 2
+    t.string   "outer_id",   :limit => 20
+    t.datetime "created"
+    t.datetime "modified"
+    t.string   "status",     :limit => 20
     t.datetime "created_at"
     t.datetime "updated_at"
   end

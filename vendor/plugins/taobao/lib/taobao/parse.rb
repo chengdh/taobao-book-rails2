@@ -45,7 +45,9 @@ module Taobao
           Taobao::ProductPropImg,
           Taobao::Shop,
           Taobao::ShopScore,
-          Taobao::TaobaokeItem
+          Taobao::TaobaokeItem,
+          Taobao::Sku
+
         ]
       end
 
@@ -71,7 +73,8 @@ module Taobao
           "prop_values" => TotalArray,
           "products" => TotalArray,
           "seller_cats" => TotalArray,
-          "args" => TotalArray
+          "args" => TotalArray,
+          "skus" => TotalArray
         }
       end
 

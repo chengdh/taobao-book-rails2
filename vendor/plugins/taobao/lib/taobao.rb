@@ -27,6 +27,7 @@ require "taobao/models/notify_item"
 require "taobao/models/shop"
 require "taobao/models/shop_score"
 require "taobao/models/taobaoke_item"
+require "taobao/models/sku"
 require "taobao/rails/controller"
 
 module Taobao

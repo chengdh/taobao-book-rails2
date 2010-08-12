@@ -47,6 +47,7 @@ module Taobao
        :product_id,
        :property_alias,
        :props,
+       :skus,
        :score,
        :second_kill,
        :auto_fill,

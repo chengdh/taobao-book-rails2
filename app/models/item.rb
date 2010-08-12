@@ -6,17 +6,18 @@ class Item < ActiveRecord::Base
   #商品所属自定分类信息
   has_many :item_seller_cats,:foreign_key => "num_iid",:dependent => :delete_all
   has_many :seller_cats,:through => :item_seller_cats
+  has_many :skus,:foreign_key => :num_iid,:dependent => :delete_all
 
   #同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   def self.synchronize(sess)
     items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'session' => sess.session_key)
-    item_fields = Taobao::Item.fields
+    item_fields = Taobao::Item.fields +  ',item_img,sku'
     items.each do |the_item|
       item = Item.new
       item = Item.find(the_item.num_iid) if Item.exists?(the_item.num_iid)
 
-      remote_item = sess.invoke("taobao.item.get","fields" => item_fields,"num_iid" => the_item.num_iid).first
+      remote_item = sess.invoke("taobao.item.get","fields" => item_fields ,"num_iid" => the_item.num_iid).first
 
       #increment 属性在active_record底层已经定义
       (Taobao::Item.attr_names ).each do |attr|
@@ -36,22 +37,25 @@ class Item < ActiveRecord::Base
       #同步属性信息
       item.syn_props(sess,remote_item.props)
       item.syn_seller_cids(remote_item.seller_cids)
-      #TODO 同步商品图片信息
+      #同步商品图片信息
       item.syn_item_imgs(remote_item.item_imgs)
       #TODO 同步属性图片信息
-      #TODO 同步SKU信息
+      #同步SKU信息
+      item.syn_skus(remote_item.skus)
       #TODO 同步Video信息
       item.save
     end
   end
   #同步图片信息
   def syn_item_imgs(item_imgs)
-    return item_imgs.blank?
+    return if item_imgs.blank?
     self.item_imgs.clear
     item_imgs.each do |img|
-      values = Hash.new
-      Taobao::ItemImg.attr_names.each {|attr| values[attr] = img.send("#{attr}")}
-      self.item_imgs.build(values)
+
+      item_img = ItemImg.new
+      Taobao::ItemImg.attr_names.each {|attr| item_img.send("#{attr}=",img.send("#{attr}")) if item_img.attributes.keys.include?("#{attr}")}
+      item_img.img_id = img.id
+      self.item_imgs << item_img
     end
   end
   #同步所属分类信息
@@ -60,6 +64,17 @@ class Item < ActiveRecord::Base
     seller_cat_ids = cids.split(',')
     self.item_seller_cats.clear
     seller_cat_ids.each {|sc_id| self.item_seller_cats.build(:cid => sc_id) if !sc_id.blank? }
+  end
+  #同步sku
+  def syn_skus(skus)
+   return if skus.blank?
+    self.skus.clear
+    skus.each do |sku|
+      item_sku = Sku.new
+      Taobao::Sku.attr_names.each {|attr| item_sku.send("#{attr}=",sku.send("#{attr}")) if item_sku.attributes.keys.include?("#{attr}")}
+      item_sku.id = sku.sku_id
+      self.skus << item_sku
+    end
   end
   #同步商品属性值
   #sess taobao session
