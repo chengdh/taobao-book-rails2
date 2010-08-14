@@ -1,0 +1,16 @@
+development:
+  key: 0e78da9b582a5cbd2b6a8fd2087f1637
+  secret: 0b0e4b0e8be8ff11
+  url:    "http://yoursite.com"
+  #获取单本书籍
+  book_url: "http://api.douban.com/book/subject/"
+  #获取多本书籍
+  books_url: "http://api.douban.com/book/subjects?"
+production:
+  key: 0e78da9b582a5cbd2b6a8fd2087f1637
+  secret: 0b0e4b0e8be8ff11
+  url:    "http://yoursite.com"
+  #获取单本书籍
+  book_url: "http://api.douban.com/book/subject/"
+  #获取多本书籍
+  books_url: "http://api.douban.com/book/subjects?"
