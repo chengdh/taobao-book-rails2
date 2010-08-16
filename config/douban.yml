@@ -3,7 +3,7 @@ development:
   secret: 0b0e4b0e8be8ff11
   url:    "http://yoursite.com"
   #获取单本书籍
-  book_url: "http://api.douban.com/book/subject/"
+  book_url: "http://api.douban.com/book/subject/isbn/"
   #获取多本书籍
   books_url: "http://api.douban.com/book/subjects?"
 production:
