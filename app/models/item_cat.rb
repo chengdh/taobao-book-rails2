@@ -1,5 +1,6 @@
 class ItemCat < ActiveRecord::Base
   set_primary_key :cid
+  has_many :base_items,:foreign_key => :cid
   acts_as_tree :foreign_key => "parent_cid",:order => "sort_order"
   #同步商品类目
   #FIXME 添加事务处理

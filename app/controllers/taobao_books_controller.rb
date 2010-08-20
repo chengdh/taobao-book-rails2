@@ -1,0 +1,2 @@
+class TaobaoBooksController < BaseController
+end

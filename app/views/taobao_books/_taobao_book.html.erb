@@ -1,0 +1,17 @@
+<tr class="<%= cycle("odd", "even") %>">
+  <td>
+    <%= taobao_book.pic_url.blank? ? "" : image_tag(taobao_book.pic_url) %>
+  </td>
+  <td>
+    <h3><%= link_to taobao_book.title,edit_taobao_book_path(taobao_book) %></h3>
+    <div>
+      <%= taobao_book.item_pvs_desc %>
+    </div>
+  </td>
+  <td>
+    <%= taobao_book.price %>
+  </td>
+  <td>
+    <%= taobao_book.num %>
+  </td>
+</tr>          

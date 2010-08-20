@@ -1,11 +1,11 @@
 class Sku < ActiveRecord::Base
   set_primary_key :sku_id
-  belongs_to :item,:foreign_key => :num_iid
+  belongs_to :base_item,:foreign_key => :num_iid
   has_many :sku_pvs,:foreign_key => :sku_id,:dependent => :delete_all
 
   def syn_sku_pvs(pvs)
+    puts self.item
     return if pvs.blank?
-    #FIXME 添加事务处理
     sess = Taobao::Session.new
     remote_prop_values = sess.invoke("taobao.itempropvalues.get",'cid' => self.item.cid,'fields' => Taobao::PropValue.fields,'pvs' => pvs)
     return if remote_prop_values.blank? or remote_prop_values.kind_of? Taobao::ErrorRsp

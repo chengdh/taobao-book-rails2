@@ -1,0 +1,2 @@
+class TaobaoBook < BaseItem
+end

@@ -1,21 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.douban_logout 'douban_logout', :controller => 'douban', :action => 'destroy'
-
-  map.douban_callback 'douban_callback', :controller => 'douban', :action => 'callback'
-
-  map.douban_login 'douban_login', :controller => 'douban', :action => 'new'
-
-  map.douban_logout 'douban_logout', :controller => 'douban', :action => 'destroy'
-
-  map.douban_callback 'douban_callback', :controller => 'douban', :action => 'callback'
-
-  map.douban_login 'douban_login', :controller => 'douban', :action => 'new'
-
-  map.douban_logout 'douban_logout', :controller => 'douban', :action => 'destroy'
-
-  map.douban_callback 'douban_callback', :controller => 'douban', :action => 'callback'
-
-  map.douban_login 'douban_login', :controller => 'douban', :action => 'new'
+  map.resources :taobao_books
 
   map.resources :postages
 
@@ -25,7 +9,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :item_props
 
-  map.resources :items
+  map.douban_callback 'douban_callback', :controller => 'douban', :action => 'callback'
+
+  map.douban_login 'douban_login', :controller => 'douban', :action => 'new'
+
+  map.douban_logout 'douban_logout', :controller => 'douban', :action => 'destroy'
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 

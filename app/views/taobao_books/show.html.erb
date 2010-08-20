@@ -1,0 +1,234 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", taobao_books_path  %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_taobao_book_path %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", taobao_book_path %></li>
+    </ul>
+  </div>          
+  <div class="content">
+    <div class="inner">
+      
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.iid", :default => t("activerecord.labels.iid", :default => "Iid")) %>:</b>
+          <%= @taobao_book.iid %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.num_iid", :default => t("activerecord.labels.num_iid", :default => "Num iid")) %>:</b>
+          <%= @taobao_book.num_iid %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.detail_url", :default => t("activerecord.labels.detail_url", :default => "Detail url")) %>:</b>
+          <%= @taobao_book.detail_url %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.title", :default => t("activerecord.labels.title", :default => "Title")) %>:</b>
+          <%= @taobao_book.title %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.nick", :default => t("activerecord.labels.nick", :default => "Nick")) %>:</b>
+          <%= @taobao_book.nick %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.item_type", :default => t("activerecord.labels.item_type", :default => "Item type")) %>:</b>
+          <%= @taobao_book.item_type %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.cid", :default => t("activerecord.labels.cid", :default => "Cid")) %>:</b>
+          <%= @taobao_book.cid %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.desc", :default => t("activerecord.labels.desc", :default => "Desc")) %>:</b>
+          <%= @taobao_book.desc %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.pic_url", :default => t("activerecord.labels.pic_url", :default => "Pic url")) %>:</b>
+          <%= @taobao_book.pic_url %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.num", :default => t("activerecord.labels.num", :default => "Num")) %>:</b>
+          <%= @taobao_book.num %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.valid_thru", :default => t("activerecord.labels.valid_thru", :default => "Valid thru")) %>:</b>
+          <%= @taobao_book.valid_thru %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.list_time", :default => t("activerecord.labels.list_time", :default => "List time")) %>:</b>
+          <%= @taobao_book.list_time %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.delist_time", :default => t("activerecord.labels.delist_time", :default => "Delist time")) %>:</b>
+          <%= @taobao_book.delist_time %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.stuff_status", :default => t("activerecord.labels.stuff_status", :default => "Stuff status")) %>:</b>
+          <%= @taobao_book.stuff_status %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.price", :default => t("activerecord.labels.price", :default => "Price")) %>:</b>
+          <%= @taobao_book.price %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.post_fee", :default => t("activerecord.labels.post_fee", :default => "Post fee")) %>:</b>
+          <%= @taobao_book.post_fee %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.express_fee", :default => t("activerecord.labels.express_fee", :default => "Express fee")) %>:</b>
+          <%= @taobao_book.express_fee %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.ems_fee", :default => t("activerecord.labels.ems_fee", :default => "Ems fee")) %>:</b>
+          <%= @taobao_book.ems_fee %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.has_discount", :default => t("activerecord.labels.has_discount", :default => "Has discount")) %>:</b>
+          <%= @taobao_book.has_discount %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.freight_payer", :default => t("activerecord.labels.freight_payer", :default => "Freight payer")) %>:</b>
+          <%= @taobao_book.freight_payer %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.has_invoice", :default => t("activerecord.labels.has_invoice", :default => "Has invoice")) %>:</b>
+          <%= @taobao_book.has_invoice %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.has_warranty", :default => t("activerecord.labels.has_warranty", :default => "Has warranty")) %>:</b>
+          <%= @taobao_book.has_warranty %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.has_showcase", :default => t("activerecord.labels.has_showcase", :default => "Has showcase")) %>:</b>
+          <%= @taobao_book.has_showcase %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.modified", :default => t("activerecord.labels.modified", :default => "Modified")) %>:</b>
+          <%= @taobao_book.modified %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.auto_repost", :default => t("activerecord.labels.auto_repost", :default => "Auto repost")) %>:</b>
+          <%= @taobao_book.auto_repost %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.approve_status", :default => t("activerecord.labels.approve_status", :default => "Approve status")) %>:</b>
+          <%= @taobao_book.approve_status %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.postage_id", :default => t("activerecord.labels.postage_id", :default => "Postage")) %>:</b>
+          <%= @taobao_book.postage_id %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.product_id", :default => t("activerecord.labels.product_id", :default => "Product")) %>:</b>
+          <%= @taobao_book.product_id %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.auction_point", :default => t("activerecord.labels.auction_point", :default => "Auction point")) %>:</b>
+          <%= @taobao_book.auction_point %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.outer_id", :default => t("activerecord.labels.outer_id", :default => "Outer")) %>:</b>
+          <%= @taobao_book.outer_id %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.is_virtural", :default => t("activerecord.labels.is_virtural", :default => "Is virtural")) %>:</b>
+          <%= @taobao_book.is_virtural %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.is_taobao", :default => t("activerecord.labels.is_taobao", :default => "Is taobao")) %>:</b>
+          <%= @taobao_book.is_taobao %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.is_ex", :default => t("activerecord.labels.is_ex", :default => "Is ex")) %>:</b>
+          <%= @taobao_book.is_ex %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.is_timing", :default => t("activerecord.labels.is_timing", :default => "Is timing")) %>:</b>
+          <%= @taobao_book.is_timing %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.is_3D", :default => t("activerecord.labels.is_3D", :default => "Is 3d")) %>:</b>
+          <%= @taobao_book.is_3D %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.score", :default => t("activerecord.labels.score", :default => "Score")) %>:</b>
+          <%= @taobao_book.score %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.volume", :default => t("activerecord.labels.volume", :default => "Volume")) %>:</b>
+          <%= @taobao_book.volume %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.one_station", :default => t("activerecord.labels.one_station", :default => "One station")) %>:</b>
+          <%= @taobao_book.one_station %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.second_kill", :default => t("activerecord.labels.second_kill", :default => "Second kill")) %>:</b>
+          <%= @taobao_book.second_kill %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.auto_fill", :default => t("activerecord.labels.auto_fill", :default => "Auto fill")) %>:</b>
+          <%= @taobao_book.auto_fill %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.state", :default => t("activerecord.labels.state", :default => "State")) %>:</b>
+          <%= @taobao_book.state %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.city", :default => t("activerecord.labels.city", :default => "City")) %>:</b>
+          <%= @taobao_book.city %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.taobao_book.type", :default => t("activerecord.labels.type", :default => "Type")) %>:</b>
+          <%= @taobao_book.type %>
+        </p>
+      <div class="wat-cf">
+        <%= link_to "#{image_tag("web-app-theme/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}")} #{t("web-app-theme.edit", :default=> "Edit")}", edit_taobao_book_path(@taobao_book), :class => "button" %> 
+        <%= link_to "#{image_tag("web-app-theme/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}")} #{t("web-app-theme.delete", :default => "Delete")}", taobao_book_path(@taobao_book), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>
