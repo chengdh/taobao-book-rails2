@@ -2,7 +2,7 @@ class BaseItem < ActiveRecord::Base
   set_primary_key :num_iid
   set_table_name "items"
   belongs_to :item_cat,:foreign_key => "cid"
-  has_many :item_pvs,:foreign_key => 'num_iid',:dependent => :delete_all,:order => :sort_order
+  has_many :item_pvs,:foreign_key => 'num_iid',:dependent => :delete_all,:order => "sort_order,created_at"
   has_many :item_imgs,:foreign_key => "num_iid",:dependent => :delete_all
   #商品所属自定分类信息
   has_many :item_seller_cats,:foreign_key => "num_iid",:dependent => :delete_all
@@ -15,8 +15,8 @@ class BaseItem < ActiveRecord::Base
     items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'session' => sess.session_key)
     item_fields = Taobao::Item.fields +  ',item_img,sku'
     items.each do |the_item|
-      item = BaseItem.new
-      item = BaseItem.find(the_item.num_iid) if BaseItem.exists?(the_item.num_iid)
+      item = self.new
+      item = self.find(the_item.num_iid) if self.exists?(the_item.num_iid)
 
       remote_item = sess.invoke("taobao.item.get","fields" => item_fields ,"num_iid" => the_item.num_iid).first
 
@@ -26,7 +26,7 @@ class BaseItem < ActiveRecord::Base
         #对boolean型的属性进行转换
         val=1 if val=='true'
         val=0 if val=='false'
-        if (item.attributes.keys - ['increment']).include?("#{attr}") 
+        if (item.attributes.keys - ['increment','type']).include?("#{attr}") 
           item.send("#{attr}=",val)       
         end
       end
@@ -36,7 +36,8 @@ class BaseItem < ActiveRecord::Base
       item.item_type = remote_item.type
       item.id = remote_item.num_iid
       #同步属性信息
-      item.syn_props(sess,remote_item.props)
+      #item.syn_props(sess,remote_item.props)
+      item.syn_props_name(remote_item.props_name)
       item.syn_seller_cids(remote_item.seller_cids)
       #同步商品图片信息
       item.syn_item_imgs(remote_item.item_imgs)
@@ -76,11 +77,12 @@ class BaseItem < ActiveRecord::Base
       item_sku.id = sku.sku_id
       #同步sku properties
       self.skus << item_sku
-      item_sku.item = self
+      item_sku.base_item = self
       item_sku.syn_sku_pvs(sku.properties)
     end
   end
   #同步商品属性值
+  #TODO 录入属性使用taobao.itempropvalues.get无法取得
   #sess taobao session
   def syn_props(sess,props)
     return if props.blank?
@@ -99,7 +101,30 @@ class BaseItem < ActiveRecord::Base
         item_pv.send("#{attr}=",val) if item_pv.attributes.keys.include?("#{attr}")
       end
 
-      item_pv.num_iid = self.num_iid
+      self.item_pvs << item_pv
+    end
+  end
+  #属性props_name
+  def syn_props_name(props_name)
+    return if props_name.blank? 
+    puts props_name
+    self.item_pvs.clear
+    #生成单个属性数组
+    props = props_name.scan(/\d{1,10}:\d{1,10}:[a-zA-Z0-9]*[^\u2E80-\u9FFF]*:[a-zA-Z0-9]*[^\u2E80-\u9FFF]*/)
+    puts props
+    props.each do |prop|
+      puts prop
+      #对单个属性字符串进行解析,生成属性数组，顺序为pid,vid,p_name,v_name
+      attrs = prop.scan(/[a-zA-Z0-9]*[^\u2E80-\u9FFF]*/)
+      #去除空元素
+      attrs.delete ""
+      item_pv = ItemPv.new
+      item_pv.pid = attrs[0]
+      item_pv.vid = attrs[1]
+      item_pv.prop_name = attrs[2]
+      item_pv.name = attrs[3]
+      item_pv.name_alias = attrs[3]
+      item_pv.is_parent = false
       self.item_pvs << item_pv
     end
   end
@@ -107,5 +132,42 @@ class BaseItem < ActiveRecord::Base
   def item_pvs_desc
     return "" if item_pvs.blank?
     item_pvs.collect {|pv| pv.name}.join('/')
+  end
+  #将数据更新到淘宝
+  #sess top会话对象
+  def save2taobao(sess,options = {})
+    if self.new_record?
+    else
+      taobao_method = "taobao.item.update"
+      updated_values = self.attributes
+      #删除不需要更新的字段
+      updated_values.delete("item_type")
+      updated_values.delete("state")
+      updated_values.delete("city")
+      updated_values.delete("pic_url")
+      updated_values.delete("iid")
+      updated_values.delete("list_time")
+      updated_values.delete("product_id")
+      updated_values.delete("auction_point")
+      updated_values.delete("num")
+      updated_values.delete("created_at")
+      updated_values.delete("updated_at")
+      updated_values.delete("delist_time")
+      #updated_values["input_pids"] = self.input_pids
+      #updated_values["input_str"] = self.input_str
+      #添加session参数
+      
+      updated_values["session"] = sess.session_key
+      sess.invoke(taobao_method,updated_values)
+    end
+  end
+  #组装props字段
+  def props
+  end
+  #组装input_pids字段
+  def input_pids
+  end
+  #组装input_str字段
+  def input_str
   end
 end

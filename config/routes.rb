@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :taobao_books
+  map.resources :taobao_books,:member => {:update_from_douban => :put }
 
   map.resources :postages
 

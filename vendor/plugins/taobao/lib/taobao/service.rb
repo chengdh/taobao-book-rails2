@@ -14,11 +14,12 @@ module Taobao
         'method'=> method,
         'format'=>'xml',
         'v'=>'2.0',
+        'sign_method' => 'md5',
         'timestamp'=> Time.now.strftime("%Y-%m-%d %H:%M:%S")
       }
 
       @params.merge!(options)
-      str = ENV['TAOBAO_APP_SECRET'] + (@params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("")
+      str = ENV['TAOBAO_APP_SECRET'] + (@params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("") + ENV['TAOBAO_APP_SECRET']
       @params["sign"] = Digest::MD5.hexdigest(str).upcase!
     end
 

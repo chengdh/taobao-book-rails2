@@ -10,7 +10,9 @@ module Taobao
       [
        :msg,
        :code,
-       :args
+       :args,
+       :sub_code,
+       :sub_msg
       ]
     end
 

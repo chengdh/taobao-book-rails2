@@ -1,17 +1,24 @@
 <tr class="<%= cycle("odd", "even") %>">
   <td>
-    <%= taobao_book.pic_url.blank? ? "" : image_tag(taobao_book.pic_url) %>
+    <%= check_box_tag taobao_book.id %>
   </td>
   <td>
-    <h3><%= link_to taobao_book.title,edit_taobao_book_path(taobao_book) %></h3>
+    <%= taobao_book.pic_url.blank? ? "" : image_tag(taobao_book.pic_url,:class => 'item-img') %>
+  </td>
+  <td style='width : 300px;'>
+    <h3>
+      <%= link_to taobao_book.title,edit_taobao_book_path(taobao_book) %>
+    </h3>
     <div>
       <%= taobao_book.item_pvs_desc %>
     </div>
   </td>
   <td>
-    <%= taobao_book.price %>
+    <% douban_book = @douban_books[taobao_book.id]%>
+    <%= douban_book.blank? ? '' : link_to_function('豆瓣上也有它...',"Modalbox.show($('book_#{douban_book.isbn13}'),{title : '#{douban_book.title}',width : 700,height : 600})",:class => 'sexybutton sexysimple sexygreen') %>
+    <%= render "douban_book",:book =>taobao_book ,:object => @douban_books[taobao_book.id] if !douban_book.blank?  %>
   </td>
   <td>
-    <%= taobao_book.num %>
+    <%= taobao_book.price %>
   </td>
 </tr>          

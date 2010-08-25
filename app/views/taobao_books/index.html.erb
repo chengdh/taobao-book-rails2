@@ -8,18 +8,29 @@
   <div class="content">          
     <h2 class="title"><%= t("web-app-theme.all", :default => "All")  %> TaobaoBooks</h2>
     <div class="inner">
-      <table class="table">
+      <div class="actions-bar border-bottom" id='selector_wrap'>
+        <div id='selector'>
+          <%= link_to_function "全选","selector.select_all(true)" %>
+          &nbsp;|&nbsp;
+          <%= link_to_function "不选","selector.select_all(false)"  %>
+        </div>
+        <span id='select_des'>选定书籍,去豆瓣查查看...</span>
+        <div id='btn_wrap'>
+        </div>
+      </div>
+      <table class="table" id='items_list'>
         <%= render @taobao_books %>
       </table>
       <div class="actions-bar wat-cf">
         <div class="actions">
         </div>
-
         <%= will_paginate @taobao_books  %>
-
       </div>
     </div>
   </div>
 </div>
-
 <% content_for :sidebar, render(:partial => 'sidebar') -%>
+<script type='text/javascript'>
+  selector = new com.strongu.Selector(<%= @taobao_books_ids.to_json %>,'select_des');
+  selector.add_check_listener('items_list');
+</script>

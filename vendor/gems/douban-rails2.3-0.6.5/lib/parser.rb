@@ -5,6 +5,7 @@ module Douban
     def self.parse_book(book_xml)
       xml_doc = Nokogiri::XML(book_xml)
       book_node = xml_doc.css('entry').first
+      return nil if book_node.blank?
       parse_single_book(book_node)
     end
     #解析多本书籍信息
@@ -31,12 +32,12 @@ module Douban
         end
       end
       title = book_node.css('title').first.content
-      content_nodes = book_node.css('content')
+      content_nodes = book_node.css('summary')
       content = content_nodes.first.content if !content_nodes.blank?
       imgs = book_node.css('link[rel=image]')
       img = imgs.first['href'] if !imgs.blank?
       book.title = title
-      book.content = content
+      book.summary = content
       book.image = img
       book
     end

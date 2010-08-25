@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100820025236) do
+ActiveRecord::Schema.define(:version => 20100825033832) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20100820025236) do
     t.integer  "num_iid",    :limit => 8,                     :null => false
     t.integer  "pid",        :limit => 8,                     :null => false
     t.string   "prop_name",  :limit => 60,                    :null => false
-    t.integer  "vid",        :limit => 8,                     :null => false
+    t.integer  "vid",        :limit => 8
     t.string   "name",       :limit => 60,                    :null => false
     t.string   "name_alias", :limit => 60
     t.boolean  "is_parent",                :default => false

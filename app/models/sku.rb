@@ -4,10 +4,9 @@ class Sku < ActiveRecord::Base
   has_many :sku_pvs,:foreign_key => :sku_id,:dependent => :delete_all
 
   def syn_sku_pvs(pvs)
-    puts self.item
     return if pvs.blank?
     sess = Taobao::Session.new
-    remote_prop_values = sess.invoke("taobao.itempropvalues.get",'cid' => self.item.cid,'fields' => Taobao::PropValue.fields,'pvs' => pvs)
+    remote_prop_values = sess.invoke("taobao.itempropvalues.get",'cid' => self.base_item.cid,'fields' => Taobao::PropValue.fields,'pvs' => pvs)
     return if remote_prop_values.blank? or remote_prop_values.kind_of? Taobao::ErrorRsp
     #删除原有属性
     self.sku_pvs.clear

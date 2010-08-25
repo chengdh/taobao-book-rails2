@@ -2,8 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Web App</title>
-    <%= stylesheet_link_tag "web_app_theme", "web_app_theme_override", "themes/blue/style", :cache => true %>
+    <title>web app</title>
+    <%= javascript_include_tag :all%>
+    <%= calendar_date_select_includes :blue%>
+    <%= stylesheet_link_tag "web_app_theme", "live_validation","uni-form","modalbox","/sexybuttons/sexybuttons","web_app_theme_override", "themes/blue/style",:cache => true %>
   </head>
   <body>
     <div id="container">
@@ -21,7 +23,7 @@
             <li class="<%= controller.controller_path == 'taobao_books' ? 'active' : '' %>">
               <%= link_to "宝贝列表", taobao_books_path %>
             </li>
-        </ul>
+          </ul>
         </div>
       </div>    
       <div id="wrapper" class="wat-cf">
