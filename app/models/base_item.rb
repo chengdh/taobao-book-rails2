@@ -10,42 +10,47 @@ class BaseItem < ActiveRecord::Base
   has_many :skus,:foreign_key => :num_iid,:dependent => :delete_all
 
   #同步当前登录用户的在售商品信息
+  #同步单条商品信息
+  def self.synchronize_single(sess,num_iid)
+    item_fields = Taobao::Item.fields +  ',item_img,sku'
+    item = self.new
+    item = self.find(num_iid) if self.exists?(num_iid)
+
+    remote_item = sess.invoke("taobao.item.get","fields" => item_fields ,"num_iid" => num_iid).first
+
+    #increment 属性在active_record底层已经定义
+    (Taobao::Item.attr_names ).each do |attr|
+      val = remote_item.send(attr)
+      #对boolean型的属性进行转换
+      val=1 if val=='true'
+      val=0 if val=='false'
+      if (item.attributes.keys - ['increment','type']).include?("#{attr}") 
+        item.send("#{attr}=",val)       
+      end
+    end
+    #type属性是rails 保留属性,因此更名为item_type
+    item.state = remote_item.location.state
+    item.city = remote_item.location.city
+    item.item_type = remote_item.type
+    item.id = remote_item.num_iid
+    #同步属性信息
+    #item.syn_props(sess,remote_item.props)
+    item.syn_props_name(remote_item.props_name)
+    item.syn_seller_cids(remote_item.seller_cids)
+    #同步商品图片信息
+    item.syn_item_imgs(remote_item.item_imgs)
+    #TODO 同步属性图片信息
+    #同步SKU信息
+    item.syn_skus(remote_item.skus)
+    #TODO 同步Video信息
+    item.save
+  end
   #需要sessionkey登录验证
   def self.synchronize(sess)
     items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'session' => sess.session_key)
     item_fields = Taobao::Item.fields +  ',item_img,sku'
     items.each do |the_item|
-      item = self.new
-      item = self.find(the_item.num_iid) if self.exists?(the_item.num_iid)
-
-      remote_item = sess.invoke("taobao.item.get","fields" => item_fields ,"num_iid" => the_item.num_iid).first
-
-      #increment 属性在active_record底层已经定义
-      (Taobao::Item.attr_names ).each do |attr|
-        val = remote_item.send(attr)
-        #对boolean型的属性进行转换
-        val=1 if val=='true'
-        val=0 if val=='false'
-        if (item.attributes.keys - ['increment','type']).include?("#{attr}") 
-          item.send("#{attr}=",val)       
-        end
-      end
-      #type属性是rails 保留属性,因此更名为item_type
-      item.state = remote_item.location.state
-      item.city = remote_item.location.city
-      item.item_type = remote_item.type
-      item.id = remote_item.num_iid
-      #同步属性信息
-      #item.syn_props(sess,remote_item.props)
-      item.syn_props_name(remote_item.props_name)
-      item.syn_seller_cids(remote_item.seller_cids)
-      #同步商品图片信息
-      item.syn_item_imgs(remote_item.item_imgs)
-      #TODO 同步属性图片信息
-      #同步SKU信息
-      item.syn_skus(remote_item.skus)
-      #TODO 同步Video信息
-      item.save
+      synchronize_single(sess,the_item.num_iid)
     end
   end
   #同步图片信息
@@ -135,29 +140,15 @@ class BaseItem < ActiveRecord::Base
   end
   #将数据更新到淘宝
   #sess top会话对象
+  #options 要附加的更新对象
   def save2taobao(sess,options = {})
     if self.new_record?
     else
       taobao_method = "taobao.item.update"
-      updated_values = self.attributes
-      #删除不需要更新的字段
-      updated_values.delete("item_type")
-      updated_values.delete("state")
-      updated_values.delete("city")
-      updated_values.delete("pic_url")
-      updated_values.delete("iid")
-      updated_values.delete("list_time")
-      updated_values.delete("product_id")
-      updated_values.delete("auction_point")
-      updated_values.delete("num")
-      updated_values.delete("created_at")
-      updated_values.delete("updated_at")
-      updated_values.delete("delist_time")
-      #updated_values["input_pids"] = self.input_pids
-      #updated_values["input_str"] = self.input_str
+      updated_values = updated_hash
       #添加session参数
-      
       updated_values["session"] = sess.session_key
+      updated_values.merge!(options)
       sess.invoke(taobao_method,updated_values)
     end
   end
@@ -169,5 +160,27 @@ class BaseItem < ActiveRecord::Base
   end
   #组装input_str字段
   def input_str
+  end
+  private
+  #生成要更新到淘宝的属性hash
+  def updated_hash
+    updated_values = self.attributes
+    #删除不需要更新的字段
+    updated_values["type"] = updated_values["item_type"]
+    updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S')
+    updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
+    #TODO 暂时注释
+    #updated_values["input_pids"] = input_pids
+    #updated_values["input_str"] = input_str
+    updated_values["props"] = props
+    updated_values.delete("item_type")
+    updated_values.delete("state")
+    updated_values.delete("city")
+    updated_values.delete("product_id")
+    updated_values.delete("auction_point")
+    updated_values.delete("created_at")
+    updated_values.delete("updated_at")
+    updated_values
+
   end
 end

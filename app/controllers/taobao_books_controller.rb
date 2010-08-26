@@ -1,3 +1,4 @@
+require 'open-uri'
 class TaobaoBooksController < BaseController
   def index
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
@@ -7,7 +8,7 @@ class TaobaoBooksController < BaseController
     #根据isbn查找书籍
     douban = Douban::Douban.new
     @taobao_books.each do |book|
-      douban_book = douban.get_book(book.isbn13)
+      douban_book = douban.get_book(book.isbn10)
       @douban_books[book.id] = douban_book if !douban_book.blank?
     end
   end
@@ -30,8 +31,30 @@ class TaobaoBooksController < BaseController
     @taobao_book.price = price if select_attrs.include?("price")
     #书名
     @taobao_book.title = params[:douban_book][:title] if select_attrs.include?("summary")
-    #TODO 封面图片
-
+    #封面图片
+    cover = nil
+    if select_attrs.include?("image") and !params[:douban_book][:image].blank?
+      cover = get_remote_pic(params[:douban_book][:image])
+    end
+    #更新数据到淘宝
+    #FIXME 测试用,手工设置了session
+    sess = Taobao::SessionKey.get_session('chengqi')
+    if !cover.blank?
+      @taobao_book.save2taobao(sess,'image' => cover)
+    else
+      @taobao_book.save2taobao(sess)
+    end
     @taobao_book.save
+  end
+  private
+  #下载远程服务器图片
+  def get_remote_pic(url)
+    io = open(url)
+    def io.original_filename; base_uri.path.split('/').last; end
+    if io.original_filename.blank? 
+      nil 
+    else
+      io
+    end
   end
 end

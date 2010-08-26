@@ -8,7 +8,7 @@ class TaobaoBook < BaseItem
   #出版社
   PUBLISHER_PID = 2043191
   #版次印次2043197
-  PUBNO_PID = 2043191
+  PUBNO_PID = 2043197
   #作者2043189
   AUTHOR_PID = 2043189
   #开本2045741
@@ -26,7 +26,7 @@ class TaobaoBook < BaseItem
   #定义属性方法名称
   def self.attr_names
     { 
-      :isbn13 => [ISBN_PID,"ISBN编号"],
+      :isbn10 => [ISBN_PID,"ISBN编号"],
       :pubdate => [PUBDATE_PID,"出版日期"],
       :pages => [PAGES_PID,"页数"],
       :publisher => [PUBLISHER_PID,"出版社"],
@@ -73,6 +73,6 @@ class TaobaoBook < BaseItem
     item_pv.prop_name = pname
     item_pv.name = pvalue
     item_pv.name_alias = pvalue
-    self.item_pvs << item_pv
+    item_pv.base_item = self
   end
 end

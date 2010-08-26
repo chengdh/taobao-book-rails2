@@ -1,6 +1,7 @@
 require 'digest/md5'
 require 'net/http'
 require 'open-uri'
+require 'rest_client'
 
 module Taobao
   class Service
@@ -24,7 +25,9 @@ module Taobao
     end
 
     def invoke
-      Net::HTTP.post_form(URI.parse(ENV['TAOBAO_REST_ENDPOINT']), @params)
+      #Net::HTTP.post_form(URI.parse(ENV['TAOBAO_REST_ENDPOINT']), @params)
+      #设置为使用RestClient进行POST
+      RestClient.post(ENV['TAOBAO_REST_ENDPOINT'], @params)
     end
   end
 end
