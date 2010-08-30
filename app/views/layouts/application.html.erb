@@ -20,9 +20,16 @@
         </div>      
         <div id="main-navigation">
           <ul class="wat-cf"> 
+            <li>
+              <%= link_to '去豆瓣查书',search_douban_taobao_books_path %>
+            </li>
             <li class="<%= controller.controller_path == 'taobao_books' ? 'active' : '' %>">
               <%= link_to "宝贝列表", taobao_books_path %>
             </li>
+            <li>
+              <%= link_to '我的收藏',search_douban_taobao_books_path %>
+            </li>
+
           </ul>
         </div>
       </div>    

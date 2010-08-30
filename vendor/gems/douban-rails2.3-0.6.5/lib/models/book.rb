@@ -9,5 +9,15 @@ module Douban
     for a in attr_names
       attr_accessor a
     end
+    #描述信息
+    def to_s
+      ret = ""
+      (Book.attr_names - [:title,:subtitle,:image,:author_intro,:summary]).each do |attr|
+        v = self.send("#{attr}")
+        ret += v + "/" unless v.blank?
+
+      end
+      ret
+    end
   end
 end

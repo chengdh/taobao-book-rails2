@@ -1,0 +1,37 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "查书", search_douban_taobao_books_path %></li>
+      <li class="active"><%= link_to "查询结果", "" %></li>
+    </ul>
+  </div>          
+  <div class="content">          
+    <h2 class="title">来自豆瓣的书籍列表</h2>
+    <div class="inner">
+      <div class="actions-bar border-bottom" id='selector_wrap'>
+        <div id='selector'>
+          <%= link_to_function "全选","selector.select_all(true)" %>
+          &nbsp;|&nbsp;
+          <%= link_to_function "不选","selector.select_all(false)"  %>
+        </div>
+        <span id='select_des'>选定书籍,去豆瓣查查看...</span>
+        <div id='btn_wrap'>
+        </div>
+      </div>
+      <table class="table" id='items_list'>
+        <% @douban_books.each do |douban_book| %>
+          <%= render "douban_book",:douban_book => douban_book %>
+        <% end%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<script type='text/javascript'>
+  selector = new com.strongu.Selector(<%= @douban_book_isbns.to_json %>,'select_des');
+  selector.add_check_listener('items_list');
+</script>

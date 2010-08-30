@@ -36,6 +36,7 @@ class TaobaoBooksController < BaseController
     if select_attrs.include?("image") and !params[:douban_book][:image].blank?
       cover = get_remote_pic(params[:douban_book][:image])
     end
+    #TODO 设置事务处理
     #更新数据到淘宝
     #FIXME 测试用,手工设置了session
     sess = Taobao::SessionKey.get_session('chengqi')
@@ -45,6 +46,26 @@ class TaobaoBooksController < BaseController
       @taobao_book.save2taobao(sess)
     end
     @taobao_book.save
+  end
+  #显示从豆瓣查询书籍界面
+  #GET /taobao_books/show_search
+  def show_search
+  end
+  #根据传入的ISBN编号,从豆瓣查书
+  #GET /taobao_books/index_douban
+  def index_douban
+    isbns = params[:isbns]
+    #从豆瓣查询对应的书籍信息
+    @douban_books = Array.new
+    #根据isbn查找书籍
+    douban = Douban::Douban.new
+    isbns.each do |isbn|
+      if !isbn.blank?
+        douban_book = douban.get_book(isbn)
+        @douban_books.push douban_book if !douban_book.blank?
+      end
+    end
+    @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
   end
   private
   #下载远程服务器图片

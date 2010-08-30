@@ -9,7 +9,6 @@ class BaseItem < ActiveRecord::Base
   has_many :seller_cats,:through => :item_seller_cats
   has_many :skus,:foreign_key => :num_iid,:dependent => :delete_all
 
-  #同步当前登录用户的在售商品信息
   #同步单条商品信息
   def self.synchronize_single(sess,num_iid)
     item_fields = Taobao::Item.fields +  ',item_img,sku'
@@ -45,6 +44,8 @@ class BaseItem < ActiveRecord::Base
     #TODO 同步Video信息
     item.save
   end
+
+  #同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   def self.synchronize(sess)
     items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'session' => sess.session_key)
@@ -53,6 +54,13 @@ class BaseItem < ActiveRecord::Base
       synchronize_single(sess,the_item.num_iid)
     end
   end
+  #得到商品的主图信息,因为如果更新数据到淘宝后,其pic_url会变化
+  def self.get_pic_url(sess,num_iid)
+    return "" if self.new_record?
+    remote_item = sess.invoke("taobao.item.get","fields" => 'pic_url' ,"num_iid" => num_iid).first
+    remote_item.pic_url
+  end
+
   #同步图片信息
   def syn_item_imgs(item_imgs)
     return if item_imgs.blank?
@@ -150,6 +158,9 @@ class BaseItem < ActiveRecord::Base
       updated_values["session"] = sess.session_key
       updated_values.merge!(options)
       sess.invoke(taobao_method,updated_values)
+      #重新设置本地taobao对象的pic_url
+      pic_url = BaseItem.get_pic_url(sess,self.id)
+      self.pic_url = pic_url
     end
   end
   #组装props字段
@@ -161,6 +172,7 @@ class BaseItem < ActiveRecord::Base
   #组装input_str字段
   def input_str
   end
+
   private
   #生成要更新到淘宝的属性hash
   def updated_hash
@@ -181,6 +193,5 @@ class BaseItem < ActiveRecord::Base
     updated_values.delete("created_at")
     updated_values.delete("updated_at")
     updated_values
-
   end
 end
