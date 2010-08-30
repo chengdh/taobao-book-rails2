@@ -1,0 +1,28 @@
+<h1>Listing areas</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Area type</th>
+    <th>Name</th>
+    <th>Parent</th>
+    <th>Zip</th>
+  </tr>
+
+<% @areas.each do |area| %>
+  <tr>
+    <td><%=h area.id %></td>
+    <td><%=h area.area_type %></td>
+    <td><%=h area.name %></td>
+    <td><%=h area.parent_id %></td>
+    <td><%=h area.zip %></td>
+    <td><%= link_to 'Show', area %></td>
+    <td><%= link_to 'Edit', edit_area_path(area) %></td>
+    <td><%= link_to 'Destroy', area, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New area', new_area_path %>

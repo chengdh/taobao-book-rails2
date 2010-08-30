@@ -12,6 +12,16 @@
     </div>
   </td>
   <td>
+    <%= label_tag :price,'价格' %>
+    <%= text_field_tag "price[]",douban_book.price,:class => 'short-text' %>
+  </td>
+  <td>
+
+    <%= label_tag :num,'数量' %>
+    <%= text_field_tag "num[]",100,:class => 'short-text' %>
+  </td>
+
+  <td>
     <%= link_to_function('查看详细',"Modalbox.show($('book_#{douban_book.isbn13}'),{title : '#{douban_book.title}',width : 700,height : 600})",:class => 'sexybutton sexysimple sexygreen') %>
     <%= render "douban_book_show",:book => nil ,:douban_book => douban_book  %>
   </td>

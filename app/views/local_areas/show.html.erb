@@ -1,0 +1,28 @@
+<p>
+  <b>Id:</b>
+  <%=h @area.id %>
+</p>
+
+<p>
+  <b>Area type:</b>
+  <%=h @area.area_type %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @area.name %>
+</p>
+
+<p>
+  <b>Parent:</b>
+  <%=h @area.parent_id %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%=h @area.zip %>
+</p>
+
+
+<%= link_to 'Edit', edit_area_path(@area) %> |
+<%= link_to 'Back', areas_path %>

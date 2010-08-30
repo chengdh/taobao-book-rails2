@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  area_type: 1
+  name: MyString
+  parent_id: 1
+  zip: MyString
+
+two:
+  id: 1
+  area_type: 1
+  name: MyString
+  parent_id: 1
+  zip: MyString

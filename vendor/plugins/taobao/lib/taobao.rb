@@ -30,6 +30,7 @@ require "taobao/models/taobaoke_item"
 require "taobao/models/sku"
 require "taobao/models/postage"
 require "taobao/models/postage_mode"
+require "taobao/models/area"
 require "taobao/rails/controller"
 
 module Taobao

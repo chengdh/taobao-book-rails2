@@ -1,4 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :local_areas,:collection => {:children => :get}
+
   map.resources :taobao_books,:member => {:update_from_douban => :put },:collection => {:search_douban => :get,:index_douban => :get}
 
   map.resources :postages
@@ -14,8 +17,6 @@ ActionController::Routing::Routes.draw do |map|
   map.douban_login 'douban_login', :controller => 'douban', :action => 'new'
 
   map.douban_logout 'douban_logout', :controller => 'douban', :action => 'destroy'
-
-
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -56,7 +56,6 @@ class BaseItem < ActiveRecord::Base
   end
   #得到商品的主图信息,因为如果更新数据到淘宝后,其pic_url会变化
   def self.get_pic_url(sess,num_iid)
-    return "" if self.new_record?
     remote_item = sess.invoke("taobao.item.get","fields" => 'pic_url' ,"num_iid" => num_iid).first
     remote_item.pic_url
   end

@@ -1,0 +1,53 @@
+<% form_remote_tag :url => {:action => :upload_item},:html => {:class => "uniForm"} do %>
+  <fieldset class="blockLabels">
+    <div class='ctrlHolder' >
+      <%= label_tag :seller_cats_id,"所属分类:" %>
+      <%= text_field_tag :seller_cats_id,"" %>
+      <%= link_to_function "选择","" %>
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= label_tag :seller_cats_id,"所在地:" %>
+      <%= select_tag :seller_cats_id,options_states_for_select,:onchange => remote_function(:update => 'cities_wrap',:method => :get,:with => "'id=' + value",:url => {:controller =>:local_areas,:action => :children})%>
+    </div>
+    <div class='ctrlHolder' id='cities_wrap' >
+      <%= render "local_areas/cities"%>
+    </div>
+    <div class='ctrlHolder' >
+      <%= label_tag :seller_cats_id,"运费" %>
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= radio_button_tag :seller_cats_id,"" %>卖家承担运费
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= radio_button_tag :seller_cats_id,"" %>
+      买家承担运费
+    </div>
+    <div class='ctrlHolder' >
+      <%= label_tag :seller_cats_id,"开始时间" %>
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= radio_button_tag :seller_cats_id,7 %>立刻
+    </div>
+    <div class='ctrlHolder' >
+      <%= radio_button_tag :seller_cats_id,7 %>设定
+    </div>
+    <div class='ctrlHolder' >
+      <%= radio_button_tag :seller_cats_id,7 %>放入仓库
+    </div>
+    <div class='ctrlHolder' >
+      <%= label_tag :seller_cats_id,"所属店铺类目:" %>
+      <%= select_tag :seller_cats_id,option_groups_seller_cats_for_select %>
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= check_box_tag :seller_cats_id,7 %>橱窗推荐
+    </div>
+  </fieldset>
+  <div class='actions-bar'>
+    <%= submit_tag "上传到淘宝",:class => 'sexybutton sexysimple sexygreen sexybig' %>
+  </div>
+<% end%>

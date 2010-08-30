@@ -4,7 +4,7 @@ require 'pp'
 
 module Taobao
   class Parse
-    DEBUG = true
+    DEBUG = false
 
     class MyListener
       include REXML::StreamListener
@@ -48,7 +48,8 @@ module Taobao
           Taobao::TaobaokeItem,
           Taobao::Sku,
           Taobao::Postage,
-          Taobao::PostageMode
+          Taobao::PostageMode,
+          Taobao::Area
 
         ]
       end
@@ -78,7 +79,8 @@ module Taobao
           "args" => TotalArray,
           "skus" => TotalArray,
           "postages" => TotalArray,
-          "postage_modes" => TotalArray
+          "postage_modes" => TotalArray,
+          "areas" => TotalArray
         }
       end
 

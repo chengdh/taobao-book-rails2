@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100825033832) do
+ActiveRecord::Schema.define(:version => 20100830072426) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -118,6 +118,15 @@ ActiveRecord::Schema.define(:version => 20100825033832) do
     t.string   "state",          :limit => 20
     t.string   "city",           :limit => 20
     t.string   "type",           :limit => 20
+  end
+
+  create_table "local_areas", :force => true do |t|
+    t.integer  "area_type",                                :null => false
+    t.string   "name",       :limit => 60, :default => "", :null => false
+    t.integer  "parent_id",  :limit => 8
+    t.string   "zip",        :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "postage_modes", :force => true do |t|
