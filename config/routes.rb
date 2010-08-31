@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.resources :item_cats,:collection => {:children => :get}
+
   map.resources :local_areas,:collection => {:children => :get}
 
   map.resources :taobao_books,:member => {:update_from_douban => :put },:collection => {:search_douban => :get,:index_douban => :get}

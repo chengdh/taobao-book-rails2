@@ -1,17 +1,17 @@
 <% form_remote_tag :url => {:action => :upload_item},:html => {:class => "uniForm"} do %>
   <fieldset class="blockLabels">
-    <div class='ctrlHolder' >
-      <%= label_tag :seller_cats_id,"所属分类:" %>
-      <%= text_field_tag :seller_cats_id,"" %>
-      <%= link_to_function "选择","" %>
+    <div class ='ctrlHolder' id='item_cat_wrap'>
+      <%= label_tag :seller_cats_id,"书籍所属分类:" %>
+      <%=render "item_cats/item_cat_children",:item_cat => ItemCat.find(ItemCat::BOOK_CID)%>
     </div>
 
     <div class='ctrlHolder' >
       <%= label_tag :seller_cats_id,"所在地:" %>
       <%= select_tag :seller_cats_id,options_states_for_select,:onchange => remote_function(:update => 'cities_wrap',:method => :get,:with => "'id=' + value",:url => {:controller =>:local_areas,:action => :children})%>
-    </div>
-    <div class='ctrlHolder' id='cities_wrap' >
-      <%= render "local_areas/cities"%>
+      <div id='cities_wrap' >
+        <%= render "local_areas/cities"%>
+      </div>
+
     </div>
     <div class='ctrlHolder' >
       <%= label_tag :seller_cats_id,"运费" %>
@@ -34,6 +34,7 @@
     </div>
     <div class='ctrlHolder' >
       <%= radio_button_tag :seller_cats_id,7 %>设定
+      <%= calendar_date_select_tag "list_time",Date.today,:popup => :force,:time => true%>
     </div>
     <div class='ctrlHolder' >
       <%= radio_button_tag :seller_cats_id,7 %>放入仓库

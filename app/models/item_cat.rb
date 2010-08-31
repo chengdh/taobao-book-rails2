@@ -1,4 +1,6 @@
 class ItemCat < ActiveRecord::Base
+  #书籍类的分类id
+  BOOK_CID = 33
   set_primary_key :cid
   has_many :base_items,:foreign_key => :cid
   acts_as_tree :foreign_key => "parent_cid",:order => "sort_order"
