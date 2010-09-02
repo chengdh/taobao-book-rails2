@@ -56,7 +56,7 @@ class BaseItem < ActiveRecord::Base
   end
   #得到商品的主图信息,因为如果更新数据到淘宝后,其pic_url会变化
   def self.get_pic_url(sess,num_iid)
-    remote_item = sess.invoke("taobao.item.get","fields" => 'pic_url' ,"num_iid" => num_iid).first
+    remote_item = sess.invoke("taobao.item.get","fields" => 'iid,num_iid,pic_url' ,"num_iid" => num_iid).first
     remote_item.pic_url
   end
 
@@ -150,17 +150,21 @@ class BaseItem < ActiveRecord::Base
   #options 要附加的更新对象
   def save2taobao(sess,options = {})
     if self.new_record?
+      taobao_method = "taobao.item.add"
     else
       taobao_method = "taobao.item.update"
-      updated_values = updated_hash
-      #添加session参数
-      updated_values["session"] = sess.session_key
-      updated_values.merge!(options)
-      sess.invoke(taobao_method,updated_values)
-      #重新设置本地taobao对象的pic_url
-      pic_url = BaseItem.get_pic_url(sess,self.id)
-      self.pic_url = pic_url
     end
+    updated_values = updated_hash
+    #添加session参数
+    updated_values["session"] = sess.session_key
+    updated_values.merge!(options)
+    remote_item = sess.invoke(taobao_method,updated_values).first
+    #重新设置本地taobao对象的pic_url
+    pic_url = BaseItem.get_pic_url(sess,self.id)
+    self.pic_url = pic_url
+    self.id = remote_item.first.num_iid
+    self.iid = remote_item.first.iid
+
   end
   #组装props字段
   def props
@@ -180,6 +184,8 @@ class BaseItem < ActiveRecord::Base
     updated_values["type"] = updated_values["item_type"]
     updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S')
     updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
+    updated_values["locate.state"] = updated_values["state"]
+    updated_values["locate.city"] = updated_values["city"]
     #TODO 暂时注释
     #updated_values["input_pids"] = input_pids
     #updated_values["input_str"] = input_str

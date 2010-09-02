@@ -1,3 +1,7 @@
+<script type='text/javascript'>
+  //缓存在客户端的豆瓣书籍hash isbn13 -> douban_book
+  var douban_books = new Hash();
+</script>
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
@@ -16,11 +20,15 @@
         </div>
         <span id='select_des'>选定书籍,可以批量上传到淘宝...</span>
         <div id='btn_wrap'>
+          <%=link_to_function "批量上传到淘宝","upload_item()",:class => 'sexybutton sexysimple sexybig sexyblue'%>
         </div>
       </div>
       <table class="table" id='items_list'>
         <% @douban_books.each do |douban_book| %>
           <%= render "douban_book",:douban_book => douban_book %>
+          <script type='text/javascript'>
+            douban_books.set('<%=douban_book.isbn13%>',<%=douban_book.to_json %>)
+          </script>
         <% end%>
       </table>
       <div class="actions-bar wat-cf">
@@ -34,4 +42,13 @@
 <script type='text/javascript'>
   selector = new com.strongu.Selector(<%= @douban_book_isbns.to_json %>,'select_des');
   selector.add_check_listener('items_list');
+  /*批量上传到taobao*/
+  var upload_item = function(){
+  selector.selected_ids().each(function(isbn13){
+      var the_douban_book = douban_books.get(isbn13);
+      //发起ajax请求
+      new Ajax.Request('/taobao_books/upload_item', {method : 'post',asynchronous:true, evalScripts:true, parameters:Form.serialize($('upload_taobao_book_form')) + "&" + Object.toQueryString(the_douban_book)}); 
+      },window);
+  };
+
 </script>

@@ -1,3 +1,2 @@
 <% @local_area = LocalArea.area_type_is(2).first unless defined? @local_area %>
-<%= label_tag :seller_cats_id,"" %>
-<%= select_tag :seller_cats_id,options_from_collection_for_select(@local_area.children, 'id', 'name') %>
+<%= select_tag "taobao_book[city]",options_from_collection_for_select(@local_area.children, 'id', 'name') %>

@@ -19,3 +19,9 @@ ActiveSupport.use_standard_json_time_format = true
 # Don't escape HTML entities in JSON, leave that for the #json_escape helper.
 # if you're including raw json in an HTML page.
 ActiveSupport.escape_html_entities_in_json = false
+#日历控件格式
+CalendarDateSelect.format=(:iso_date)
+#修改will_paginate的标签显示样式
+WillPaginate::ViewHelpers.pagination_options[:previous_label] = '前一页'
+WillPaginate::ViewHelpers.pagination_options[:next_label] = '下一页'
+

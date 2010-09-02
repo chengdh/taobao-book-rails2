@@ -13,7 +13,9 @@
 .border { border: 1px solid gray; }
 .border-bottom { border-bottom: 1px dotted gray; }
 .short-text { width: 60px; }
+.very-short-text { width: 30px; }
 .text-red { color: red; }
+.back-light-gray { background: #f8f8f8; }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
 #selector_wrap {

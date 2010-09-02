@@ -67,7 +67,59 @@ class TaobaoBooksController < BaseController
     end
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
   end
+  #批量上传书籍信息
+  #POST taobao_books/upload_items
+  def upload_item
+    @taobao_book = TaobaoBook.new
+    #设置公用属性
+    set_public_attr(@taobao_book)
+    Douban::Book.attr_names.each do |attr|
+      @taobao_book.send("#{attr}=",params[attr.to_sym]) if TaobaoBook.attr_names.keys.include?(attr.to_sym)
+    end
+    #装帧
+    @taobao_book.book_binding = params[:binding]
+    #描述
+    @taobao_book.desc = params[:summary]
+    #价格,豆瓣返回的价格带有汉字,需要解析处理
+    price = params[:price].scan(/\d{1,10}\.\d{2}/).first
+    @taobao_book.price = price
+    #书名
+    @taobao_book.title = params[:title]
+    #封面图片
+    cover = get_remote_pic(params[:image])
+    #更新数据到淘宝
+    #FIXME 测试用,手工设置了session
+    sess = Taobao::SessionKey.get_session('chengqi')
+    if !cover.blank?
+      @taobao_book.save2taobao(sess,'image' => cover)
+    else
+      @taobao_book.save2taobao(sess)
+    end
+    @taobao_book.save
+  end
   private
+  #根据传入的参数设置taobao_book的公用属性
+  def set_public_attr(taobao_book)
+    taobao_book.stuff_status = params[:taobao_book][:stuff_status]
+    taobao_book.cid = params[:taobao_book][:cid]
+    taobao_book.state = params[:taobao_book][:state]
+    taobao_book.city = params[:taobao_book][:city]
+    taobao_book.freight_payer = params[:taobao_book][:freight_payer]
+    if params[:taobao_book][:post_fee_type] == 'postage_tmp'
+      taobao_book.postage_id = params[:taobao_book][:postage_id]
+    else
+      taobao_book.post_fee = params[:taobao_book][:post_fee]
+      taobao_book.express_fee = params[:taobao_book][:express_fee]
+      taobao_book.ems_fee = params[:taobao_book][:ems_fee]
+    end
+    taobao_book.list_time = DateTime.now if params[:taobao_book][:list_time_type] == 'immidiate'
+    taobao_book.list_time =  params[:taobao_book][:list_time] if params[:taobao_book][:list_time_type] == 'config'
+
+    taobao_book.approve_status = "onsale" 
+    taobao_book.approve_status = "instock" if params[:taobao_book][:list_time_type] == 'instock'
+    taobao_book.item_seller_cats.build(:cid => params[:taobao_book][:seller_cids])
+    taobao_book.has_showcase(:cid => params[:taobao_book][:has_showcase])
+  end
   #下载远程服务器图片
   def get_remote_pic(url)
     io = open(url)

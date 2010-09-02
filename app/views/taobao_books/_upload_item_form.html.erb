@@ -1,54 +1,76 @@
-<% form_remote_tag :url => {:action => :upload_item},:html => {:class => "uniForm"} do %>
+<% form_remote_tag :url => {:action => :upload_item},:html => {:id =>'upload_taobao_book_form',:class => "uniForm"} do %>
   <fieldset class="blockLabels">
-    <div class ='ctrlHolder' id='item_cat_wrap'>
-      <%= label_tag :seller_cats_id,"书籍所属分类:" %>
-      <%=render "item_cats/item_cat_children",:item_cat => ItemCat.find(ItemCat::BOOK_CID)%>
+    <div class ='ctrlHolder'>
+      <%= label_tag "taobao_book[stuff_status]","书籍类型:" %>
+      <%= radio_button_tag "taobao_book[stuff_status]","new",true %>全新
+      <%= radio_button_tag "taobao_book[stuff_status]","second" %>二手
+      <%= radio_button_tag "taobao_book[stuff_status]","unused" %>闲置
+    </div>
+
+    <div class ='ctrlHolder'>
+      <%= hidden_field_tag "taobao_book[cid]"%>
+      <%= label_tag "taobao_book[cid]","书籍所属分类:" %>
+      <%= render "item_cats/item_cat_children",:item_cat => ItemCat.find(ItemCat::BOOK_CID)%>
     </div>
 
     <div class='ctrlHolder' >
-      <%= label_tag :seller_cats_id,"所在地:" %>
-      <%= select_tag :seller_cats_id,options_states_for_select,:onchange => remote_function(:update => 'cities_wrap',:method => :get,:with => "'id=' + value",:url => {:controller =>:local_areas,:action => :children})%>
+      <%= label_tag "taobao_book[state]","所在地:" %>
+      <%= select_tag "taobao_book[state]",options_states_for_select,:onchange => remote_function(:update => 'cities_wrap',:method => :get,:with => "'id=' + value",:url => {:controller =>:local_areas,:action => :children})%>
       <div id='cities_wrap' >
         <%= render "local_areas/cities"%>
       </div>
-
     </div>
     <div class='ctrlHolder' >
-      <%= label_tag :seller_cats_id,"运费" %>
+      <%= label_tag "taobao_book[freight_payer]","运费" %>
     </div>
-
     <div class='ctrlHolder' >
-      <%= radio_button_tag :seller_cats_id,"" %>卖家承担运费
+      <%= radio_button_tag "taobao_book[freight_payer]","seller",true,:onclick => " if(this.checked) $('post_fee_wrap').hide()" %>卖家承担运费
     </div>
 
     <div class='ctrlHolder' >
-      <%= radio_button_tag :seller_cats_id,"" %>
+      <%= radio_button_tag "taobao_book[freight_payer]","buyer",false,:onclick => " if(this.checked) $('post_fee_wrap').show()" %>
       买家承担运费
     </div>
-    <div class='ctrlHolder' >
-      <%= label_tag :seller_cats_id,"开始时间" %>
+    <div id='post_fee_wrap' class='back-light-gray' style='display : none;'>
+      <div class='ctrlHolder'>
+        <label>
+          <%= radio_button_tag "taobao_book[post_fee_type]", "postage_tmp" %>
+          使用运费模板
+        </label>
+        <%= select_tag "taobao_book[postage_id]",options_postages_for_select %>
+      </div>
+
+      <div class='ctrlHolder'>
+        <%= radio_button_tag "taobao_book[post_fee_type]", "normal" %>
+        平邮:
+        <%= text_field_tag "toabao_book[post_fee]",nil,:class => 'very-short-text' %>
+        快递:
+        <%= text_field_tag "taobao_book[express_fee]",nil,:class => 'very-short-text' %>
+        EMS:
+        <%= text_field_tag "taobao_book[ems_fee]",nil,:class => 'very-short-text' %>
+      </div>
     </div>
 
     <div class='ctrlHolder' >
-      <%= radio_button_tag :seller_cats_id,7 %>立刻
+      <%= label_tag "taobao_book[list_time_type]","开始时间" %>
     </div>
     <div class='ctrlHolder' >
-      <%= radio_button_tag :seller_cats_id,7 %>设定
-      <%= calendar_date_select_tag "list_time",Date.today,:popup => :force,:time => true%>
+      <%= radio_button_tag "taobao_book[list_time_type]","immidiate",true %>立刻
     </div>
     <div class='ctrlHolder' >
-      <%= radio_button_tag :seller_cats_id,7 %>放入仓库
+      <%= radio_button_tag "taobao_book[list_time_type]","config" %>设定
+      <%= calendar_date_select_tag "taobao_book[list_time]",DateTime.now,:popup => :force,:time => true%>
     </div>
     <div class='ctrlHolder' >
-      <%= label_tag :seller_cats_id,"所属店铺类目:" %>
-      <%= select_tag :seller_cats_id,option_groups_seller_cats_for_select %>
+      <%= radio_button_tag "taobao_book[list_time_type]","instock" %>放入仓库
+    </div>
+    <div class='ctrlHolder' >
+      <%= label_tag "taobao_book[seller_cids]","所属店铺类目:" %>
+      <%= select_tag "taobao_book[seller_cids]",option_groups_seller_cats_for_select %>
     </div>
 
     <div class='ctrlHolder' >
-      <%= check_box_tag :seller_cats_id,7 %>橱窗推荐
+      <%= check_box_tag "taobao_book[show_case]",1 %>橱窗推荐
     </div>
   </fieldset>
-  <div class='actions-bar'>
-    <%= submit_tag "上传到淘宝",:class => 'sexybutton sexysimple sexygreen sexybig' %>
-  </div>
 <% end%>

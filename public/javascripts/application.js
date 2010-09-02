@@ -48,16 +48,21 @@ com.strongu.Selector.prototype = {
 	},
 	//将选择的id转换为query string
 	to_query_str: function() {
-		var select_array = new Array();
-		this.cached_ids.each(function(pair) {
-			if (pair.value) select_array.push(pair.key);
-		},
-		this);
 		var ret = new Hash({
-			'items_ids[]' : select_array
+			'items_ids[]' : this.selected_ids()
 		});
 		return ret.toQueryString();
-	}
+	},
+                      //得到已选定的id数组
+        selected_ids : function() {
+                var select_array = new Array();
+                this.cached_ids.each(function(pair) {
+                    if (pair.value) select_array.push(pair.key);
+                    },
+                    this);
+                return select_array;
+
+               }
 
 };
 
