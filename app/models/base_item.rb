@@ -149,22 +149,24 @@ class BaseItem < ActiveRecord::Base
   #sess top会话对象
   #options 要附加的更新对象
   def save2taobao(sess,options = {})
-    if self.new_record?
-      taobao_method = "taobao.item.add"
-    else
-      taobao_method = "taobao.item.update"
-    end
     updated_values = updated_hash
     #添加session参数
     updated_values["session"] = sess.session_key
     updated_values.merge!(options)
+
+    if self.new_record?
+      updated_values.delete(:num_iid)
+      updated_values.delete(:iid)
+      taobao_method = "taobao.item.add"
+    else
+      taobao_method = "taobao.item.update"
+    end
     remote_item = sess.invoke(taobao_method,updated_values).first
     #重新设置本地taobao对象的pic_url
-    pic_url = BaseItem.get_pic_url(sess,self.id)
+    pic_url = BaseItem.get_pic_url(sess,remote_item.num_iid)
     self.pic_url = pic_url
-    self.id = remote_item.first.num_iid
-    self.iid = remote_item.first.iid
-
+    self.id = remote_item.num_iid
+    self.iid = remote_item.iid
   end
   #组装props字段
   def props
@@ -180,12 +182,17 @@ class BaseItem < ActiveRecord::Base
   #生成要更新到淘宝的属性hash
   def updated_hash
     updated_values = self.attributes
+    #去除是空值的字段
+    updated_values.each {|key,value| updated_values.delete(key) if value.blank?}
     #删除不需要更新的字段
-    updated_values["type"] = updated_values["item_type"]
-    updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S')
-    updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
-    updated_values["locate.state"] = updated_values["state"]
-    updated_values["locate.city"] = updated_values["city"]
+    updated_values["type"] = "fixed"
+    updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S') unless updated_values["list_time"].blank?
+    #updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
+    updated_values["location.state"] = updated_values["state"]
+    updated_values["location.city"] = updated_values["city"]
+    updated_values["location.state"] = "河南"
+    updated_values["location.city"] = "郑州"
+
     #TODO 暂时注释
     #updated_values["input_pids"] = input_pids
     #updated_values["input_str"] = input_str

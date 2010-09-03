@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100830072426) do
+ActiveRecord::Schema.define(:version => 20100903092809) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -221,6 +221,56 @@ ActiveRecord::Schema.define(:version => 20100830072426) do
     t.datetime "created"
     t.datetime "modified"
     t.string   "status",     :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_credits", :force => true do |t|
+    t.integer  "level"
+    t.integer  "score"
+    t.integer  "total_num"
+    t.integer  "good_num"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_locations", :force => true do |t|
+    t.string   "zip",        :limit => 20
+    t.string   "address",    :limit => 60
+    t.string   "city",       :limit => 20
+    t.string   "state",      :limit => 20
+    t.string   "country",    :limit => 20
+    t.string   "distinct",   :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :primary_key => "user_id", :force => true do |t|
+    t.string   "uid",                 :limit => 30, :default => "",    :null => false
+    t.string   "nick",                :limit => 60, :default => "",    :null => false
+    t.string   "sex",                 :limit => 1
+    t.integer  "buyer_credit_id"
+    t.integer  "seller_credit_id"
+    t.integer  "location_id"
+    t.datetime "created"
+    t.datetime "last_visit"
+    t.date     "birthday"
+    t.string   "user_type",           :limit => 1,  :default => "",    :null => false
+    t.boolean  "has_more_pic",                      :default => false
+    t.integer  "item_img_num",                      :default => 0
+    t.integer  "item_img_size",                     :default => 0
+    t.integer  "prop_img_num",                      :default => 0
+    t.integer  "prop_img_size",                     :default => 0
+    t.string   "auto_repost",         :limit => 20
+    t.string   "promoted_type",       :limit => 20
+    t.string   "status",              :limit => 20
+    t.string   "alipay_bind",         :limit => 20
+    t.boolean  "consumer_protection"
+    t.string   "alipay_account",      :limit => 60
+    t.string   "alipay_no",           :limit => 60
+    t.string   "email",               :limit => 60
+    t.boolean  "magazine_subscribe"
+    t.string   "vertical_market",     :limit => 30
     t.datetime "created_at"
     t.datetime "updated_at"
   end

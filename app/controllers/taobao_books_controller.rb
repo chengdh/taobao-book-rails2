@@ -81,8 +81,9 @@ class TaobaoBooksController < BaseController
     #描述
     @taobao_book.desc = params[:summary]
     #价格,豆瓣返回的价格带有汉字,需要解析处理
-    price = params[:price].scan(/\d{1,10}\.\d{2}/).first
+    price = params[:price].scan(/\d{1,10}\.\d{2}/).first unless params[:price].blank?
     @taobao_book.price = price
+    @taobao_book.num = params[:num]
     #书名
     @taobao_book.title = params[:title]
     #封面图片
@@ -102,8 +103,8 @@ class TaobaoBooksController < BaseController
   def set_public_attr(taobao_book)
     taobao_book.stuff_status = params[:taobao_book][:stuff_status]
     taobao_book.cid = params[:taobao_book][:cid]
-    taobao_book.state = params[:taobao_book][:state]
-    taobao_book.city = params[:taobao_book][:city]
+    taobao_book.state = LocalArea.find(params[:taobao_book][:state]).name
+    taobao_book.city = LocalArea.find(params[:taobao_book][:city]).name
     taobao_book.freight_payer = params[:taobao_book][:freight_payer]
     if params[:taobao_book][:post_fee_type] == 'postage_tmp'
       taobao_book.postage_id = params[:taobao_book][:postage_id]
@@ -112,13 +113,13 @@ class TaobaoBooksController < BaseController
       taobao_book.express_fee = params[:taobao_book][:express_fee]
       taobao_book.ems_fee = params[:taobao_book][:ems_fee]
     end
-    taobao_book.list_time = DateTime.now if params[:taobao_book][:list_time_type] == 'immidiate'
+    taobao_book.list_time = nil if params[:taobao_book][:list_time_type] == 'immidiate'
     taobao_book.list_time =  params[:taobao_book][:list_time] if params[:taobao_book][:list_time_type] == 'config'
 
     taobao_book.approve_status = "onsale" 
     taobao_book.approve_status = "instock" if params[:taobao_book][:list_time_type] == 'instock'
     taobao_book.item_seller_cats.build(:cid => params[:taobao_book][:seller_cids])
-    taobao_book.has_showcase(:cid => params[:taobao_book][:has_showcase])
+    taobao_book.has_showcase = params[:taobao_book][:has_showcase]
   end
   #下载远程服务器图片
   def get_remote_pic(url)

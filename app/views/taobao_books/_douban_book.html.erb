@@ -12,13 +12,13 @@
     </div>
   </td>
   <td>
-    <%= label_tag :price,'价格' %>
-    <%= text_field_tag "price[]",douban_book.price,:class => 'short-text' %>
+    <%= label_tag "txt_price_#{douban_book.isbn13}",'价格' %>
+    <%= text_field_tag "txt_price_#{douban_book.isbn13}",douban_book.price,:class => 'short-text' %>
   </td>
   <td>
 
-    <%= label_tag :num,'数量' %>
-    <%= text_field_tag "num[]",100,:class => 'short-text' %>
+    <%= label_tag "txt_num_#{douban_book.isbn13}",'数量' %>
+    <%= text_field_tag "txt_num_#{douban_book.isbn13}",100,:class => 'short-text' %>
   </td>
 
   <td>
@@ -26,3 +26,8 @@
     <%= render "douban_book_show",:book => nil ,:douban_book => douban_book  %>
   </td>
 </tr>          
+<script type='text/javascript'>
+  //添加监听事件
+  $('txt_price_<%= douban_book.isbn13 %>').observe('change',book_price_num_listener.bindAsEventListener(window,'<%=douban_book.isbn13 %>','price'));
+  $('txt_num_<%=douban_book.isbn13 %>').observe('change',book_price_num_listener.bindAsEventListener(window,'<%=douban_book.isbn13 %>','num'));
+</script>

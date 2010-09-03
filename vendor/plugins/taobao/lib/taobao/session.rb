@@ -31,7 +31,6 @@ module Taobao
 
     def invoke(method, params)
       res = Parse.new.process(Service.new(method, params).invoke.body)
-      #res = Service.new(method, params).invoke.body
       if res.is_a? Taobao::ErrorRsp
         ::Rails.logger.error "taobao error of #{method}: #{res.inspect}"
       end

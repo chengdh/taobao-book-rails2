@@ -12,7 +12,8 @@ module Taobao
        :address,
        :city,
        :state,
-       :country
+       :country,
+       :distinct
       ]
     end
     
