@@ -8,17 +8,16 @@
     <h2 class="title">去豆瓣查查看有没有我要卖的书</h2>
     <div class="inner">
       <% form_tag index_douban_taobao_books_path,:method => :get ,:class => "uniForm" do %>
-        <fieldset class='inlineLabels'>
+        <fieldset class='blockLabels'>
           <legend>请录入10位或13位ISBN编号</legend>
-          <% 10.times do %>
+          <% 10.times do |i|%>
             <div class='ctrlHolder'>
-              <%= label_tag "isbn",'ISBN编号' %>
               <%= text_field_tag "isbns[]",nil,:size => 13,:maxlength => 13,:class => 'textInput' %>
             </div>
           <%end%>
 
         </fieldset>
-        <div class='actions-bar text-right'>
+        <div class='actions-bar'>
           <%= submit_tag "去豆瓣查查...",:class => 'sexybutton sexysimple sexybig sexygreen' %>
         </div>
       <% end %>

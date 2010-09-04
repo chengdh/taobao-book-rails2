@@ -1,0 +1,8 @@
+flash_info = ""
+flash.each do |type, message| 
+  flash_info +="<div class='message #{type}'><p>#{message}</p></div>"
+end 
+#清空flash
+flash.clear
+page[:flash].update(flash_info)
+page["ok_#{params[:douban_book][:isbn13]}"].show

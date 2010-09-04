@@ -37,13 +37,13 @@ com.strongu.Selector.prototype = {
 	},
 	//更新选择信息
 	update_select_des: function() {
-		ret = "当前未选中任何商品信息.";
+		ret = "当前未选中任何书籍信息.";
 		var select_count = 0;
 		var selected_ids = this.cached_ids.values().each(function(sel) {
 			if (sel) select_count++;
 		},
 		this);
-		if (select_count > 0) ret = "当前共选中" + select_count + "件商品信息."
+		if (select_count > 0) ret = "当前共选中" + select_count + "本书籍."
 		this.el_select_des.update(ret);
 	},
 	//将选择的id转换为query string
@@ -65,4 +65,15 @@ com.strongu.Selector.prototype = {
                }
 
 };
+//工具类
+com.strongu.util = {};
 
+//将给定对象转换为具备命名空间的hash
+//例如 { a : 12}  ---> namespace[a] : 12
+com.strongu.util.object_to_hash = function(obj,namespace) {
+  var ret_hash = new Hash();
+  for(attr in obj) {
+    ret_hash.set(namespace + "[" + attr + "]",obj[attr])
+  }
+  return ret_hash;
+};
