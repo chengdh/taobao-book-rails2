@@ -1,6 +1,6 @@
 development:
-  key: 0e78da9b582a5cbd2b6a8fd2087f1637
-  secret: 0b0e4b0e8be8ff11
+  key: 0dd79694a8bf76f62986c3bdfa3e64e2
+  secret: 8c015056b3bee367
   url:    "http://yoursite.com"
   #获取单本书籍
   book_url: "http://api.douban.com/book/subject/isbn/"

@@ -6,7 +6,7 @@
     </ul>
   </div>          
   <div class="content">          
-    <h2 class="title"><%= t("web-app-theme.all", :default => "All")  %> TaobaoBooks</h2>
+    <h2 class="title">宝贝信息列表</h2>
     <div class="inner">
       <div class="actions-bar border-bottom" id='selector_wrap'>
         <div id='selector'>
@@ -16,6 +16,7 @@
         </div>
         <span id='select_des'>选定书籍,去豆瓣查查看...</span>
         <div id='btn_wrap'>
+          <%=link_to_function "更新选定书籍信息","batch_update_items()",:class => 'sexybutton sexysimple sexybig sexyblue'%>
         </div>
       </div>
       <table class="table" id='items_list'>

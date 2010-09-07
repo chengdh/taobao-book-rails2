@@ -15,8 +15,26 @@ class TaobaoBooksController < BaseController
   #从豆瓣更新宝贝信息
   #PUT /taobao_book/:id/update_from_douban
   def update_from_douban
+
     @taobao_book = TaobaoBook.find(params[:id])
-    savebook2taobao(@taobao_book)
+    upload_success = true
+    begin
+      savebook2taobao(@taobao_book)
+      flash[:notice] = "#{@taobao_book.title}信息更新成功."
+    rescue
+      upload_success = false
+      flash[:error] = "#{@taobao_book.title}信息更新失败."
+    end
+    respond_to do |format|
+      format.js do 
+        if upload_success
+          render :partial => "upload_item_success.rjs",:locals => {:taobao_book => @taobao_book}
+        else
+          render :partial => "upload_item_failure.rjs"
+        end
+      end
+    end
+
   end
   #显示从豆瓣查询书籍界面
   #GET /taobao_books/show_search
@@ -42,10 +60,22 @@ class TaobaoBooksController < BaseController
   #POST taobao_books/upload_items
   def upload_item
     @taobao_book = TaobaoBook.new
-    savebook2taobao(@taobao_book)
-    flash[:notice] = "#{@taobao_book.title}已成功上传至淘宝."
+    upload_success = true
+    begin
+      savebook2taobao(@taobao_book)
+      flash[:notice] = "#{@taobao_book.title}已成功上传至淘宝."
+    rescue
+      upload_success = false
+      flash[:error] = "#{@taobao_book.title}上传失败."
+    end
     respond_to do |format|
-      format.js {render :partial => "upload_item_success.rjs"}
+      format.js do 
+        if upload_success
+          render :partial => "upload_item_success.rjs",:locals => {:taobao_book => @taobao_book}
+        else
+          render :partial => "upload_item_failure.rjs"
+        end
+      end
     end
   end
   private
@@ -62,7 +92,7 @@ class TaobaoBooksController < BaseController
     #描述
     taobao_book.desc = params[:douban_book][:summary] if select_attrs.include?("summary")
     #价格,豆瓣返回的价格带有汉字,需要解析处理
-    price = params[:douban_book][:price].scan(/\d{1,10}\.\d{2}/).first if !params[:douban_book][:price].blank?
+    price = params[:douban_book][:price].scan(/\d{1,10}\.?\d{0,2}/).first if !params[:douban_book][:price].blank?
     taobao_book.price = price if select_attrs.include?("price")
     taobao_book.num = params[:douban_book][:num]
     #书名

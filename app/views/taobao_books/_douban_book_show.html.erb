@@ -37,51 +37,54 @@
         <td><%= douban_book.binding %></td>
       </tr>
     </table>
-    <div class='operates'>
-      <%remote_form_for douban_book,:url => book.blank? ? '' : update_from_douban_taobao_book_path(book),:method => :put,
-        :html => {:method => :put ,:id => "douban_book_form_#{douban_book.isbn13}"} do |f| %>
-        <%= f.hidden_field :title %>
-        <%= f.hidden_field :isbn13 %>
-        <%= f.hidden_field :author %>
-        <%= f.hidden_field :image %>
-        <%= f.hidden_field :publisher %>
-        <%= f.hidden_field :pubdate %>
-        <%= f.hidden_field :pages %>
-        <%= f.hidden_field :price %>
-        <%= f.hidden_field :summary %>
-        <%= f.hidden_field :binding %>
-        <%= f.hidden_field :author_intro %>
-        <table class='select-attrs'>
-          <tr>
-            <td><%= check_box_tag "select_attrs[]","title",true %><%=label_tag "select_attrs[title]","书名" %></td>
-            <td><%= check_box_tag "select_attrs[]","isbn13",true %><%=label_tag  "select_attrs[isbn13]","ISBN" %></td>
-          </tr>
-          <tr>
-            <td><%= check_box_tag  "select_attrs[]","author",true  %><%=label_tag  "select_attrs[author]","作者" %></td>
-            <td><%= check_box_tag  "select_attrs[]","image",true  %><%=label_tag  "select_attrs[image]","封面图片" %></td>
-          </tr>
-          <tr>
-            <td><%= check_box_tag  "select_attrs[]","publisher",true  %><%=label_tag  "select_attrs[publisher]","出版社" %></td>
-            <td><%= check_box_tag  "select_attrs[]","pubdate",true  %><%=label_tag  "select_attrs[pubdate]","出版日期" %></td>
-          </tr>
-          <tr>
-            <td><%= check_box_tag  "select_attrs[]","pages",true  %><%=label_tag  "select_attrs[pages]","页数" %></td>
-            <td><%= check_box_tag  "select_attrs[]","price",true  %><%=label_tag  "select_attrs[price]","定价" %></td>
-          </tr>
-          <tr>
-            <td><%= check_box_tag  "select_attrs[]","binding",true  %><%=label_tag  "select_attrs[binding]","装帧" %></td>
-            <td><%= check_box_tag  "select_attrs[]","summary",true  %><%=label_tag  "select_attrs[summary]","书籍介绍" %></td>
-          </tr>
-          <tr>
-            <td><%= check_box_tag  "select_attrs[]","author_intro",true  %><%=label_tag "select_attrs[author_intro]","作者介绍" %></td>
-            <td></td>
-          </tr>
-        </table>
-      <% end %>
+    <% if show_operate %>
+      <div class='operates'>
+        <%remote_form_for douban_book,:url => book.blank? ? upload_item_taobao_books_path : update_from_douban_taobao_books_path,
+          :html => {:method => :put ,:id => "douban_book_form_#{douban_book.isbn13}"} do |f| %>
+          <%=hidden_field_tag :id,book.blank? ? nil : book.id %>
+          <%= f.hidden_field :title %>
+          <%= f.hidden_field :isbn13 %>
+          <%= f.hidden_field :author %>
+          <%= f.hidden_field :image %>
+          <%= f.hidden_field :publisher %>
+          <%= f.hidden_field :pubdate %>
+          <%= f.hidden_field :pages %>
+          <%= f.hidden_field :price %>
+          <%= f.hidden_field :summary %>
+          <%= f.hidden_field :binding %>
+          <%= f.hidden_field :author_intro %>
+          <table class='select-attrs'>
+            <tr>
+              <td><%= check_box_tag "select_attrs[]","title",true %><%=label_tag "select_attrs[title]","书名" %></td>
+              <td><%= check_box_tag "select_attrs[]","isbn13",true %><%=label_tag  "select_attrs[isbn13]","ISBN" %></td>
+            </tr>
+            <tr>
+              <td><%= check_box_tag  "select_attrs[]","author",true  %><%=label_tag  "select_attrs[author]","作者" %></td>
+              <td><%= check_box_tag  "select_attrs[]","image",true  %><%=label_tag  "select_attrs[image]","封面图片" %></td>
+            </tr>
+            <tr>
+              <td><%= check_box_tag  "select_attrs[]","publisher",true  %><%=label_tag  "select_attrs[publisher]","出版社" %></td>
+              <td><%= check_box_tag  "select_attrs[]","pubdate",true  %><%=label_tag  "select_attrs[pubdate]","出版日期" %></td>
+            </tr>
+            <tr>
+              <td><%= check_box_tag  "select_attrs[]","pages",true  %><%=label_tag  "select_attrs[pages]","页数" %></td>
+              <td><%= check_box_tag  "select_attrs[]","price",true  %><%=label_tag  "select_attrs[price]","定价" %></td>
+            </tr>
+            <tr>
+              <td><%= check_box_tag  "select_attrs[]","binding",true  %><%=label_tag  "select_attrs[binding]","装帧" %></td>
+              <td><%= check_box_tag  "select_attrs[]","summary",true  %><%=label_tag  "select_attrs[summary]","书籍介绍" %></td>
+            </tr>
+            <tr>
+              <td><%= check_box_tag  "select_attrs[]","author_intro",true  %><%=label_tag "select_attrs[author_intro]","作者介绍" %></td>
+              <td></td>
+            </tr>
+          </table>
+        <% end %>
 
-      <%= link_to_function  "更新宝贝信息","$('douban_book_form_#{douban_book.isbn13}').submit()", :class => 'sexybutton sexysimple sexyblue' %>
-      <%= link_to "先保存到收藏夹", "" ,:class => 'sexybutton sexysimple sexyblue'%>
-    </div>
+        <%= link_to_function  "更新宝贝信息","$('douban_book_form_#{douban_book.isbn13}').submit()", :class => 'sexybutton sexysimple sexyblue' %>
+        <%= link_to "先保存到收藏夹", "" ,:class => 'sexybutton sexysimple sexyblue'%>
+      </div>
+    <% end %>
   </div>
   <h3 class='border-bottom'>书籍介绍</h3>
   <p>

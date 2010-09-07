@@ -75,4 +75,5 @@ class TaobaoBook < BaseItem
     item_pv.name_alias = pvalue
     item_pv.base_item = self
   end
+  #根据ISBN得到书籍id
 end

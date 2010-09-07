@@ -1,15 +1,12 @@
 <tr class="<%= cycle("odd", "even") %>">
+  <%=hidden_field_tag "taobao_id_#{douban_book.isbn13}"%>
   <td>
     <%=image_tag "ajax.gif",:alt => "上传中...",:size =>"16x16",:id => "ajax_#{douban_book.isbn13}",:style => 'display : none;'%>
-  </td>
-  <td>
+
     <%=image_tag "ok.gif",:alt => "成功",:size =>"16x16",:id => "ok_#{douban_book.isbn13}",:style => 'display : none;'%>
-  </td>
-  <td>
+
     <%=image_tag "failure.gif",:alt => "失败",:size =>"16x16",:id => "failure_#{douban_book.isbn13}",:style => 'display : none;'%>
   </td>
-
-
   <td>
     <%= check_box_tag douban_book.isbn13 %>
   </td>
@@ -34,11 +31,11 @@
 
   <td>
     <%= link_to_function('查看详细',"Modalbox.show($('book_#{douban_book.isbn13}'),{title : '#{douban_book.title}',width : 700,height : 600})",:class => 'sexybutton sexysimple sexygreen') %>
-    <%= render "douban_book_show",:book => nil ,:douban_book => douban_book  %>
+    <%= render "douban_book_show",:book => nil ,:show_operate => false,:douban_book => douban_book  %>
   </td>
 </tr>          
 <script type='text/javascript'>
   //添加监听事件
-  $('txt_price_<%= douban_book.isbn13 %>').observe('change',book_price_num_listener.bindAsEventListener(window,'<%=douban_book.isbn13 %>','price'));
-  $('txt_num_<%=douban_book.isbn13 %>').observe('change',book_price_num_listener.bindAsEventListener(window,'<%=douban_book.isbn13 %>','num'));
+$('txt_price_<%= douban_book.isbn13 %>').observe('change',book_price_num_listener.bindAsEventListener(window,'<%=douban_book.isbn13 %>','price'));
+$('txt_num_<%=douban_book.isbn13 %>').observe('change',book_price_num_listener.bindAsEventListener(window,'<%=douban_book.isbn13 %>','num'));
 </script>

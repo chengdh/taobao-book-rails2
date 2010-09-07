@@ -21,7 +21,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
     </ul>
   </div>          
   <div class="content">          
-    <h2 class="title">来自豆瓣的书籍列表</h2>
+    <h2 class="title">查到这些书...</h2>
     <div class="inner">
       <div class="actions-bar border-bottom" id='selector_wrap'>
         <div id='selector'>
@@ -31,7 +31,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
         </div>
         <span id='select_des'>选定书籍,可以批量上传到淘宝...</span>
         <div id='btn_wrap'>
-          <%=link_to_function "上传到淘宝","upload_item()",:class => 'sexybutton sexysimple sexybig sexyblue'%>
+          <%=link_to_function "上传到淘宝","upload_item()",:id => 'btn_batch_upload',:class => 'sexybutton sexysimple sexybig sexyblue'%>
         </div>
       </div>
       <div class='actions-bar border-bottom'>
@@ -79,11 +79,16 @@ var book_price_num_listener = function(evt,isbn13,type) {
   };
   //批量上传到taobao
   var upload_item = function(){
+    $('btn_batch_upload').addClassName('disabled');
     //设置需要更新的属性列表,默认更新全部
     selector.selected_ids().each(function(isbn13){
         var the_douban_book = douban_books.get(isbn13);
         //发起ajax请求
-        new Ajax.Request('<%=upload_item_taobao_books_path%>', 
+        //判断是新增还是更新
+        var url = '<%=upload_item_taobao_books_path%>';
+        if(!$('taobao_id_' + isbn13).value.blank())
+          url = '<%=update_from_douban_taobao_books_path%>'; 
+        new Ajax.Request(url, 
             {
               method : 'post',
               asynchronous:true, 
@@ -92,9 +97,12 @@ var book_price_num_listener = function(evt,isbn13,type) {
               onComplete : function() {$('ajax_' + isbn13).hide();},
               parameters:Form.serialize($('upload_taobao_book_form')) + 
               "&" + Object.toQueryString(com.strongu.util.object_to_hash(the_douban_book,"douban_book")) + 
-              "&" + Object.toQueryString(get_update_attrs())
+              "&" + Object.toQueryString(get_update_attrs()) +
+              '&' + 'id=' + $('taobao_id_' + isbn13).value
 }); 
         },window);
+
+    $('btn_batch_upload').removeClassName('disabled');
   };
 
 </script>

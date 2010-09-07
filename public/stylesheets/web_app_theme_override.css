@@ -18,6 +18,7 @@
 .back-light-gray { background: #f8f8f8; }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
+#search_form .textInput { font-size: 1.4em; }
 #selector_wrap {
   position: relative;
   text-align: center;

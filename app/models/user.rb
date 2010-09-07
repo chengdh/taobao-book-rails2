@@ -22,8 +22,11 @@ class User < ActiveRecord::Base
     user.id = remote_user.user_id
     user.user_type = remote_user.type
     #同步location
+    user.user_location.destroy unless user.user_location.blank?
     user.syn_location(remote_user.location)
     #同步buyer_credit及seller_credit
+    user.buyer_credit.destroy unless user.buyer_credit.blank?
+    user.seller_credit.destroy unless user.seller_credit.blank?
     user.buyer_credit = user.syn_credit(remote_user.buyer_credit)
     user.seller_credit = user.syn_credit(remote_user.seller_credit)
     user.save

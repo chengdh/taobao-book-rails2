@@ -161,13 +161,17 @@ class BaseItem < ActiveRecord::Base
     else
       taobao_method = "taobao.item.update"
     end
-    remote_item = sess.invoke(taobao_method,updated_values).first
-    #重新设置本地taobao对象的pic_url
-    pic_url = BaseItem.get_pic_url(sess,remote_item.num_iid)
-    self.pic_url = pic_url
-    self.id = remote_item.num_iid
-    self.iid = remote_item.iid
-  end
+    remote_item = sess.invoke(taobao_method,updated_values)
+    if remote_item.is_a? Taobao::ErrorRsp
+      raise "taobao remote service error"
+    else
+      #重新设置本地taobao对象的pic_url
+      pic_url = BaseItem.get_pic_url(sess,remote_item.first.num_iid)
+      self.pic_url = pic_url
+      self.id = remote_item.first.num_iid
+      self.iid = remote_item.first.iid
+    end
+   end
   #组装props字段
   def props
   end
