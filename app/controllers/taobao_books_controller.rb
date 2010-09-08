@@ -2,7 +2,7 @@ require 'open-uri'
 class TaobaoBooksController < BaseController
   def index
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
-    @taobao_books_ids = @search.all(:select => "num_iid",:order => "created_at DESC").collect {|book| book.id }
+    @taobao_books_ids = @search.all(:select => "items.num_iid",:order => "items.created_at DESC").collect {|book| book.id }
     #从豆瓣查询对应的书籍信息
     @douban_books = Hash.new
     #根据isbn查找书籍
@@ -12,10 +12,51 @@ class TaobaoBooksController < BaseController
       @douban_books[book.id] = douban_book if !douban_book.blank?
     end
   end
+  #根据传入的ISBN编号,从豆瓣查书
+  #GET /taobao_books/index_douban
+  def index_douban
+    isbns = params[:isbns]
+    #从豆瓣查询对应的书籍信息
+    @douban_books = Array.new
+    #根据isbn查找书籍
+    douban = Douban::Douban.new
+    isbns.each do |isbn|
+      if !isbn.blank?
+        douban_book = douban.get_book(isbn)
+        @douban_books.push douban_book if !douban_book.blank?
+      end
+    end
+    @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
+  end
+  #显示从豆瓣查询书籍界面
+  #GET /taobao_books/show_search
+  def show_search
+  end
+  #批量更新宝贝信息
+  #PUT taobao_books/batch_update
+  def batch_update
+    @taobao_book = TaobaoBook.find(params[:id])
+    update_success = true
+    begin
+      set_batch_update(@taobao_book)
+      flash[:notice] = "#{@taobao_book.title}信息更新成功."
+    rescue
+      update_success = false
+      flash[:error] = "#{@taobao_book.title}信息更新失败."
+    end
+    respond_to do |format|
+      format.js do 
+        if update_success
+          render :partial => "batch_update_success.rjs",:locals => {:taobao_book => @taobao_book}
+        else
+          render :partial => "batch_update_failure.rjs",:locals => {:taobao_book => @taobao_book}
+        end
+      end
+    end
+  end
   #从豆瓣更新宝贝信息
   #PUT /taobao_book/:id/update_from_douban
   def update_from_douban
-
     @taobao_book = TaobaoBook.find(params[:id])
     upload_success = true
     begin
@@ -34,27 +75,6 @@ class TaobaoBooksController < BaseController
         end
       end
     end
-
-  end
-  #显示从豆瓣查询书籍界面
-  #GET /taobao_books/show_search
-  def show_search
-  end
-  #根据传入的ISBN编号,从豆瓣查书
-  #GET /taobao_books/index_douban
-  def index_douban
-    isbns = params[:isbns]
-    #从豆瓣查询对应的书籍信息
-    @douban_books = Array.new
-    #根据isbn查找书籍
-    douban = Douban::Douban.new
-    isbns.each do |isbn|
-      if !isbn.blank?
-        douban_book = douban.get_book(isbn)
-        @douban_books.push douban_book if !douban_book.blank?
-      end
-    end
-    @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
   end
   #批量上传书籍信息
   #POST taobao_books/upload_items
@@ -93,16 +113,10 @@ class TaobaoBooksController < BaseController
     taobao_book.desc = params[:douban_book][:summary] if select_attrs.include?("summary")
     #价格,豆瓣返回的价格带有汉字,需要解析处理
     price = params[:douban_book][:price].scan(/\d{1,10}\.?\d{0,2}/).first if !params[:douban_book][:price].blank?
-    taobao_book.price = price if select_attrs.include?("price")
+    taobao_book.price = price
     taobao_book.num = params[:douban_book][:num]
     #书名
     taobao_book.title = params[:douban_book][:title] if select_attrs.include?("summary")
-    #封面图片
-    cover = nil
-    if select_attrs.include?("image") and !params[:douban_book][:image].blank?
-      cover = get_remote_pic(params[:douban_book][:image])
-    end
-
   end
   #根据传入的参数设置taobao_book的公用属性
   def set_public_attr(taobao_book)
@@ -111,13 +125,17 @@ class TaobaoBooksController < BaseController
     taobao_book.state = LocalArea.find(params[:taobao_book][:state]).name
     taobao_book.city = LocalArea.find(params[:taobao_book][:city]).name
     taobao_book.freight_payer = params[:taobao_book][:freight_payer]
-    if params[:taobao_book][:post_fee_type] == 'postage_tmp'
-      taobao_book.postage_id = params[:taobao_book][:postage_id]
-    else
-      taobao_book.post_fee = params[:taobao_book][:post_fee]
-      taobao_book.express_fee = params[:taobao_book][:express_fee]
-      taobao_book.ems_fee = params[:taobao_book][:ems_fee]
+
+    if params[:taobao_book][:freight_payer] == 'buyer'
+      if params[:taobao_book][:post_fee_type] == 'postage_tmp'
+        taobao_book.postage_id = params[:taobao_book][:postage_id]
+      else
+        taobao_book.post_fee = params[:taobao_book][:post_fee]
+        taobao_book.express_fee = params[:taobao_book][:express_fee]
+        taobao_book.ems_fee = params[:taobao_book][:ems_fee]
+      end
     end
+
     taobao_book.list_time = nil if params[:taobao_book][:list_time_type] == 'immidiate'
     taobao_book.list_time =  params[:taobao_book][:list_time] if params[:taobao_book][:list_time_type] == 'config'
 
@@ -128,8 +146,8 @@ class TaobaoBooksController < BaseController
   end
   #保存书籍信息到淘宝
   def savebook2taobao(taobao_book)
-    set_public_attr(taobao_book)
-    set_douban_attr(taobao_book)
+    set_public_attr(taobao_book) unless params[:taobao_book].blank?
+    set_douban_attr(taobao_book) unless params[:douban_book].blank?
     #封面图片
     cover = nil
     if params[:select_attrs].include?("image") and !params[:douban_book][:image].blank?
@@ -145,6 +163,41 @@ class TaobaoBooksController < BaseController
       @taobao_book.save2taobao(sess)
     end
     @taobao_book.save
+  end
+  #设置批量更新操作
+  def set_batch_update(taobao_book)
+    #只更新选定的宝贝属性
+    select_attr = params[:batch_update]
+    #标题前后缀
+    taobao_book.title = params[:pub_book_attr][:pre_title] + @taobao_book.title if select_attr.include?("pre_title") and !params[:pub_book_attr][:pre_title].blank?
+    taobao_book.title = @taobao_book.title + params[:pub_book_attr][:after_title]  if select_attr.include?("after_title") and !params[:pub_book_attr][:after_title].blank?
+    #价格
+    taobao_book.price = params[:taobao_book][:price] if select_attr.include?("price") and !params[:taobao_book][:price].blank?
+
+    #数量
+    taobao_book.num = params[:taobao_book][:num] if select_attr.include?("num") and !params[:taobao_book][:num].blank?
+
+    #运费
+
+    taobao_book.freight_payer = params[:pub_book_attr][:freight_payer]
+    if params[:pub_book_attr][:freight_payer] == 'buyer'
+
+      if params[:pub_book_attr][:post_fee_type] == 'postage_tmp'
+        taobao_book.postage_id = params[:pub_book_attr][:postage_id]
+      else
+        taobao_book.post_fee = params[:pub_book_attr][:post_fee]
+        taobao_book.express_fee = params[:pub_book_attr][:express_fee]
+        taobao_book.ems_fee = params[:pub_book_attr][:ems_fee]
+      end
+    end
+    #所属类目
+    taobao_book.item_seller_cats.build(:cid => params[:pub_book_attr][:seller_cids])
+
+    #FIXME 测试用,手工设置了session
+    sess = Taobao::SessionKey.get_session('chengqi')
+    taobao_book.save2taobao(sess)
+    taobao_book.save
+
   end
   #下载远程服务器图片
   def get_remote_pic(url)

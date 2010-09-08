@@ -198,8 +198,8 @@ class BaseItem < ActiveRecord::Base
     updated_values["location.city"] = "郑州"
 
     #TODO 暂时注释
-    #updated_values["input_pids"] = input_pids
-    #updated_values["input_str"] = input_str
+    updated_values["input_pids"] = input_pids
+    updated_values["input_str"] = input_str
     updated_values["props"] = props
     updated_values.delete("item_type")
     updated_values.delete("state")

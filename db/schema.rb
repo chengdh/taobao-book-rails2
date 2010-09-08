@@ -91,11 +91,11 @@ ActiveRecord::Schema.define(:version => 20100903092809) do
     t.decimal  "post_fee",                           :precision => 15, :scale => 2
     t.decimal  "express_fee",                        :precision => 15, :scale => 2
     t.decimal  "ems_fee",                            :precision => 15, :scale => 2
-    t.boolean  "has_discount",                                                      :default => true
+    t.boolean  "has_discount",                                                      :default => false
     t.string   "freight_payer",                                                     :default => "seller", :null => false
-    t.boolean  "has_invoice",                                                       :default => true
-    t.boolean  "has_warranty",                                                      :default => true
-    t.boolean  "has_showcase",                                                      :default => true
+    t.boolean  "has_invoice",                                                       :default => false
+    t.boolean  "has_warranty",                                                      :default => false
+    t.boolean  "has_showcase",                                                      :default => false
     t.datetime "modified"
     t.boolean  "auto_repost",                                                       :default => true
     t.string   "approve_status",                                                    :default => "onsale"

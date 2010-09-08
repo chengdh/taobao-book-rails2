@@ -1,58 +1,52 @@
 <div class='douban-book' id='book_<%= douban_book.isbn13 %>' style='display : none;' >
-  <h2><%= douban_book.title %></h2>
-  <div class='wat-cf'>
-    <%= image_tag douban_book.image,:class => 'book-image' %>
-    <table class='book-attrs'>
-      <tr>
-        <td>作者:</td>
-        <td><%= douban_book.author %></td>
-      </tr>
-      <tr>
-        <td>ISBN10:</td>
-        <td><%= douban_book.isbn10 %></td>
-      </tr>
+  <% remote_form_for douban_book,
+    :url => book.blank? ? upload_item_taobao_books_path : update_from_douban_taobao_books_path,
+    :before => "Modalbox.hide();$('ajax_#{douban_book.isbn13}').show()",
+    :complete => "$('ajax_#{douban_book.isbn13}').hide()",
+    :html => {:method => :post ,:id => "douban_book_form_#{douban_book.isbn13}"} do |f| %>
+    <%=hidden_field_tag :id,book.blank? ? nil : book.id %>
+    <%=f.hidden_field :image %>
 
-      <tr>
-        <td>ISBN13:</td>
-        <td><%= douban_book.isbn13 %></td>
-      </tr>
-      <tr>
-        <td>页数:</td>
-        <td><%= douban_book.pages %></td>
-      </tr>
-      <tr>
-        <td>定价:</td>
-        <td><%= douban_book.price %></td>
-      </tr>
-      <tr>
-        <td>出版社:</td>
-        <td><%= douban_book.publisher %></td>
-      </tr>
-      <tr>
-        <td>出版时间:</td>
-        <td><%= douban_book.pubdate %></td>
-      </tr>
-      <tr>
-        <td>装帧:</td>
-        <td><%= douban_book.binding %></td>
-      </tr>
-    </table>
-    <% if show_operate %>
-      <div class='operates'>
-        <%remote_form_for douban_book,:url => book.blank? ? upload_item_taobao_books_path : update_from_douban_taobao_books_path,
-          :html => {:method => :put ,:id => "douban_book_form_#{douban_book.isbn13}"} do |f| %>
-          <%=hidden_field_tag :id,book.blank? ? nil : book.id %>
-          <%= f.hidden_field :title %>
-          <%= f.hidden_field :isbn13 %>
-          <%= f.hidden_field :author %>
-          <%= f.hidden_field :image %>
-          <%= f.hidden_field :publisher %>
-          <%= f.hidden_field :pubdate %>
-          <%= f.hidden_field :pages %>
-          <%= f.hidden_field :price %>
-          <%= f.hidden_field :summary %>
-          <%= f.hidden_field :binding %>
-          <%= f.hidden_field :author_intro %>
+    <h2><%= f.text_field :title, :style => 'font-size : 1.3em;' %></h2>
+    <div class='wat-cf'>
+      <%= image_tag douban_book.image,:class => 'book-image' %>
+      <table class='book-attrs'>
+        <tr>
+          <td>作者:</td>
+          <td><%= f.text_field :author %></td>
+        </tr>
+        <tr>
+          <td>ISBN10:</td>
+          <td><%= f.text_field :isbn10 %></td>
+        </tr>
+
+        <tr>
+          <td>ISBN13:</td>
+          <td><%= f.text_field :isbn13 %></td>
+        </tr>
+        <tr>
+          <td>页数:</td>
+          <td><%= f.text_field :pages %></td>
+        </tr>
+        <tr>
+          <td>定价:</td>
+          <td><%= f.text_field :price %></td>
+        </tr>
+        <tr>
+          <td>出版社:</td>
+          <td><%= f.text_field :publisher %></td>
+        </tr>
+        <tr>
+          <td>出版时间:</td>
+          <td><%= f.text_field :pubdate %></td>
+        </tr>
+        <tr>
+          <td>装帧:</td>
+          <td><%= f.text_field :binding %></td>
+        </tr>
+      </table>
+      <% if show_operate %>
+        <div class='operates'>
           <table class='select-attrs'>
             <tr>
               <td><%= check_box_tag "select_attrs[]","title",true %><%=label_tag "select_attrs[title]","书名" %></td>
@@ -79,19 +73,13 @@
               <td></td>
             </tr>
           </table>
-        <% end %>
-
-        <%= link_to_function  "更新宝贝信息","$('douban_book_form_#{douban_book.isbn13}').submit()", :class => 'sexybutton sexysimple sexyblue' %>
-        <%= link_to "先保存到收藏夹", "" ,:class => 'sexybutton sexysimple sexyblue'%>
-      </div>
-    <% end %>
-  </div>
-  <h3 class='border-bottom'>书籍介绍</h3>
-  <p>
-    <%= douban_book.summary %>
-  </p>
-  <h3 class='border-bottom'>作者介绍</h3>
-  <p>
-    <%=douban_book.author_intro  %>
-  </p>
+          <%= f.submit  "更新到淘宝...", :id =>'btn_submit' ,:class => 'sexybutton sexysimple sexyblue' %>
+        </div>
+      <% end %>
+    </div>
+    <h3 class='border-bottom'>书籍介绍</h3>
+    <%= f.text_area :summary,:size => "65x10" %>
+    <h3 class='border-bottom'>作者介绍</h3>
+    <%=f.text_area :author_intro,:size => "65x10" %>
+  <% end %>
 </div>

@@ -1,0 +1,61 @@
+<% form_remote_tag :url => {:action => :upload_item},:html => {:id =>'batch_update_form',:class => "uniForm"} do %>
+  <fieldset class="blockLabels">
+    <div class='ctrlHolder' >
+      <%= check_box_tag "batch_update[]","pre_title",true %>标题前缀:
+      <%= label_tag "pub_book_attr[pre_title]","" %>
+      <%= text_field_tag "pub_book_attr[pre_title]",nil,:class =>'textInput' %>
+    </div>
+    <div class='ctrlHolder' >
+      <%= check_box_tag "batch_update[]","after_title",true %>标题后缀:
+      <%= label_tag "pub_book_attr[after_title]","" %>
+      <%= text_field_tag "pub_book_attr[after_title]",nil,:class => 'textInput' %>
+    </div>
+    <div class='ctrlHolder' >
+      <%= check_box_tag "batch_update[]","price",true %>更新价格
+    </div>
+    <div class='ctrlHolder' >
+      <%= check_box_tag "batch_update[]","num",true %>更新数量
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= check_box_tag "batch_update[]","pre_title",true %>运费:
+      <%= label_tag "pub_book_attr[freight_payer]","" %>
+    </div>
+    <div class='ctrlHolder' >
+      <%= radio_button_tag "pub_book_attr[freight_payer]","seller",true,:onclick => " if(this.checked) $('post_fee_wrap').hide()" %>卖家承担运费
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= radio_button_tag "pub_book_attr[freight_payer]","buyer",false,:onclick => " if(this.checked) $('post_fee_wrap').show()" %>
+      买家承担运费
+    </div>
+    <div id='post_fee_wrap' class='back-light-gray' style='display : none;'>
+      <div class='ctrlHolder'>
+        <label>
+          <%= radio_button_tag "pub_book_attr[post_fee_type]", "postage_tmp" %>
+          使用运费模板
+        </label>
+        <%= select_tag "pub_book_attr[postage_id]",options_postages_for_select %>
+      </div>
+
+      <div class='ctrlHolder'>
+        <%= radio_button_tag "pub_book_attr[post_fee_type]", "normal",true %>
+        平邮:
+        <%= text_field_tag "pub_book_attr[post_fee]",10,:class => 'very-short-text' %>
+        快递:
+        <%= text_field_tag "pub_book_attr[express_fee]",20,:class => 'very-short-text' %>
+        EMS:
+        <%= text_field_tag "pub_book_attr[ems_fee]",30,:class => 'very-short-text' %>
+      </div>
+    </div>
+
+    <div class='ctrlHolder' >
+      <%= check_box_tag "batch_update[]","pre_title",true %>所属店铺类目:
+      <%= label_tag "pub_book_attr[seller_cids]","" %>
+      <%= select_tag "pub_book_attr[seller_cids]",option_groups_seller_cats_for_select %>
+    </div>
+  </fieldset>
+  <div class='actions-bar'>
+    <%=link_to_function "批量更新选定宝贝信息","batch_update()",:class => 'sexybutton sexysimple sexybig sexyblue'%>
+  </div>
+<% end%>

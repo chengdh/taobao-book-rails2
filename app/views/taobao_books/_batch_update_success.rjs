@@ -1,0 +1,9 @@
+flash_info = ""
+flash.each do |type, message| 
+  flash_info +="<div class='message #{type}'><p>#{message}</p></div>"
+end 
+#清空flash
+flash.clear
+page[:flash].update(flash_info)
+page["failure_#{taobao_book.id}"].hide
+page["ok_#{taobao_book.id}"].show

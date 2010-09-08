@@ -49,9 +49,13 @@ class TaobaoBook < BaseItem
   end
   def input_pids
     self.item_pvs.collect {|pv| pv.pid}.join(',')
+    #TODO 暂时注释
+    ""
   end
   def input_str
     self.item_pvs.collect {|pv| pv.name}.join(',')
+    #TODO 暂时注释
+    ""
   end
 
   #获取或设置商品属性
@@ -65,15 +69,15 @@ class TaobaoBook < BaseItem
     end
   end
   def set_prop(pid,pname,pvalue)
-    item_pv = ItemPv.new
+    item_pv = ItemPv.new 
     if self.item_pvs.exists?(:pid => pid)
       item_pv = self.item_pvs.all(:conditions => {:pid => pid}).first
+    else
+      self.item_pvs << item_pv
     end
     item_pv.pid = pid
     item_pv.prop_name = pname
     item_pv.name = pvalue
     item_pv.name_alias = pvalue
-    item_pv.base_item = self
   end
-  #根据ISBN得到书籍id
 end

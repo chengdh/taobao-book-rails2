@@ -1,0 +1,15 @@
+<% form_for @search,:html => {:class => "uniForm"} do |f| %>
+  <fieldset class="blockLabels">
+    <div class='ctrlHolder' >
+      <%= f.label "title_like","宝贝标题" %>
+      <%= f.text_field "title_like",:class =>'textInput' %>
+    </div>
+    <div class='ctrlHolder' >
+      <%= f.label "seller_cats_cid_is","所属店铺分类" %>
+      <%= f.select "seller_cats_cid_is",option_groups_seller_cats_for_select,:include_blank => true %>
+    </div>
+  </fieldset>
+  <div class='actions-bar'>
+    <%= f.submit  "查询宝贝",:class => 'sexybutton sexysimple sexyblue' %>
+  </div>
+<% end%>

@@ -37,7 +37,8 @@ var book_price_num_listener = function(evt,isbn13,type) {
       <div class='actions-bar border-bottom'>
         <label>选择更新项目:</label>
         <%= check_box_tag "title","title",true %><%=label_tag "title","书名" %>
-        <%= check_box_tag "isbn13","isbn13",true %><%=label_tag  "isbn13","ISBN" %>
+        <%= check_box_tag "isbn13","isbn13",true %><%=label_tag  "isbn13","ISBN-13" %>
+        <%= check_box_tag "isbn10","isbn10",true %><%=label_tag  "isbn10","ISBN-10" %>
         <%= check_box_tag  "author","author",true  %><%=label_tag "author","作者" %>
         <%= check_box_tag  "image","image",true  %><%=label_tag  "image","封面图片" %>
         <%= check_box_tag  "publisher","publisher",true  %><%=label_tag  "publisher","出版社" %>
@@ -72,7 +73,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
   selector.add_check_listener('items_list');
   //获取用户选择的要更新的属性
   var get_update_attrs = function() {
-    var els = $$("#title,#isbn13,#author,#image,#publisher,#pubdate,#pages,#price,#binding,#summary,#author_intro");
+    var els = $$("#title,#isbn13,#isbn10,#author,#image,#publisher,#pubdate,#pages,#price,#binding,#summary,#author_intro");
     var select_els = els.findAll(function(el){ return el.checked;})
     var update_attrs = select_els.collect(function(el) {return el.value;});
     return {"select_attrs[]" : update_attrs};
