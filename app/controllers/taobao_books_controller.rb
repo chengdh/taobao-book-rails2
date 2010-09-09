@@ -28,10 +28,6 @@ class TaobaoBooksController < BaseController
     end
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
   end
-  #显示从豆瓣查询书籍界面
-  #GET /taobao_books/show_search
-  def show_search
-  end
   #批量更新宝贝信息
   #PUT taobao_books/batch_update
   def batch_update

@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.resources :syn_taobao_datas,:only => :index,:collection => {:syn_page => :get,:syn => :post }
+
   map.resources :item_cats,:collection => {:children => :get}
 
   map.resources :local_areas,:collection => {:children => :get}
@@ -61,4 +63,5 @@ ActionController::Routing::Routes.draw do |map|
   # consider removing or commenting them out if you're using named routes and resources.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
+  map.root :controller => "taobao_books",:action => "search_douban"
 end

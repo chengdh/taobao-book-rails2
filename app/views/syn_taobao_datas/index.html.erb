@@ -1,0 +1,74 @@
+<script type='text/javascript'>
+  //缓存在客户端的taobao_book数组
+  var taobao_books = new Hash();
+  //监听单本书籍价格及数量的变化
+  //type price 或 num
+  var book_price_num_listener = function(evt,book_id,type) {
+    var el = Event.element(evt);
+    taobao_book = taobao_books.get(book_id);
+    if(type == 'price')
+      taobao_book.price = el.value;
+    else
+      taobao_book.num = el.value;
+};
+
+</script>
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to "宝贝信息列表", taobao_books_path %></li>
+      <li><%= link_to "手动数据同步", taobao_books_path %></li>
+    </ul>
+  </div>          
+  <div class="content">          
+    <h2 class="title">宝贝信息列表</h2>
+    <div class="inner">
+      <div class="actions-bar border-bottom" id='selector_wrap'>
+        <div id='selector'>
+          <%= link_to_function "全选","selector.select_all(true)" %>
+          &nbsp;|&nbsp;
+          <%= link_to_function "不选","selector.select_all(false)"  %>
+        </div>
+        <span id='select_des'>选定书籍,可批量更新其信息...</span>
+        <div id='btn_wrap'>
+        </div>
+      </div>
+      <table class="table" id='items_list'>
+        <%= render @taobao_books %>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+        <%= will_paginate @taobao_books %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, render(:partial => 'side_bar_index') -%>
+<script type='text/javascript'>
+  selector = new com.strongu.Selector(<%= @taobao_books_ids.to_json %>,'select_des');
+  selector.add_check_listener('items_list');
+  //批量更新
+  var batch_update = function(){
+    //设置需要更新的属性列表,默认更新全部
+    selector.selected_ids().each(function(book_id){
+        var the_book = taobao_books.get(book_id);
+        //发起ajax请求
+        //判断是新增还是更新
+        var url = '<%=batch_update_taobao_books_path%>';
+        new Ajax.Request(url, 
+            {
+              method : 'put',
+              asynchronous:true, 
+              evalScripts:true, 
+              onCreate : function() {$('ajax_' + book_id).show();},
+              onComplete : function() {$('ajax_' + book_id).hide();},
+              parameters:Form.serialize($('batch_update_form')) + 
+              "&" + Object.toQueryString(com.strongu.util.object_to_hash(the_book,"taobao_book")) + 
+              '&' + 'id=' + book_id 
+}); 
+        },window);
+  };
+
+</script>
+</script>

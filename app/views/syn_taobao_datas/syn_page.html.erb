@@ -1,0 +1,29 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to_function "数据同步", "" %></li>
+    </ul>
+  </div>    
+  <div class="content">          
+    <h2 class="title">&nbsp;</h2>
+    <div class="inner">
+      <div class='text-center'>
+        <h3>正在从淘宝同步数据,请稍候...</h3>
+        <%=image_tag "ajax_loading64.gif"%>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, render('side_bar') %>
+<script type='text/javascript'>
+  //发起ajax同步请求
+    var url = '<%=syn_syn_taobao_datas_path%>';
+    new Ajax.Request(url, 
+            {
+              method : 'post',
+              asynchronous:true, 
+              evalScripts:true,
+              parameters : {increment : true}
+              }); 
+
+</script>

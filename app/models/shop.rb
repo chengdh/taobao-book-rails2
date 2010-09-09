@@ -4,7 +4,10 @@ class Shop < ActiveRecord::Base
   has_one :shop_score,:foreign_key => "sid"
   has_many :seller_cats,:foreign_key => "sid"
   #数据同步
-  def self.synchronize(sess,nick)
+  def self.synchronize(sess)
+    nick = sess.top_params["visitor_nick"]
+    #FIXME 沙箱有问题,返回的visitor_nick不正确
+    nick = 'chengqi'
     remote_shop = sess.invoke('taobao.shop.get','fields' => Taobao::Shop.fields,'nick' => nick).first
     the_shop = Shop.new
     the_shop = Shop.find(remote_shop.sid) if Shop.exists?(remote_shop.sid)

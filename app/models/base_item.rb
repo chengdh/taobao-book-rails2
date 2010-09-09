@@ -48,12 +48,44 @@ class BaseItem < ActiveRecord::Base
   #同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   def self.synchronize(sess)
-    items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'session' => sess.session_key)
+    page_size = 40
+    page_no = 1
+    items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'page_no' => page_no,'page_size' =>page_size,'session' => sess.session_key)
+    total_results = items.total_results.to_i
+    total_page = total_page(total_results,page_size)
     item_fields = Taobao::Item.fields +  ',item_img,sku'
-    items.each do |the_item|
-      synchronize_single(sess,the_item.num_iid)
+    #循环调用
+    (1..total_page).each do |pn|
+      items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
+      items.each do |the_item|
+        synchronize_single(sess,the_item.num_iid)
+      end
     end
   end
+  #使用增量API同步当前登录用户的在售商品信息
+  #需要sessionkey登录验证
+  def self.synchronize_increment(sess)
+    page_size = 40
+    nick = sess.top_param['visitor_nick']
+    start_modified = SynLog.find(nick).last_syn_tim.strftime('%Y-%m-%d %H:%M:%S')
+    end_modified = DateTime.now.strftime('%Y-%m-%d %H:%M:%S')
+
+    items = sess.invoke("taobao.increment.items.get",'nick' => nick,'start_modified' => start_modified,'end_modified' => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
+    total_results = items.total_results.to_i
+    total_page = total_page(total_results,page_size)
+    #循环调用
+    (1..total_page).each do |pn|
+      items = sess.invoke("taobao.increment.items.get",'nick' => nick,'start_modified' => start_modified,'end_modified' => end_modified,'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
+      items.each do |the_item|
+        if the_item.status == 'ItemDelete'  #删除被删除的数据
+          self.destroy(the_item.num_iid)
+        else
+          synchronize_single(sess,the_item.num_iid)
+        end
+      end
+    end
+  end
+
   #得到商品的主图信息,因为如果更新数据到淘宝后,其pic_url会变化
   def self.get_pic_url(sess,num_iid)
     remote_item = sess.invoke("taobao.item.get","fields" => 'iid,num_iid,pic_url' ,"num_iid" => num_iid).first
@@ -171,7 +203,7 @@ class BaseItem < ActiveRecord::Base
       self.id = remote_item.first.num_iid
       self.iid = remote_item.first.iid
     end
-   end
+  end
   #组装props字段
   def props
   end
@@ -209,5 +241,12 @@ class BaseItem < ActiveRecord::Base
     updated_values.delete("created_at")
     updated_values.delete("updated_at")
     updated_values
+  end
+  #根据记录总数计算总页数
+  def self.total_page(total_results,per_page)
+    rest = total_results % per_page
+    total_page = total_results / per_page
+    total_page += 1 if rest > 0
+    total_page
   end
 end

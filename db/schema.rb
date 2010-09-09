@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100903092809) do
+ActiveRecord::Schema.define(:version => 20100909001429) do
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -221,6 +221,12 @@ ActiveRecord::Schema.define(:version => 20100903092809) do
     t.datetime "created"
     t.datetime "modified"
     t.string   "status",     :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "syn_logs", :primary_key => "nick", :force => true do |t|
+    t.datetime "last_syn_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
