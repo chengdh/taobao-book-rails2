@@ -31,6 +31,12 @@ require "taobao/models/sku"
 require "taobao/models/postage"
 require "taobao/models/postage_mode"
 require "taobao/models/area"
+require "taobao/models/notify_info"
+require "taobao/models/notify_refund"
+require "taobao/models/notify_trade"
+require "taobao/models/authorize_message"
+require "taobao/models/subscription"
+require "taobao/models/subscribe_message"
 require "taobao/rails/controller"
 
 module Taobao

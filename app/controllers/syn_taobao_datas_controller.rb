@@ -27,6 +27,10 @@ class SynTaobaoDatasController < ApplicationController
   def syn
     #FIXME 此处为了测试,手工设置了session
     sess = Taobao::SessionKey.get_session('chengqi')
+    #订阅增量信息
+    #FIXME 沙箱不支持增量API
+    SynLog.app_subscribe(sess)
+    SynLog.user_authorize(sess)
     #同步user信息
     User.synchronize(sess)
     #店铺
@@ -36,13 +40,9 @@ class SynTaobaoDatasController < ApplicationController
     #商品(书籍)
     if params[:increment].blank
       TaobaoBook.synchronize(sess)
-      #增量信息订阅
-      #FIXME 沙箱环境不支持增量API
-
     else
       TaobaoBook.synchronize_increment(sess)
     end
-
     syn_log = SynLog.new
     syn_log = SynLog.find(sess.top_params['visitor_nick']) if SynLog.exists?(sess.top_params['visitor_nick'])
     syn_log.last_syn_time = DateTime.now
@@ -54,8 +54,5 @@ class SynTaobaoDatasController < ApplicationController
       end
     else
     end
-  end
-  #使用增量API订阅变更的信息
-  def common_syn
   end
 end

@@ -62,12 +62,27 @@ class BaseItem < ActiveRecord::Base
       end
     end
   end
+  #判断是否有增量商品需要同步
+  def self.has_increment?(sess)
+    page_size = 40
+    nick = sess.top_params['visitor_nick']
+    if !SynLog.exists?(nick)
+      return true
+    end
+    start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
+    end_modified = DateTime.now.strftime('%Y-%m-%d %H:%M:%S')
+
+    items = sess.invoke("taobao.increment.items.get",'nick' => nick,'start_modified' => start_modified,'end_modified' => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
+    total_results = items.total_results.to_i
+    total_results > 0
+
+  end
   #使用增量API同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   def self.synchronize_increment(sess)
     page_size = 40
     nick = sess.top_param['visitor_nick']
-    start_modified = SynLog.find(nick).last_syn_tim.strftime('%Y-%m-%d %H:%M:%S')
+    start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
     end_modified = DateTime.now.strftime('%Y-%m-%d %H:%M:%S')
 
     items = sess.invoke("taobao.increment.items.get",'nick' => nick,'start_modified' => start_modified,'end_modified' => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)

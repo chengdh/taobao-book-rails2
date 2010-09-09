@@ -1,5 +1,6 @@
 require 'open-uri'
 class TaobaoBooksController < BaseController
+  #before_filter :syn_taobao,:only => :search_douban
   def index
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
     @taobao_books_ids = @search.all(:select => "items.num_iid",:order => "items.created_at DESC").collect {|book| book.id }
@@ -203,6 +204,15 @@ class TaobaoBooksController < BaseController
       nil 
     else
       io
+    end
+  end
+  #从淘宝同步数据
+  def syn_taobao
+    #FIXME 此处为测试方便手工设置了session
+    sess = Taobao::SessionKey.get_session('chengqi')
+    nick = sess.top_params['visitor_nick']
+    if TaobaoBook.has_increment?(sess)
+      redirect_to syn_page_syn_taobao_datas_path
     end
   end
 end

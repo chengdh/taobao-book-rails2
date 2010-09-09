@@ -21,14 +21,14 @@
         </div>      
         <div id="main-navigation">
           <ul class="wat-cf"> 
-            <li>
-              <%= link_to '去豆瓣查书',search_douban_taobao_books_path %>
+            <li class = "<%=active_tab('search_douban')%>">
+              <%= link_to '去豆瓣查书',search_douban_taobao_books_path(:active_tab => "search_douban") %>
             </li>
-            <li class="<%= controller.controller_path == 'taobao_books' ? 'active' : '' %>">
-              <%= link_to "宝贝列表", taobao_books_path %>
+            <li class="<%=active_tab('index')%>">
+              <%= link_to "宝贝列表", taobao_books_path(:active_tab => "index")  %>
             </li>
-            <li>
-              <%= link_to '我的收藏',search_douban_taobao_books_path %>
+            <li class="<%=active_tab('marks')%>">
+              <%= link_to '我的收藏',search_douban_taobao_books_path(:active_tab => "marks")   %>
             </li>
 
           </ul>

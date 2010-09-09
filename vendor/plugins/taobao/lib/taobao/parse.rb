@@ -49,7 +49,13 @@ module Taobao
           Taobao::Sku,
           Taobao::Postage,
           Taobao::PostageMode,
-          Taobao::Area
+          Taobao::Area,
+          Taobao::NotifyInfo,
+          Taobao::NotifyRefund,
+          Taobao::NotifyTrade,
+          Taobao::Subscription,
+          Taobao::SubscribeMessage,
+          Taobao::AuthorizeMessage
 
         ]
       end
@@ -80,7 +86,12 @@ module Taobao
           "skus" => TotalArray,
           "postages" => TotalArray,
           "postage_modes" => TotalArray,
-          "areas" => TotalArray
+          "areas" => TotalArray,
+          "subscriptons" => TotalArray,
+          "notify_infos" => TotalArray,
+          "notify_items" => TotalArray,
+          "notify_refunds" => TotalArray,
+          "notify_trades" => TotalArray
         }
       end
 

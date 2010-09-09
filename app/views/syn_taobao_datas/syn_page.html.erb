@@ -17,13 +17,12 @@
 <% content_for :sidebar, render('side_bar') %>
 <script type='text/javascript'>
   //发起ajax同步请求
-    var url = '<%=syn_syn_taobao_datas_path%>';
-    new Ajax.Request(url, 
-            {
-              method : 'post',
-              asynchronous:true, 
-              evalScripts:true,
-              parameters : {increment : true}
-              }); 
-
+  var url = '<%=syn_syn_taobao_datas_path%>';
+  new Ajax.Request(url, 
+      {
+        method : 'post',
+        asynchronous:true, 
+        evalScripts:true,
+        parameters : {increment : true}
+        }); 
 </script>
