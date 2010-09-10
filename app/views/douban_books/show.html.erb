@@ -1,0 +1,99 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", douban_books_path  %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_douban_book_path %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", douban_book_path %></li>
+    </ul>
+  </div>          
+  <div class="content">
+    <div class="inner">
+      
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.nick", :default => t("activerecord.labels.nick", :default => "Nick")) %>:</b>
+          <%= @douban_book.nick %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.title", :default => t("activerecord.labels.title", :default => "Title")) %>:</b>
+          <%= @douban_book.title %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.subtitle", :default => t("activerecord.labels.subtitle", :default => "Subtitle")) %>:</b>
+          <%= @douban_book.subtitle %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.aka", :default => t("activerecord.labels.aka", :default => "Aka")) %>:</b>
+          <%= @douban_book.aka %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.image", :default => t("activerecord.labels.image", :default => "Image")) %>:</b>
+          <%= @douban_book.image %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.author", :default => t("activerecord.labels.author", :default => "Author")) %>:</b>
+          <%= @douban_book.author %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.isbn10", :default => t("activerecord.labels.isbn10", :default => "Isbn10")) %>:</b>
+          <%= @douban_book.isbn10 %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.isbn13", :default => t("activerecord.labels.isbn13", :default => "Isbn13")) %>:</b>
+          <%= @douban_book.isbn13 %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.pubdate", :default => t("activerecord.labels.pubdate", :default => "Pubdate")) %>:</b>
+          <%= @douban_book.pubdate %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.pages", :default => t("activerecord.labels.pages", :default => "Pages")) %>:</b>
+          <%= @douban_book.pages %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.translator", :default => t("activerecord.labels.translator", :default => "Translator")) %>:</b>
+          <%= @douban_book.translator %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.price", :default => t("activerecord.labels.price", :default => "Price")) %>:</b>
+          <%= @douban_book.price %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.publisher", :default => t("activerecord.labels.publisher", :default => "Publisher")) %>:</b>
+          <%= @douban_book.publisher %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.binding", :default => t("activerecord.labels.binding", :default => "Binding")) %>:</b>
+          <%= @douban_book.binding %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.author_intro", :default => t("activerecord.labels.author_intro", :default => "Author intro")) %>:</b>
+          <%= @douban_book.author_intro %>
+        </p>
+
+        <p>
+          <b><%= t("activerecord.attributes.douban_book.summary", :default => t("activerecord.labels.summary", :default => "Summary")) %>:</b>
+          <%= @douban_book.summary %>
+        </p>
+      <div class="wat-cf">
+        <%= link_to "#{image_tag("web-app-theme/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}")} #{t("web-app-theme.edit", :default=> "Edit")}", edit_douban_book_path(@douban_book), :class => "button" %> 
+        <%= link_to "#{image_tag("web-app-theme/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}")} #{t("web-app-theme.delete", :default => "Delete")}", douban_book_path(@douban_book), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

@@ -7,7 +7,6 @@
 <tr class="<%= cycle("odd", "even") %>">
   <td>
     <% if !douban_book.blank?%>
-      <%=hidden_field_tag "taobao_id_#{douban_book.isbn13}"%>
       <%=image_tag "ajax.gif",:alt => "上传中...",:size =>"16x16",:id => "ajax_#{douban_book.isbn13}",:style => 'display : none;'%>
       <%=image_tag "ok.gif",:alt => "成功",:size =>"16x16",:id => "ok_#{douban_book.isbn13}",:style => 'display : none;'%>
       <%=image_tag "failure.gif",:alt => "失败",:size =>"16x16",:id => "failure_#{douban_book.isbn13}",:style => 'display : none;'%>
@@ -33,7 +32,7 @@
   </td>
   <td>
     <%= douban_book.blank? ? '' : link_to_function('豆瓣上也有它...',"Modalbox.show($('book_#{douban_book.isbn13}'),{title : '#{douban_book.title}',width : 700,height : 600})",:class => 'sexybutton sexysimple sexygreen') %>
-    <%= render "douban_book_show",:book =>taobao_book ,:show_operate => true,:douban_book => douban_book if !douban_book.blank?  %>
+    <%= render "shared/douban_book_show",:taobao_book =>taobao_book ,:show_operate => true,:douban_book => douban_book if !douban_book.blank?  %>
   </td>
   <td>
     价格

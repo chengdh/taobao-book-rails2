@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :douban_books
+
 
   map.resources :syn_taobao_datas,:only => :index,:collection => {:syn_page => :get,:syn => :post }
 

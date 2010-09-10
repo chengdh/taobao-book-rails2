@@ -17,7 +17,6 @@
   <div class="secondary-navigation">
     <ul class="wat-cf">
       <li class="first active"><%= link_to "宝贝信息列表", taobao_books_path %></li>
-      <li><%= link_to "手动数据同步", taobao_books_path %></li>
     </ul>
   </div>          
   <div class="content">          
@@ -61,14 +60,14 @@
               method : 'put',
               asynchronous:true, 
               evalScripts:true, 
-              onCreate : function() {$('ajax_' + book_id).show();},
+              onCreate : function() {$('ajax_' + book_id).show();$('ok_' + book_id).hide();$('failure_' + book_id).hide();},
               onComplete : function() {$('ajax_' + book_id).hide();},
+              onSuccess : function() {$('ok_' + book_id).show();$('failure_' + book_id).hide();},
+              onFailure : function() {$('ok_' + book_id).hide();$('failure_' + book_id).show();},
               parameters:Form.serialize($('batch_update_form')) + 
               "&" + Object.toQueryString(com.strongu.util.object_to_hash(the_book,"taobao_book")) + 
               '&' + 'id=' + book_id 
 }); 
         },window);
   };
-
-</script>
 </script>

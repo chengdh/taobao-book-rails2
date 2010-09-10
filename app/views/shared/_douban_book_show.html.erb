@@ -1,10 +1,14 @@
 <div class='douban-book' id='book_<%= douban_book.isbn13 %>' style='display : none;' >
   <% remote_form_for douban_book,
-    :url => book.blank? ? upload_item_taobao_books_path : update_from_douban_taobao_books_path,
+    :url => taobao_book.blank? ? upload_item_taobao_books_path : update_from_douban_taobao_books_path,
     :before => "Modalbox.hide();$('ajax_#{douban_book.isbn13}').show()",
     :complete => "$('ajax_#{douban_book.isbn13}').hide()",
+    :success => "$('ok_#{douban_book.isbn13}').hide()",
+    :failure => "$('failure_#{douban_book.isbn13}').hide()",
     :html => {:method => :post ,:id => "douban_book_form_#{douban_book.isbn13}"} do |f| %>
-    <%=hidden_field_tag :id,book.blank? ? nil : book.id %>
+    <% if !taobao_book.blank? %>
+      <%= hidden_field_tag :id,taobao_book.id %>
+    <% end %>
     <%=f.hidden_field :image %>
 
     <h2><%= f.text_field :title, :style => 'font-size : 1.3em;' %></h2>

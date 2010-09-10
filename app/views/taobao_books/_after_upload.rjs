@@ -1,0 +1,2 @@
+render "shared/update_flash.rjs"
+page["taobao_id_#{params[:douban_book][:isbn13]}"].value = taobao_book.id

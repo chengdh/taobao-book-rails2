@@ -32,6 +32,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
         <span id='select_des'>选定书籍,可以批量上传到淘宝...</span>
         <div id='btn_wrap'>
           <%=link_to_function "上传到淘宝","upload_item()",:id => 'btn_batch_upload',:class => 'sexybutton sexysimple sexybig sexyblue'%>
+          <%=link_to_function "先收藏","save_local()",:id => 'btn_batch_marks',:class => 'sexybutton sexysimple sexybig sexyblue'%>
         </div>
       </div>
       <div class='actions-bar border-bottom'>
@@ -52,12 +53,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
 
       <table class="table" id='items_list'>
         <% @douban_books.each do |douban_book| %>
-          <script type='text/javascript'>
-            var book = <%=douban_book.to_json %>
-          book.num = 100
-          douban_books.set('<%=douban_book.isbn13%>',book)
-          </script>
-          <%= render "douban_book",:douban_book => douban_book %>
+          <%= render "shared/douban_book",:douban_book => douban_book %>
         <% end%>
       </table>
       <div class="actions-bar wat-cf">
@@ -94,8 +90,10 @@ var book_price_num_listener = function(evt,isbn13,type) {
               method : 'post',
               asynchronous:true, 
               evalScripts:true, 
-              onCreate : function() {$('ajax_' + isbn13).show();},
+              onCreate : function() {$('ajax_' + isbn13).show();$('ok_' + isbn13).hide();$('failure_' + isbn13).hide();},
               onComplete : function() {$('ajax_' + isbn13).hide();},
+              onSuccess : function() {$('ok_' + isbn13).show();$('failure_' + isbn13).hide();},
+              onFailure : function() {$('ok_' + isbn13).hide();$('failure_' + isbn13).show();},
               parameters:Form.serialize($('upload_taobao_book_form')) + 
               "&" + Object.toQueryString(com.strongu.util.object_to_hash(the_douban_book,"douban_book")) + 
               "&" + Object.toQueryString(get_update_attrs()) +
@@ -105,5 +103,26 @@ var book_price_num_listener = function(evt,isbn13,type) {
 
     $('btn_batch_upload').removeClassName('disabled');
   };
+  //批量收藏
+  var save_local = function(){
+    $('btn_batch_marks').addClassName('disabled');
+    //设置需要更新的属性列表,默认更新全部
+    selector.selected_ids().each(function(isbn13){
+        var the_douban_book = douban_books.get(isbn13);
+        //发起ajax请求
+        //判断是新增还是更新
+        var url = '<%=douban_books_path%>';
+        new Ajax.Request(url, 
+            {
+              method : 'post',
+              asynchronous:true, 
+              evalScripts:true, 
+              onCreate : function() {$('ajax_' + isbn13).show();},
+              onComplete : function() {$('ajax_' + isbn13).hide();},
+              parameters: Object.toQueryString(com.strongu.util.object_to_hash(the_douban_book,"douban_book")) 
+              }); 
+        },window);
 
+    $('btn_batch_marks').removeClassName('disabled');
+  };
 </script>

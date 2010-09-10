@@ -28,6 +28,7 @@ class TaobaoBooksController < BaseController
       end
     end
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
+    render "shared/index_douban"
   end
   #批量更新宝贝信息
   #PUT taobao_books/batch_update
@@ -41,59 +42,37 @@ class TaobaoBooksController < BaseController
       update_success = false
       flash[:error] = "#{@taobao_book.title}信息更新失败."
     end
-    respond_to do |format|
-      format.js do 
-        if update_success
-          render :partial => "batch_update_success.rjs",:locals => {:taobao_book => @taobao_book}
-        else
-          render :partial => "batch_update_failure.rjs",:locals => {:taobao_book => @taobao_book}
-        end
-      end
-    end
+    render :partial => "shared/update_flash.rjs",:status => (update_success ? :ok : :bad_request)
   end
   #从豆瓣更新宝贝信息
   #PUT /taobao_book/:id/update_from_douban
   def update_from_douban
     @taobao_book = TaobaoBook.find(params[:id])
-    upload_success = true
+    save_success = true
     begin
       savebook2taobao(@taobao_book)
       flash[:notice] = "#{@taobao_book.title}信息更新成功."
     rescue
-      upload_success = false
+      save_success = false
       flash[:error] = "#{@taobao_book.title}信息更新失败."
     end
-    respond_to do |format|
-      format.js do 
-        if upload_success
-          render :partial => "upload_item_success.rjs",:locals => {:taobao_book => @taobao_book}
-        else
-          render :partial => "upload_item_failure.rjs"
-        end
-      end
-    end
+    render :partial => "shared/update_flash.rjs",:status => (save_success ? :ok : :bad_request)
+
   end
   #批量上传书籍信息
   #POST taobao_books/upload_items
   def upload_item
     @taobao_book = TaobaoBook.new
-    upload_success = true
+    save_success = true
     begin
       savebook2taobao(@taobao_book)
       flash[:notice] = "#{@taobao_book.title}已成功上传至淘宝."
     rescue
-      upload_success = false
+      save_success = false
       flash[:error] = "#{@taobao_book.title}上传失败."
     end
-    respond_to do |format|
-      format.js do 
-        if upload_success
-          render :partial => "upload_item_success.rjs",:locals => {:taobao_book => @taobao_book}
-        else
-          render :partial => "upload_item_failure.rjs"
-        end
-      end
-    end
+
+    render :partial => "after_upload.rjs",:status => (save_success ? :ok : :bad_request),:locals => {:taobao_book => @taobao_book}
   end
   private
   #设置douban书籍的属性

@@ -1,0 +1,103 @@
+
+  <div class="group">
+    <%= f.label :nick, t("activerecord.attributes.douban_book.nick", :default => "Nick"), :class => :label %>
+    <%= f.text_field :nick, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :title, t("activerecord.attributes.douban_book.title", :default => "Title"), :class => :label %>
+    <%= f.text_field :title, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :subtitle, t("activerecord.attributes.douban_book.subtitle", :default => "Subtitle"), :class => :label %>
+    <%= f.text_field :subtitle, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :aka, t("activerecord.attributes.douban_book.aka", :default => "Aka"), :class => :label %>
+    <%= f.text_field :aka, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :image, t("activerecord.attributes.douban_book.image", :default => "Image"), :class => :label %>
+    <%= f.text_field :image, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :author, t("activerecord.attributes.douban_book.author", :default => "Author"), :class => :label %>
+    <%= f.text_field :author, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :isbn10, t("activerecord.attributes.douban_book.isbn10", :default => "Isbn10"), :class => :label %>
+    <%= f.text_field :isbn10, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :isbn13, t("activerecord.attributes.douban_book.isbn13", :default => "Isbn13"), :class => :label %>
+    <%= f.text_field :isbn13, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :pubdate, t("activerecord.attributes.douban_book.pubdate", :default => "Pubdate"), :class => :label %>
+    <%= f.text_field :pubdate, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :pages, t("activerecord.attributes.douban_book.pages", :default => "Pages"), :class => :label %>
+    <%= f.text_field :pages, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :translator, t("activerecord.attributes.douban_book.translator", :default => "Translator"), :class => :label %>
+    <%= f.text_field :translator, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :price, t("activerecord.attributes.douban_book.price", :default => "Price"), :class => :label %>
+    <%= f.text_field :price, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :publisher, t("activerecord.attributes.douban_book.publisher", :default => "Publisher"), :class => :label %>
+    <%= f.text_field :publisher, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :binding, t("activerecord.attributes.douban_book.binding", :default => "Binding"), :class => :label %>
+    <%= f.text_field :binding, :class => 'text_field' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :author_intro, t("activerecord.attributes.douban_book.author_intro", :default => "Author intro"), :class => :label %>
+    <%= f.text_area :author_intro, :class => 'text_area' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+
+  <div class="group">
+    <%= f.label :summary, t("activerecord.attributes.douban_book.summary", :default => "Summary"), :class => :label %>
+    <%= f.text_area :summary, :class => 'text_area' %>
+    <span class="description">Ex: a simple text</span>
+  </div>
+        
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}") %> <%= t("web-app-theme.save", :default => "Save") %>
+  </button>  
+  <%= link_to "#{image_tag("web-app-theme/cross.png", :alt => "#{t("web-app-theme.cancel", :default => "Cancel")}")} #{t("web-app-theme.cancel", :default => "Cancel")}", douban_books_path, :class => "button" %> 
+</div>

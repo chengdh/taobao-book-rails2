@@ -9,7 +9,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100909001429) do
+ActiveRecord::Schema.define(:version => 20100910005205) do
+
+  create_table "douban_books", :force => true do |t|
+    t.string   "nick",         :limit => 60,  :default => "", :null => false
+    t.string   "title",        :limit => 60
+    t.string   "subtitle",     :limit => 60
+    t.string   "aka",          :limit => 60
+    t.string   "image",        :limit => 200
+    t.string   "author",       :limit => 60
+    t.string   "isbn10",       :limit => 10
+    t.string   "isbn13",       :limit => 13
+    t.string   "pubdate",      :limit => 20
+    t.integer  "pages"
+    t.string   "translator",   :limit => 60
+    t.string   "price",        :limit => 20
+    t.string   "publisher",    :limit => 60
+    t.string   "binding",      :limit => 20
+    t.text     "author_intro"
+    t.text     "summary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "item_cats", :primary_key => "cid", :force => true do |t|
     t.integer  "parent_cid", :limit => 8
@@ -225,7 +246,8 @@ ActiveRecord::Schema.define(:version => 20100909001429) do
     t.datetime "updated_at"
   end
 
-  create_table "syn_logs", :primary_key => "nick", :force => true do |t|
+  create_table "syn_logs", :id => false, :force => true do |t|
+    t.string   "nick",          :default => "", :null => false
     t.datetime "last_syn_time"
     t.datetime "created_at"
     t.datetime "updated_at"
