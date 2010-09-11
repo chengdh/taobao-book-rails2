@@ -11,6 +11,7 @@
   <body>
     <div id="container">
       <div id="header">
+        <% shop_name = Shop.nick_is(session[:taobao_session].top_params["visitor_nick"]).blank? ? "" : Shop.nick_is(session[:taobao_session].top_params["visitor_nick"]).first.title %>
         <h1><a href="/"><%=Shop.nick_is(session[:taobao_session].top_params["visitor_nick"]).first.title%></a></h1>
         <div id='util-navigation'>
           <ul class="wat-cf">
