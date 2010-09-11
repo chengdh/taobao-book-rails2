@@ -2,8 +2,7 @@ class SynTaobaoDatasController < ApplicationController
   #显示同步界面
   def syn_page
     #判断是初次同步还是常规同步
-    #FIXME 此处为了测试,手工设置了session
-    sess = Taobao::SessionKey.get_session('chengqi')
+    sess = taobao_session
     if SynLog.exists?(sess.top_params['visitor_nick'])
       #常规同步
       render :action => "syn_page"
@@ -25,8 +24,7 @@ class SynTaobaoDatasController < ApplicationController
   #item_pvs
   #item_seller_cats
   def syn
-    #FIXME 此处为了测试,手工设置了session
-    sess = Taobao::SessionKey.get_session('chengqi')
+    sess = taobao_session
     #订阅增量信息
     #FIXME 沙箱不支持增量API
     SynLog.app_subscribe(sess)

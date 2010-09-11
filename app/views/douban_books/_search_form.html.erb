@@ -1,0 +1,11 @@
+<% form_for @search,:html => {:class => "uniForm"} do |f| %>
+  <fieldset class="blockLabels">
+    <div class='ctrlHolder' >
+      <%= f.label "title_or_author_or_publisher_or_isbn10_or_isbn13_like","关键字(书名/作者/出版社/ISBN)" %>
+      <%= f.text_field "title_or_author_or_publisher_or_isbn10_or_isbn13_like",:class =>'textInput' %>
+    </div>
+  </fieldset>
+  <div class='actions-bar'>
+    <%= f.submit  "查询",:class => 'sexybutton sexysimple sexyblue' %>
+  </div>
+<% end%>

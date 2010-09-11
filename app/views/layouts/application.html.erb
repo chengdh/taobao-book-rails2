@@ -11,12 +11,15 @@
   <body>
     <div id="container">
       <div id="header">
-        <h1><a href="/">Web App</a></h1>
+        <h1><a href="/"><%=Shop.nick_is(session[:taobao_session].top_params["visitor_nick"]).first.title%></a></h1>
+        <div id='util-navigation'>
+          <ul class="wat-cf">
+            <li><a href="#"><%= "欢迎您:#{session[:taobao_session].top_params["visitor_nick"]}" %></a></li>
+          </ul>
+        </div>
         <div id="user-navigation">
           <ul class="wat-cf">
-            <li><a href="#"><%= t("web-app-theme.profile", :default => "Profile") %></a></li>
-            <li><a href="#"><%= t("web-app-theme.settings", :default => "Settings") %></a></li>
-            <li><a href="/logout" class="logout"><%= t("web-app-theme.logout", :default => "Logout") %></a></li>
+            <li></li>
           </ul>
         </div>      
         <div id="main-navigation">
@@ -46,7 +49,7 @@
           <%= yield %>
           <div id="footer">
             <div class="block">
-              <p>Copyright &copy; <%= Time.now.year %> Web App.</p>
+              <%= render "shared/footer"%>
             </div>      
           </div>
         </div>

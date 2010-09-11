@@ -2,6 +2,7 @@ require 'open-uri'
 class TaobaoBooksController < BaseController
   #before_filter :syn_taobao,:only => :search_douban
   def index
+    @search = TaobaoBook.nick_is(taobao_session.top_params["visitor_nick"]).search(params[:search])
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
     @taobao_books_ids = @search.all(:select => "items.num_iid",:order => "items.created_at DESC").collect {|book| book.id }
     #从豆瓣查询对应的书籍信息
@@ -28,7 +29,8 @@ class TaobaoBooksController < BaseController
       end
     end
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
-    render "shared/index_douban"
+    #显示收藏按钮
+    render "shared/index_douban",:locals => {:show_mark_btn => true }
   end
   #批量更新宝贝信息
   #PUT taobao_books/batch_update
@@ -131,8 +133,7 @@ class TaobaoBooksController < BaseController
     end
     #TODO 设置事务处理
     #更新数据到淘宝
-    #FIXME 测试用,手工设置了session
-    sess = Taobao::SessionKey.get_session('chengqi')
+    sess = taobao_session
     if !cover.blank?
       @taobao_book.save2taobao(sess,'image' => cover)
     else
@@ -169,7 +170,7 @@ class TaobaoBooksController < BaseController
     #所属类目
     taobao_book.item_seller_cats.build(:cid => params[:pub_book_attr][:seller_cids])
 
-    #FIXME 测试用,手工设置了session
+    sess = taobao_session
     sess = Taobao::SessionKey.get_session('chengqi')
     taobao_book.save2taobao(sess)
     taobao_book.save
@@ -187,11 +188,11 @@ class TaobaoBooksController < BaseController
   end
   #从淘宝同步数据
   def syn_taobao
-    #FIXME 此处为测试方便手工设置了session
-    sess = Taobao::SessionKey.get_session('chengqi')
+    sess = taobao_sesssion
     nick = sess.top_params['visitor_nick']
     if TaobaoBook.has_increment?(sess)
       redirect_to syn_page_syn_taobao_datas_path
     end
   end
+
 end

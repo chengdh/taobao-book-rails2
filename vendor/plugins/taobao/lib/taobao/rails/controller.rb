@@ -13,6 +13,11 @@ module Taobao
       def set_taobao_session
         if params[:top_session]
           session[:taobao_session] = Taobao::Session.new params
+        else 
+          if session[:taobao_session].blank?
+            #FIXME 此处手工设置了session
+            session[:taobao_session] = Taobao::SessionKey.get_session('chengqi')
+          end
         end
       end
 

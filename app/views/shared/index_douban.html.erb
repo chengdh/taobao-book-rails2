@@ -15,10 +15,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
 </script>
 <div class="block">
   <div class="secondary-navigation">
-    <ul class="wat-cf">
-      <li class="first"><%= link_to "查书", search_douban_taobao_books_path %></li>
-      <li class="active"><%= link_to "查询结果", "" %></li>
-    </ul>
+    <%= render "caption_index_douban" %>
   </div>          
   <div class="content">          
     <h2 class="title">查到这些书...</h2>
@@ -32,7 +29,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
         <span id='select_des'>选定书籍,可以批量上传到淘宝...</span>
         <div id='btn_wrap'>
           <%=link_to_function "上传到淘宝","upload_item()",:id => 'btn_batch_upload',:class => 'sexybutton sexysimple sexybig sexyblue'%>
-          <%=link_to_function "先收藏","save_local()",:id => 'btn_batch_marks',:class => 'sexybutton sexysimple sexybig sexyblue'%>
+          <%=link_to_function "先收藏","save_local()",:id => 'btn_batch_marks',:class => 'sexybutton sexysimple sexybig sexyblue' if defined? show_mark_btn and show_mark_btn%>
         </div>
       </div>
       <div class='actions-bar border-bottom'>

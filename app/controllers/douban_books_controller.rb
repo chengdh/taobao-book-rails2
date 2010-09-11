@@ -1,12 +1,12 @@
 class DoubanBooksController < BaseController 
   def index
+    @search = DoubanBook.nick_is(taobao_session.top_params["visitor_nick"]).search(params[:search])
     @douban_books = @search.paginate :page => params[:page],:order => "created_at DESC"
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
     render "shared/index_douban"
   end
   def create
-    #FIXME 此处手工设置了session
-    sess = Taobao::SessionKey.get_session('chengqi')
+    sess = taobao_session
     nick = sess.top_params["visitor_nick"]
     attrs = params[:douban_book]
     attrs.delete("num")
