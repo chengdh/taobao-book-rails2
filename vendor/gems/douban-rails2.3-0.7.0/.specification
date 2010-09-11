@@ -1,0 +1,91 @@
+--- !ruby/object:Gem::Specification 
+name: douban-rails2.3
+version: !ruby/object:Gem::Version 
+  prerelease: false
+  segments: 
+  - 0
+  - 7
+  - 0
+  version: 0.7.0
+platform: ruby
+authors: 
+- Yuanyi Zhang chengdh
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2010-09-11 00:00:00 +08:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: oauth
+  prerelease: false
+  requirement: &id001 !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        segments: 
+        - 0
+        version: "0"
+  type: :runtime
+  version_requirements: *id001
+description: "A Ruby wrapper of Douban(\xE8\xB1\x86\xE7\x93\xA3) API"
+email: cheng.donghui@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- README
+files: 
+- .gitignore
+- MIT-LICENSE
+- README
+- Rakefile
+- VERSION
+- douban-rails2.3-0.6.0.gem
+- douban-rails2.3-0.6.1.gem
+- douban-rails2.3-0.6.2.gem
+- douban-rails2.3-0.6.3.gem
+- douban-rails2.3-0.6.4.gem
+- douban-rails2.3-0.6.5.gem
+- douban-rails2.3.gemspec
+- generators/douban/douban_generator.rb
+- generators/douban/templates/douban.yml
+- generators/douban/templates/douban_controller.rb
+- generators/douban/templates/douban_helper.rb
+- lib/douban.rb
+- lib/models/book.rb
+- lib/parser.rb
+has_rdoc: true
+homepage: http://github.com/yzhang/douban
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --charset=UTF-8
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      segments: 
+      - 0
+      version: "0"
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      segments: 
+      - 0
+      version: "0"
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.6
+signing_key: 
+specification_version: 3
+summary: "A Ruby wrapper of Douban(\xE8\xB1\x86\xE7\x93\xA3) API"
+test_files: []
+
