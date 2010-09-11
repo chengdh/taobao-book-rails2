@@ -45,8 +45,6 @@ module ActiveRecord
         attr = m.attributes.delete_if { |key,value| key == 'id'}
         (attr.keys).each do |attr|
           col_index = col_index + 1
-          puts "#{col_index}"
-          puts "#{attr}=#{row[col_index]}"
           m.send("#{attr}=",row[col_index])
         end
         m.id = row[0]
