@@ -1,0 +1,10 @@
+will_paginate
+calendar_date_select
+paperclip, --source http://gemcutter.org                                                              
+fastercsv   
+searchlogic   
+rubyist-aasm, --source http://gems.github.com 
+nokogiri   #用于解析html
+douban-rails2.3
+oauth
+rest-client
