@@ -1,3 +1,4 @@
 will_paginate
 nokogiri   #用于解析html
 douban-rails2.3
+rails --version 2.3.5
