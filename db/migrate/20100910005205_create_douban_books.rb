@@ -15,8 +15,8 @@ class CreateDoubanBooks < ActiveRecord::Migration
       t.string :price,:limit => 20
       t.string :publisher,:limit => 60
       t.string :binding,:limit =>  20
-      t.text :author_intro,:limit => 3000
-      t.text :summary,:limit => 3000
+      t.text :author_intro
+      t.text :summary
 
       t.timestamps
     end
