@@ -29,7 +29,6 @@ Rails::Initializer.run do |config|
   config.gem "douban-rails2.3",:lib => "douban"
   config.gem "oauth"
   config.gem "rest-client"
-  config.gem "rufus-scheduler",:source => "http://gemcutter.org"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
