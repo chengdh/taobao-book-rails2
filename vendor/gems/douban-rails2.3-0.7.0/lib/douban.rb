@@ -114,6 +114,7 @@ module  Douban
     def get_book(isbn)
       url = ENV['DOUBAN_BOOK_URL'] + isbn + "?apikey=#{ENV['DOUBAN_APP_KEY']}"
       rsp = Net::HTTP.get_response(URI.parse(url))
+      
       Parser.parse_book(rsp.body)
     end
     #使用模糊查询获取单本书籍
