@@ -30,7 +30,7 @@ class TaobaoBooksController < BaseController
     end
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
     #显示收藏按钮
-    if !@douban_books.blank?
+    if @douban_books.size == 0
       flash[:error] = "未查询到符合条件的书籍."
       render :action => :search_douban
     else
