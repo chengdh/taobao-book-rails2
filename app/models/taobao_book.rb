@@ -50,12 +50,10 @@ class TaobaoBook < BaseItem
   def input_pids
     self.item_pvs.collect {|pv| pv.pid}.join(',')
     #TODO 暂时注释
-    ""
   end
   def input_str
     self.item_pvs.collect {|pv| pv.name}.join(',')
     #TODO 暂时注释
-    ""
   end
 
   #获取或设置商品属性
