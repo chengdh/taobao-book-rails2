@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>web app</title>
-    <%= javascript_include_tag :all%>
+    <%= javascript_include_tag :all,:cache => false %>
     <%= stylesheet_link_tag "web_app_theme", "live_validation","modalbox","/sexybuttons/sexybuttons","web_app_theme_override", "themes/blue/style","uni-form" %>
     <%= calendar_date_select_includes :blue%>
   </head>
