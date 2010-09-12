@@ -23,7 +23,7 @@ module ActiveRecord
       csv_string = FasterCSV.generate() do |csv|
         records.each do |r|
           attr = r.attributes.delete_if { |key,value| self.primary_key == key }
-          csv << ([r.id]  + attr.values)
+          csv << ([r.id]  + attr.keys.sort.collect {|key| r[key]})
         end
       end
       file_name = File.join(dir,"#{self.table_name}.csv")
@@ -45,7 +45,7 @@ module ActiveRecord
 
         attr = m.attributes.delete_if { |key,value| self.primary_key == key }
 
-        (attr.keys).each do |attr|
+        (attr.keys.sort).each do |attr|
           col_index = col_index + 1
           m.send("#{attr}=",row[col_index])
         end
