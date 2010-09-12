@@ -19,8 +19,10 @@ module Taobao
         'timestamp'=> Time.now.strftime("%Y-%m-%d %H:%M:%S")
       }
 
+      tmp_params = @params.merge(option)
+      tmp_params.delete("image")
       @params.merge!(options)
-      str = ENV['TAOBAO_APP_SECRET'] + (@params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("") + ENV['TAOBAO_APP_SECRET']
+      str = ENV['TAOBAO_APP_SECRET'] + (tmp_params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("") + ENV['TAOBAO_APP_SECRET']
       @params["sign"] = Digest::MD5.hexdigest(str).upcase!
     end
 
