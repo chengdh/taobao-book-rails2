@@ -30,7 +30,13 @@ class TaobaoBooksController < BaseController
     end
     @douban_book_isbns = @douban_books.collect {|douban_book| douban_book.isbn13 }
     #显示收藏按钮
-    render "shared/index_douban",:locals => {:show_mark_btn => true }
+    if !@douban_books.blank?
+      flash[:error] = "未查询到符合条件的书籍."
+      render :action => :search_douban
+    else
+      flash[:notice] = "查到#{@douban_books.size}本符合条件的书籍."
+      render "shared/index_douban",:locals => {:show_mark_btn => true }
+    end
   end
   #批量更新宝贝信息
   #PUT taobao_books/batch_update
