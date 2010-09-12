@@ -35,6 +35,7 @@ module ActiveRecord
     #导入数据到数据表中,包括id
     def self.import_csv(dir)
       require 'fastercsv'
+      self.destroy_all
       file_name = File.join(dir,"#{self.table_name}.csv")
       rows = FasterCSV::read(file_name)
       rows.each do |row|
