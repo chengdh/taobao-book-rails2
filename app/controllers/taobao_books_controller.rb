@@ -23,14 +23,10 @@ class TaobaoBooksController < BaseController
     isbns = params[:isbns]
     #从豆瓣查询对应的书籍信息
     @douban_books = Array.new
-    @debug_rsp = ""
     #根据isbn查找书籍
     douban = Douban::Douban.new
     isbns.each do |isbn|
       if !isbn.blank?
-        url = ENV['DOUBAN_BOOK_URL'] + isbn + "?apikey=#{ENV['DOUBAN_APP_KEY']}"
-        rsp = Net::HTTP.get_response(URI.parse(url))
-        @debug_rsp << rsp.body
         douban_book = douban.get_book(isbn)
         @douban_books.push douban_book if !douban_book.blank?
       end
