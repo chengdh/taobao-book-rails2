@@ -22,7 +22,7 @@ module ActiveRecord
       records = self.find(:all)
       csv_string = FasterCSV.generate() do |csv|
         records.each do |r|
-          attr = r.attributes.delete_if { |key,value| key == self.primary_key }
+          attr = r.attributes.delete_if { |key,value| self.primary_key == key }
           csv << ([r.id]  + attr.values)
         end
       end
@@ -43,7 +43,8 @@ module ActiveRecord
         #给各个字段赋值
         col_index = 0
 
-        attr = m.attributes.delete_if { |key,value| key == self.primary_key }
+        attr = m.attributes.delete_if { |key,value| self.primary_key == key }
+
         (attr.keys).each do |attr|
           col_index = col_index + 1
           m.send("#{attr}=",row[col_index])
