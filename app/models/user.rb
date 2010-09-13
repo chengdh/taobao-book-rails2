@@ -6,10 +6,11 @@ class User < ActiveRecord::Base
   #同步当前会话用户信息
   def self.synchronize(sess)
     fields = Taobao::User.fields
+    nick = sess.top_params['visitor_nick']
     user = self.new
     user = self.find(sess.top_params["visitor_id"]) if self.exists?(sess.top_params["visitor_id"])
 
-    remote_user = sess.invoke("taobao.user.get","fields" =>fields,'nick' => 'chengqi','session' => sess.session_key).first
+    remote_user = sess.invoke("taobao.user.get","fields" =>fields,'nick' => nick,'session' => sess.session_key).first
     (Taobao::User.attr_names ).each do |attr|
       val = remote_user.send(attr)
       #对boolean型的属性进行转换
