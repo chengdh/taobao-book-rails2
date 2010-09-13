@@ -4,7 +4,7 @@
     <%= select_tag "select_cid_#{item_cat.id}",options_from_collection_for_select(item_cat.children, 'id', 'name'),:onchange => remote_function(:update => "item_cat_level#{first_child_cat.id}",:method => :get,:success => "set_cid()",:with => "'id=' + value",:url => {:controller =>:item_cats,:action => :children}) %>
   </div>
   <% item_cat = first_child_cat %>
-<% end%>
+<% end %>
 
 <script type='text/javascript'>
   //设置默认值
