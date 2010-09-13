@@ -82,7 +82,6 @@ class TaobaoBooksController < BaseController
       save_success = false
       flash[:error] = "#{@taobao_book.title}上传失败."
     end
-
     render :partial => "after_upload.rjs",:status => (save_success ? :ok : :bad_request),:locals => {:taobao_book => @taobao_book}
   end
   private
