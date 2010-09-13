@@ -36,7 +36,7 @@ class SynTaobaoDatasController < ApplicationController
     #邮费模板
     Postage.synchronize(sess)
     #商品(书籍)
-    if params[:increment].blank
+    if params[:increment].blank?
       TaobaoBook.synchronize(sess)
     else
       TaobaoBook.synchronize_increment(sess)
