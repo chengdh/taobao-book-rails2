@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100911111517) do
+ActiveRecord::Schema.define(:version => 20100913021446) do
 
   create_table "douban_books", :force => true do |t|
     t.string   "nick",         :limit => 60,  :default => "", :null => false
@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(:version => 20100911111517) do
   end
 
   create_table "users", :primary_key => "user_id", :force => true do |t|
-    t.string   "uid",                 :limit => 30, :default => "",    :null => false
+    t.string   "uid",                 :limit => 60, :default => "",    :null => false
     t.string   "nick",                :limit => 60, :default => "",    :null => false
     t.string   "sex",                 :limit => 1
     t.integer  "buyer_credit_id"
@@ -297,7 +297,7 @@ ActiveRecord::Schema.define(:version => 20100911111517) do
     t.string   "alipay_no",           :limit => 60
     t.string   "email",               :limit => 60
     t.boolean  "magazine_subscribe"
-    t.string   "vertical_market",     :limit => 30
+    t.string   "vertical_market",     :limit => 60
     t.datetime "created_at"
     t.datetime "updated_at"
   end
