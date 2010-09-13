@@ -6,9 +6,10 @@ class Shop < ActiveRecord::Base
   #数据同步
   def self.synchronize(sess)
     nick = sess.top_params["visitor_nick"]
-    remote_shop = sess.invoke('taobao.shop.get','fields' => Taobao::Shop.fields,'nick' => nick).first
+    rsp = sess.invoke('taobao.shop.get','fields' => Taobao::Shop.fields,'nick' => nick)
     #可能不存在对应的店铺信息,所以如果返回错误,则直接返回
-    return if remote_shop.is_a? Taobao::ErrorRsp
+    return if rsp.is_a? Taobao::ErrorRsp
+    remote_shop = rsp.first
     the_shop = Shop.new
     the_shop = Shop.find(remote_shop.sid) if Shop.exists?(remote_shop.sid)
     Taobao::Shop.attr_names.each do |attr|
