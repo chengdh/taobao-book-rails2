@@ -13,15 +13,13 @@ module Taobao
         md5 = Digest::MD5.digest(str)
         sign = Base64.encode64(md5).strip
 
-        #if sign == params['top_sign']
+        if sign == params['top_sign']
           self.session_key = params['top_session']
           @top_params = Hash[*(Base64.decode64(params['top_parameters']).split('&').collect {|v| v.split('=')}).flatten]
           @authorized = true
-        #else
-          #FIXME 暂时注释
-          #throw InvalidSignature.new
-
-        #end
+        else
+          throw InvalidSignature.new
+        end
       end
     end
 
