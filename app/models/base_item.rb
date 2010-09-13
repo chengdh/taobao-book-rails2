@@ -70,9 +70,9 @@ class BaseItem < ActiveRecord::Base
       return true
     end
     start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
-    end_modified = DateTime.now.strftime('%Y-%m-%d %H:%M:%S')
+    #end_modified = DateTime.now.strftime('%Y-%m-%d %H:%M:%S')
 
-    items = sess.invoke("taobao.increment.items.get",'nick' => nick,'start_modified' => start_modified,'end_modified' => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
+    items = sess.invoke("taobao.increment.items.get",'nick' => nick,'start_modified' => start_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
     total_results = items.total_results.to_i
     total_results > 0
 
