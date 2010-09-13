@@ -4,6 +4,7 @@ class SynTaobaoDatasController < ApplicationController
     #判断是初次同步还是常规同步
     sess = taobao_session
     @subscribe_message = SynLog.get_subscribe_message(sess)
+    @authorize_message = SynLog.user_authorize(sess) 
     if SynLog.exists?(sess.top_params['visitor_nick'])
       #常规同步
       render :action => "syn_page"
@@ -33,7 +34,7 @@ class SynTaobaoDatasController < ApplicationController
     #同步user信息
     User.synchronize(sess)
     #店铺
-    Shop.synchronize(sess)
+    #Shop.synchronize(sess)
     #邮费模板
     Postage.synchronize(sess)
     #商品(书籍)

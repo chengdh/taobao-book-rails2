@@ -2,11 +2,12 @@ class SynLog < ActiveRecord::Base
   set_primary_key :nick
   #处理ISV订阅增量信息
   def self.app_subscribe(sess)
+    #FIXME 订阅后,如果没有增量信息存在,则什么都不返回
     ret = sess.invoke("taobao.increment.app.subscribe","topics" => "trade;refund;item","status" => "all;all;all","duration" => 12)
     if ret.is_a? Taobao::ErrorRsp
       false
     else
-      ret.first.valid == 'true'
+      true
     end
   end
   #获取isv订阅信息
