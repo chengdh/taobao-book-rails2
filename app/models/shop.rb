@@ -6,9 +6,9 @@ class Shop < ActiveRecord::Base
   #数据同步
   def self.synchronize(sess)
     nick = sess.top_params["visitor_nick"]
-    #FIXME 沙箱有问题,返回的visitor_nick不正确
-    nick = 'chengqi'
     remote_shop = sess.invoke('taobao.shop.get','fields' => Taobao::Shop.fields,'nick' => nick).first
+    #可能不存在对应的店铺信息,所以如果返回错误,则直接返回
+    return if remote_shop.is_a? Taobao::ErrorRsp
     the_shop = Shop.new
     the_shop = Shop.find(remote_shop.sid) if Shop.exists?(remote_shop.sid)
     Taobao::Shop.attr_names.each do |attr|
