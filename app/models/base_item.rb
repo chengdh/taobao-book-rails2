@@ -81,7 +81,7 @@ class BaseItem < ActiveRecord::Base
   #需要sessionkey登录验证
   def self.synchronize_increment(sess)
     page_size = 40
-    nick = sess.top_param['visitor_nick']
+    nick = sess.top_params['visitor_nick']
     start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
     end_modified = DateTime.now.strftime('%Y-%m-%d %H:%M:%S')
 
