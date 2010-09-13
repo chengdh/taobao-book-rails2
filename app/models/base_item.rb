@@ -27,6 +27,7 @@ class BaseItem < ActiveRecord::Base
         item.send("#{attr}=",val)       
       end
     end
+
     #type属性是rails 保留属性,因此更名为item_type
     item.state = remote_item.location.state
     item.city = remote_item.location.city
@@ -72,7 +73,7 @@ class BaseItem < ActiveRecord::Base
     start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
     end_modified = Date.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S')
 
-    items = sess.invoke("taobao.increment.items.get",'nick' => nick,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
+    items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,"end_modified" => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
     total_results = items.total_results.to_i
     total_results > 0
 
@@ -85,12 +86,12 @@ class BaseItem < ActiveRecord::Base
     start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
     end_modified = Date.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S')
 
-    items = sess.invoke("taobao.increment.items.get",'nick' => nick,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
+    items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,"end_modified" => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
     total_results = items.total_results.to_i
     total_page = total_page(total_results,page_size)
     #循环调用
     (1..total_page).each do |pn|
-      items = sess.invoke("taobao.increment.items.get",'nick' => nick,'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
+      items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,"end_modified" => end_modified,'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
       items.each do |the_item|
         if the_item.status == 'ItemDelete'  #删除被删除的数据
           self.destroy(the_item.num_iid)
@@ -233,7 +234,7 @@ class BaseItem < ActiveRecord::Base
   #生成要更新到淘宝的属性hash
   def updated_hash
     updated_values = self.attributes
-      #删除不需要更新的字段
+    #删除不需要更新的字段
     updated_values["type"] = "fixed"
     updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S') unless updated_values["list_time"].blank?
     #updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
