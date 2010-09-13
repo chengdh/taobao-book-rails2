@@ -3,7 +3,7 @@ class SynTaobaoDatasController < ApplicationController
   def syn_page
     #判断是初次同步还是常规同步
     sess = taobao_session
-    logger.debug "SynLog.get_subscribe_message" + SynLog.get_subscribe_message(sess)
+    logger.debug "SynLog.get_subscribe_message" + SynLog.get_subscribe_message(sess).to_s
     if SynLog.exists?(sess.top_params['visitor_nick'])
       #常规同步
       render :action => "syn_page"
