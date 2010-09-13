@@ -233,14 +233,13 @@ class BaseItem < ActiveRecord::Base
   #生成要更新到淘宝的属性hash
   def updated_hash
     updated_values = self.attributes
-    #去除是空值的字段
-    updated_values.each {|key,value| updated_values.delete(key) if value.blank?}
-    #删除不需要更新的字段
+      #删除不需要更新的字段
     updated_values["type"] = "fixed"
     updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S') unless updated_values["list_time"].blank?
     #updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
     updated_values["location.state"] = updated_values["state"]
     updated_values["location.city"] = updated_values["city"]
+    #FIXME 测试用,将location 写死了
     updated_values["location.state"] = "河南"
     updated_values["location.city"] = "郑州"
 
@@ -255,6 +254,9 @@ class BaseItem < ActiveRecord::Base
     updated_values.delete("auction_point")
     updated_values.delete("created_at")
     updated_values.delete("updated_at")
+    #去除是空值的字段
+    updated_values.each {|key,value| updated_values.delete(key) if value.blank?}
+
     updated_values
   end
   #根据记录总数计算总页数
