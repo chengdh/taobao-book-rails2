@@ -28,8 +28,8 @@ class SynTaobaoDatasController < ApplicationController
     sess = taobao_session
     #订阅增量信息
     #FIXME 沙箱不支持增量API
-    SynLog.app_subscribe(sess)
-    SynLog.user_authorize(sess)
+    #SynLog.app_subscribe(sess)
+    #SynLog.user_authorize(sess)
     #同步user信息
     User.synchronize(sess)
     #店铺
