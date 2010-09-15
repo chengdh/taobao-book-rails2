@@ -182,7 +182,7 @@ class TaobaoBooksController < BaseController
 
     taobao_book.approve_status = "onsale" 
     taobao_book.approve_status = "instock" if params[:taobao_book][:list_time_type] == 'instock'
-    taobao_book.item_seller_cats.build(:cid => params[:taobao_book][:seller_cids])
+    taobao_book.item_seller_cats.build(:cid => params[:taobao_book][:seller_cids]) if !params[:taobao_book][:seller_cids].blank?
     taobao_book.has_showcase = params[:taobao_book][:has_showcase]
   end
   #保存书籍信息到淘宝
