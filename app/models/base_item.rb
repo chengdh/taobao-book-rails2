@@ -65,38 +65,48 @@ class BaseItem < ActiveRecord::Base
   end
   #判断是否有增量商品需要同步
   def self.has_increment?(sess)
-    page_size = 40
-    nick = sess.top_params['visitor_nick']
     if !SynLog.exists?(nick)
       return true
     end
-    start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
-    end_modified = Date.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S')
-
-    items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,"end_modified" => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
-    total_results = items.total_results.to_i
-    total_results > 0
-
+    get_notify_items.any? { |n_items| n_items.total_results.to_i > 0 }
   end
-  #使用增量API同步当前登录用户的在售商品信息
-  #需要sessionkey登录验证
-  def self.synchronize_increment(sess)
+  private
+  #获取商品增量信息
+  def get_notify_items(sess)
+    notify_items = Array.new
     page_size = 40
     nick = sess.top_params['visitor_nick']
-    start_modified = SynLog.find(nick).last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
-    end_modified = Date.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S')
-
-    items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,"end_modified" => end_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
-    total_results = items.total_results.to_i
-    total_page = total_page(total_results,page_size)
-    #循环调用
-    (1..total_page).each do |pn|
-      items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,"end_modified" => end_modified,'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
-      items.each do |the_item|
-        if the_item.status == 'ItemDelete'  #删除被删除的数据
-          self.destroy(the_item.num_iid)
-        else
-          synchronize_single(sess,the_item.num_iid)
+    last_syn_time =  SynLog.find(nick).last_syn_time
+    #FIXME 限制 start_modified 和 end_modified 必须在一天,而且必须在7天之内
+    #查最后一次同步到7天之后有没有增量变化
+    (1..7).each  do 
+      return if las_syn_time > Date.today.end_of_day
+      start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
+      tmp_notify_items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
+      notify_items.push(tmp_notify_items) if tmp_notify_items.total_results.to_i > 0
+      last_syn_time = last_syn_time.tomorrow.beginning_of_day
+    end
+    notify_items
+  end
+  public
+  #使用增量API同步当前登录用户的在售商品信息
+  #需要sessionkey登录验证
+  #FIXME 只能同步7天内的数据,如何处理
+  def self.synchronize_increment(sess)
+    page_size = 40
+    notify_items = get_notify_items(sess)
+    notify_items.each do |n_items|
+      total_results = n_items.total_results.to_i
+      total_page = total_page(total_results,page_size)
+      #循环调用
+      (1..total_page).each do |pn|
+        items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
+        notify_items.each do |the_item|
+          if the_item.status == 'ItemDelete'  #删除被删除的数据
+            self.destroy(the_item.num_iid)
+          else
+            synchronize_single(sess,the_item.num_iid)
+          end
         end
       end
     end

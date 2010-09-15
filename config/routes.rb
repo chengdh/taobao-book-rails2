@@ -1,14 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :douban_books
-
-
-  map.resources :syn_taobao_datas,:only => :index,:collection => {:syn_page => :get,:syn => :post }
 
   map.resources :item_cats,:collection => {:children => :get}
 
   map.resources :local_areas,:collection => {:children => :get}
 
-  map.resources :taobao_books,:collection => {:search_douban => :get,:index_douban => :get,:batch_update => :put,:update_from_douban => :post,:upload_item => :post}
+  map.resources :taobao_books,:collection => {:search_douban => :get,:index_douban => :get,:batch_update => :put,:update_from_douban => :post,:upload_item => :post,:syn_page => :get,:syn => :post }
 
   map.resources :postages
 
