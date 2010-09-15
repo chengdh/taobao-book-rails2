@@ -73,7 +73,7 @@ class BaseItem < ActiveRecord::Base
   end
   private
   #获取商品增量信息
-  def get_notify_items(sess)
+  def self.get_notify_items(sess)
     notify_items = Array.new
     page_size = 40
     nick = sess.top_params['visitor_nick']
