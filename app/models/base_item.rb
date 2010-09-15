@@ -69,12 +69,12 @@ class BaseItem < ActiveRecord::Base
     if !SynLog.exists?(nick)
       return true
     end
-    get_notify_items(sess).any? { |n_items| n_items.total_results.to_i > 0 }
+    get_notify_items(sess).values.any? { |n_items| n_items.total_results.to_i > 0 }
   end
   private
   #获取商品增量信息
   def self.get_notify_items(sess)
-    notify_items = Array.new
+    notify_items = Hash.new
     page_size = 40
     nick = sess.top_params['visitor_nick']
     last_syn_time =  SynLog.find(nick).last_syn_time
@@ -84,7 +84,7 @@ class BaseItem < ActiveRecord::Base
       start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
       break if start_modified > Date.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S')
       tmp_notify_items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
-      notify_items.push(tmp_notify_items) if tmp_notify_items.total_results.to_i > 0
+      notify_items[start_modified] = tmp_notify_items if tmp_notify_items.total_results.to_i > 0
       last_syn_time = last_syn_time.tomorrow.beginning_of_day
     end
     notify_items
@@ -96,7 +96,7 @@ class BaseItem < ActiveRecord::Base
   def self.synchronize_increment(sess)
     page_size = 40
     notify_items = get_notify_items(sess)
-    notify_items.each do |n_items|
+    notify_items.each do |start_modified,n_items|
       total_results = n_items.total_results.to_i
       total_page = total_page(total_results,page_size)
       #循环调用
