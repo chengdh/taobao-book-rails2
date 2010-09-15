@@ -81,7 +81,7 @@ class BaseItem < ActiveRecord::Base
     #FIXME 限制 start_modified 和 end_modified 必须在一天,而且必须在7天之内
     #查最后一次同步到7天之后有没有增量变化
     (1..7).each  do 
-      return if last_syn_time > Date.today.end_of_day
+      break if last_syn_time > Date.today.end_of_day
       start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
       tmp_notify_items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
       notify_items.push(tmp_notify_items) if tmp_notify_items.total_results.to_i > 0
