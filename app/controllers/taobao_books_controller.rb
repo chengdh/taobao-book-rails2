@@ -202,6 +202,7 @@ class TaobaoBooksController < BaseController
     else
       @taobao_book.save2taobao(sess)
     end
+    @taobao_book.nick = sess.top_params["visitor_nick"]
     @taobao_book.save
   end
   #设置批量更新操作
