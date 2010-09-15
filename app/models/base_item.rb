@@ -65,6 +65,7 @@ class BaseItem < ActiveRecord::Base
   end
   #判断是否有增量商品需要同步
   def self.has_increment?(sess)
+    nick = sess.top_params['visitor_nick']
     if !SynLog.exists?(nick)
       return true
     end
