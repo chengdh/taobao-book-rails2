@@ -69,7 +69,7 @@ class BaseItem < ActiveRecord::Base
     if !SynLog.exists?(nick)
       return true
     end
-    get_notify_items.any? { |n_items| n_items.total_results.to_i > 0 }
+    get_notify_items(sess).any? { |n_items| n_items.total_results.to_i > 0 }
   end
   private
   #获取商品增量信息
