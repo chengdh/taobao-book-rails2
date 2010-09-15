@@ -82,6 +82,7 @@ class BaseItem < ActiveRecord::Base
     #查最后一次同步到7天之后有没有增量变化
     (1..7).each  do 
       if last_syn_time.between?(7.days.ago.beginning_of_day,Date.today.end_of_day)
+        logger.debug last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
         start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
         tmp_notify_items = sess.invoke("taobao.increment.items.get",'nick' => nick,"start_modified" => start_modified,'page_no' => 1,'page_size' =>page_size,'session' => sess.session_key)
         notify_items.push(tmp_notify_items) if tmp_notify_items.total_results.to_i > 0
