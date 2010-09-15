@@ -17,7 +17,7 @@
 <% content_for :sidebar, render('side_bar_syn') %>
 <script type='text/javascript'>
   //发起ajax同步请求
-  var url = '<%=syn_syn_taobao_datas_path%>';
+  var url = '<%=syn_taobao_books_path%>';
   new Ajax.Request(url, 
       {
         method : 'post',
