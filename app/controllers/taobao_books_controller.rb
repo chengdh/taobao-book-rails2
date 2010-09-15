@@ -128,7 +128,7 @@ class TaobaoBooksController < BaseController
     end
     syn_log = SynLog.new
     syn_log = SynLog.find(sess.top_params['visitor_nick']) if SynLog.exists?(sess.top_params['visitor_nick'])
-    syn_log.last_syn_time = Date.
+    syn_log.last_syn_time = DateTime.now
     syn_log.id = sess.top_params['visitor_nick']
     if syn_log.save
       flash[:notice] = "同步数据完成."
