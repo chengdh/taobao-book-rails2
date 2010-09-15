@@ -102,7 +102,7 @@ class BaseItem < ActiveRecord::Base
       #循环调用
       (1..total_page).each do |pn|
         items = sess.invoke("taobao.increment.items.get",'nick' => sess.top_params["visitor_nick"],"start_modified" => start_modified,'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
-        notify_items.each do |the_item|
+        items.each do |the_item|
           if the_item.status == 'ItemDelete'  #删除被删除的数据
             self.destroy(the_item.num_iid)
           else
