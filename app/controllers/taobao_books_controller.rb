@@ -1,6 +1,6 @@
 require 'open-uri'
 class TaobaoBooksController < BaseController
-  #before_filter :syn_taobao,:only => :search_douban
+  before_filter :syn_taobao,:only => :search_douban
   def index
     @search = TaobaoBook.nick_is(taobao_session.top_params["visitor_nick"]).search(params[:search])
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
