@@ -127,7 +127,10 @@ class TaobaoBooksController < BaseController
     #同步user信息
     User.synchronize(sess)
     #店铺
-    Shop.synchronize(sess)
+    begin
+      Shop.synchronize(sess)
+    rescue
+    end
     #邮费模板
     Postage.synchronize(sess)
     #商品(书籍)
@@ -153,8 +156,11 @@ class TaobaoBooksController < BaseController
     sess = taobao_session
     #同步user信息
     User.synchronize(sess)
+    begin
     #店铺
-    Shop.synchronize(sess)
+      Shop.synchronize(sess)
+    rescue
+    end
     #邮费模板
     Postage.synchronize(sess)
     #商品(书籍)
