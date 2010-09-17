@@ -14,6 +14,8 @@
 .border-bottom { border-bottom: 1px dotted gray; }
 .short-text { width: 60px; }
 .very-short-text { width: 30px; }
+.uniForm .formHint { top: -1em; }
+.uniForm .blockLabels .formHint { top: -1em; }
 .calendar_date_select { z-index: 10001; }
 #util-navigation {
   position: absolute;

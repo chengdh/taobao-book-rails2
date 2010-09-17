@@ -11,6 +11,9 @@
       <%= hidden_field_tag "taobao_book[cid]"%>
       <%= label_tag "taobao_book[cid]","书籍所属分类:" %>
       <%= render "item_cats/item_cat_children",:item_cat => ItemCat.find(ItemCat::BOOK_CID)%>
+      <p class='formHint'>
+        请设置正确的书籍分类以防止上传失败
+      </p>
     </div>
 
     <div class='ctrlHolder' >

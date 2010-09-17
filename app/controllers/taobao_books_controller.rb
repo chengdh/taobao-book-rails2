@@ -1,6 +1,6 @@
 require 'open-uri'
 class TaobaoBooksController < BaseController
-  before_filter :syn_taobao,:only => :search_douban
+  #before_filter :syn_taobao,:only => :search_douban
   def index
     @search = TaobaoBook.nick_is(taobao_session.top_params["visitor_nick"]).search(params[:search])
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
@@ -49,9 +49,9 @@ class TaobaoBooksController < BaseController
     begin
       set_batch_update(@taobao_book)
       flash[:notice] = "#{@taobao_book.title}信息更新成功."
-    rescue
+    rescue => ex
       update_success = false
-      flash[:error] = "#{@taobao_book.title}信息更新失败."
+      flash[:error] = "#{@taobao_book.title}信息更新失败: #{ex.to_s}."
     end
     render :partial => "shared/update_flash.rjs",:status => (update_success ? :ok : :bad_request)
   end
@@ -63,9 +63,9 @@ class TaobaoBooksController < BaseController
     begin
       savebook2taobao(@taobao_book)
       flash[:notice] = "#{@taobao_book.title}信息更新成功."
-    rescue
+    rescue => ex
       save_success = false
-      flash[:error] = "#{@taobao_book.title}信息更新失败."
+      flash[:error] = "#{@taobao_book.title}信息更新失败: #{ex.to_s}."
     end
     render :partial => "shared/update_flash.rjs",:status => (save_success ? :ok : :bad_request)
 
@@ -78,9 +78,9 @@ class TaobaoBooksController < BaseController
     begin
       savebook2taobao(@taobao_book)
       flash[:notice] = "#{@taobao_book.title}已成功上传至淘宝."
-    rescue
+    rescue => ex
       save_success = false
-      flash[:error] = "#{@taobao_book.title}上传失败."
+      flash[:error] = "#{@taobao_book.title}上传失败: #{ex.to_s}."
     end
     render :partial => "after_upload.rjs",:status => (save_success ? :ok : :bad_request),:locals => {:taobao_book => @taobao_book}
   end
@@ -109,6 +109,16 @@ class TaobaoBooksController < BaseController
   #item_pvs
   #item_seller_cats
   def syn
+    if RAILS_ENV=='production'
+      syn_standard
+    else
+      syn_sandbox
+    end
+  end
+
+  private
+  #正式环境下的数据同步
+  def syn_standard
     sess = taobao_session
     #订阅增量信息
     #FIXME 沙箱不支持增量API
@@ -138,8 +148,30 @@ class TaobaoBooksController < BaseController
     else
     end
   end
+  #FIXME 单独设置开发环境下的数据同步,沙箱环境下,增量API不可用
+  def syn_sandbox
+    sess = taobao_session
+    #同步user信息
+    User.synchronize(sess)
+    #店铺
+    Shop.synchronize(sess)
+    #邮费模板
+    Postage.synchronize(sess)
+    #商品(书籍)
+    TaobaoBook.synchronize(sess)
+    syn_log = SynLog.new
+    syn_log = SynLog.find(sess.top_params['visitor_nick']) if SynLog.exists?(sess.top_params['visitor_nick'])
+    syn_log.last_syn_time = DateTime.now
+    syn_log.id = sess.top_params['visitor_nick']
+    if syn_log.save
+      flash[:notice] = "同步数据完成."
+      render :update do |page| 
+        page.redirect_to :root
+      end
+    else
+    end
+  end
 
-  private
   #设置douban书籍的属性
   def set_douban_attr(taobao_book)
     select_attrs = params[:select_attrs]

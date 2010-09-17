@@ -19,6 +19,10 @@ module Taobao
           #   session[:taobao_session] = Taobao::SessionKey.get_session('chengqi')
           # end
         end
+        #FIXME 在测试环境下,手工设置sesion
+        if RAILS_ENV == 'development'
+          session[:taobao_session] = Taobao::SessionKey.get_session('chengqi')
+        end
       end
 
       def taobao_auth_url
