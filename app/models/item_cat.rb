@@ -3,7 +3,7 @@ class ItemCat < ActiveRecord::Base
   BOOK_CID = 33
   set_primary_key :cid
   has_many :base_items,:foreign_key => :cid
-  acts_as_tree :foreign_key => "parent_cid",:order => "sort_order"
+  acts_as_tree :foreign_key => "parent_cid",:order => "sort_order,is_parent"
   #同步商品类目
   #FIXME 添加事务处理
   def self.synchronize(sess)
