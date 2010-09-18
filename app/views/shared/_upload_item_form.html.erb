@@ -47,13 +47,13 @@
       </div>
 
       <div class='ctrlHolder'>
-        <%= radio_button_tag "taobao_book[post_fee_type]", "normal" %>
+        <%= radio_button_tag "taobao_book[post_fee_type]", "normal",true %>
         平邮:
-        <%= text_field_tag "taobao_book[post_fee]",nil,:class => 'very-short-text' %>
+        <%= text_field_tag "taobao_book[post_fee]",10,:class => 'very-short-text' %>
         快递:
-        <%= text_field_tag "taobao_book[express_fee]",nil,:class => 'very-short-text' %>
+        <%= text_field_tag "taobao_book[express_fee]",20,:class => 'very-short-text' %>
         EMS:
-        <%= text_field_tag "taobao_book[ems_fee]",nil,:class => 'very-short-text' %>
+        <%= text_field_tag "taobao_book[ems_fee]",30,:class => 'very-short-text' %>
       </div>
     </div>
 
