@@ -14,12 +14,13 @@
 //成功时调用设置选择的子类cid
 
 set_cid = function(){
-  <% if !item_cat.is_parent %>
+  <%if !item_cat.is_parent %>
       $('taobao_book_cid').value = '<%=item_cat.id%>'
-    <%else%>
+    <%end%>
+  <%if item_cat.is_parent %>
       //清空剩余的一些div
     var siblings = $("<%=item_cat_level#{item_cat.children.first.id} %>").nextSiblings();
-  siblings.each(function(el){el.remove();});
-<% end %>
+    siblings.each(function(el){el.remove();});
+  <%end%>
 };
 </script>
