@@ -71,7 +71,6 @@ class BaseItem < ActiveRecord::Base
     end
     get_notify_items(sess).values.any? { |start_modified,n_items| n_items.total_results.to_i > 0 }
   end
-  private
   #获取商品增量信息
   def self.get_notify_items(sess)
     notify_items = Hash.new
@@ -89,7 +88,6 @@ class BaseItem < ActiveRecord::Base
     end
     notify_items
   end
-  public
   #使用增量API同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   #FIXME 只能同步7天内的数据,如何处理

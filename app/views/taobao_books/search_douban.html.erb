@@ -4,6 +4,9 @@
       <li class="first active"><%= link_to "查书", search_douban_taobao_books_path %></li>
     </ul>
   </div>          
+  <%@debug_rsp.each do |start,n_items|%>
+    <p><%="#{start}: #{n_items.total_results}"%></p>
+  <%end%>
   <div class="content">          
     <h2 class="title">去豆瓣查查看有没有我要卖的书</h2>
     <div class="inner">
