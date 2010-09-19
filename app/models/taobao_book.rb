@@ -26,7 +26,7 @@ class TaobaoBook < BaseItem
   #定义属性方法名称
   def self.attr_names
     { 
-      :isbn10 => [ISBN_PID,"ISBN编号"],
+      :isbn13 => [ISBN_PID,"ISBN编号"],
       :pubdate => [PUBDATE_PID,"出版日期"],
       :pages => [PAGES_PID,"页数"],
       :publisher => [PUBLISHER_PID,"出版社"],
