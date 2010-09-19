@@ -15,7 +15,7 @@ class TaobaoBooksController < BaseController
     end
   end
   def search_douban
-    @debug_rsp = TaobaoBook.get_nofify_items(taobao_session)
+    @debug_rsp = TaobaoBook.get_notify_items(taobao_session)
   end
   #根据传入的ISBN编号,从豆瓣查书
   #GET /taobao_books/index_douban
