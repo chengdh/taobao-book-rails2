@@ -8,6 +8,11 @@
       <%= f.label "seller_cats_cid_is","所属店铺分类" %>
       <%= f.select "seller_cats_cid_is",option_groups_seller_cats_for_select,:include_blank => true %>
     </div>
+    <div class='ctrlHolder' >
+      <%= f.label "approve_status_is","宝贝状态" %>
+      <%= f.select "approve_status_is",[['onsale','出售'],['instock','仓库中']],:include_blank => true %>
+    </div>
+
   </fieldset>
   <div class='actions-bar'>
     <%= f.submit  "查询宝贝",:class => 'sexybutton sexysimple sexyblue' %>
