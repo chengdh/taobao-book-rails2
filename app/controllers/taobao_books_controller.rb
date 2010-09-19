@@ -289,10 +289,8 @@ class TaobaoBooksController < BaseController
   end
   #从淘宝同步数据
   def syn_taobao
-    sess = taobao_session
-    nick = sess.top_params['visitor_nick']
-    if TaobaoBook.has_increment?(sess)
+    #if TaobaoBook.has_increment?(taobao_session)
       redirect_to syn_page_taobao_books_path
-    end
+    #end
   end
 end
