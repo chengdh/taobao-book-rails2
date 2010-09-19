@@ -49,11 +49,11 @@ class BaseItem < ActiveRecord::Base
   #同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   def self.synchronize(sess)
-    self.synchronize(sess,"taobao.items.onsale.get")
-    self.synchronize(sess,"taobao.items.inventory.get")
+    self.synchronize_onsale_or_inventory(sess,"taobao.items.onsale.get")
+    self.synchronize_onsale_or_inventory(sess,"taobao.items.inventory.get")
   end
   #获取当前用户出售中和库存中的商品
-  def self.synchronize(sess,taobao_method)
+  def self.synchronize_onsale_or_inventory(sess,taobao_method)
     page_size = 40
     page_no = 1
     items = sess.invoke(taobao_method,"fields" =>"num_iid,cid",'page_no' => page_no,'page_size' =>page_size,'session' => sess.session_key)
