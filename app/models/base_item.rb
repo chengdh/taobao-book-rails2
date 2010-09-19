@@ -62,7 +62,7 @@ class BaseItem < ActiveRecord::Base
     item_fields = Taobao::Item.fields +  ',item_img,sku'
     #循环调用
     (1..total_page).each do |pn|
-      items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
+      items = sess.invoke(taobao_method,"fields" =>"num_iid,cid",'page_no' => pn,'page_size' =>page_size,'session' => sess.session_key)
       items.each do |the_item|
         synchronize_single(sess,the_item.num_iid)
       end
