@@ -271,13 +271,11 @@ class TaobaoBooksController < BaseController
       end
     end
     #所属类目
-    taobao_book.item_seller_cats.build(:cid => params[:pub_book_attr][:seller_cids])
+    taobao_book.item_seller_cats.build(:cid => params[:pub_book_attr][:seller_cids]) if !params[:pub_book_attr][:seller_cids].blank?
 
     sess = taobao_session
-    sess = Taobao::SessionKey.get_session('chengqi')
     taobao_book.save2taobao(sess)
     taobao_book.save
-
   end
   #下载远程服务器图片
   def get_remote_pic(url)
