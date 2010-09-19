@@ -15,7 +15,7 @@ class TaobaoBooksController < BaseController
     end
   end
   def search_douban
-    @debug_rsp = sess.invoke("taobao.increment.items.get",'nick' => taobao_session.top_params["visitor_nick"],"start_modified" => "2010-09-19 00:00:00",'session' => taobao_session.session_key)
+    @debug_rsp = taobao_session.invoke("taobao.increment.items.get",'nick' => taobao_session.top_params["visitor_nick"],"start_modified" => "2010-09-19 00:00:00",'session' => taobao_session.session_key)
 
   end
   #根据传入的ISBN编号,从豆瓣查书
