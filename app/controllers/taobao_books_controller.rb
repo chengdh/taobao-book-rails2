@@ -15,12 +15,12 @@ class TaobaoBooksController < BaseController
     end
   end
   def search_douban
-
     nick = taobao_session.top_params['visitor_nick']
     last_syn_time =  SynLog.find(nick).last_syn_time
     last_syn_time = last_syn_time.tomorrow.beginning_of_day
     start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
-    @debug_rsp = taobao_session.invoke("taobao.increment.items.get",'nick' => taobao_session.top_params["visitor_nick"],"start_modified" => start_modified,'session' => taobao_session.session_key)
+#    @debug_rsp = taobao_session.invoke("taobao.increment.items.get",'nick' => taobao_session.top_params["visitor_nick"],"start_modified" => start_modified,'session' => taobao_session.session_key)
+    @debug_rsp = TaobaoBook.get_notify_items(taobao_session)
 
   end
   #根据传入的ISBN编号,从豆瓣查书
