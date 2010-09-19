@@ -10,7 +10,7 @@ class TaobaoBooksController < BaseController
     #根据isbn查找书籍
     douban = Douban::Douban.new
     @taobao_books.each do |book|
-      douban_book = douban.get_book(book.isbn10)
+      douban_book = douban.get_book(book.isbn13)
       @douban_books[book.id] = douban_book if !douban_book.blank?
     end
   end
