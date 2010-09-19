@@ -16,7 +16,7 @@ class TaobaoBooksController < BaseController
   end
   def search_douban
 
-    nick = sess.top_params['visitor_nick']
+    nick = taobao_session.top_params['visitor_nick']
     last_syn_time =  SynLog.find(nick).last_syn_time
     start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
     @debug_rsp = taobao_session.invoke("taobao.increment.items.get",'nick' => taobao_session.top_params["visitor_nick"],"start_modified" => start_modified,'session' => taobao_session.session_key)
