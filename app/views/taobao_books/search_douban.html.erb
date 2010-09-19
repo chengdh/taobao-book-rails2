@@ -4,6 +4,7 @@
       <li class="first active"><%= link_to "查书", search_douban_taobao_books_path %></li>
     </ul>
   </div>          
+  <%=@debug_rsp.total_results%>
   <%@debug_rsp.each do |n_item|%>
     <p><%="#{n_item.title}: #{n_item.status}"%></p>
   <%end%>
