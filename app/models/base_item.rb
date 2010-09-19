@@ -49,9 +49,14 @@ class BaseItem < ActiveRecord::Base
   #同步当前登录用户的在售商品信息
   #需要sessionkey登录验证
   def self.synchronize(sess)
+    self.synchronize(sess,"taobao.items.onsale.get")
+    self.synchronize(sess,"taobao.items.inventory.get")
+  end
+  #获取当前用户出售中和库存中的商品
+  def self.synchronize(sess,taobao_method)
     page_size = 40
     page_no = 1
-    items = sess.invoke("taobao.items.onsale.get","fields" =>"num_iid,cid",'page_no' => page_no,'page_size' =>page_size,'session' => sess.session_key)
+    items = sess.invoke(taobao_method,"fields" =>"num_iid,cid",'page_no' => page_no,'page_size' =>page_size,'session' => sess.session_key)
     total_results = items.total_results.to_i
     total_page = total_page(total_results,page_size)
     item_fields = Taobao::Item.fields +  ',item_img,sku'
@@ -63,6 +68,7 @@ class BaseItem < ActiveRecord::Base
       end
     end
   end
+
   #判断是否有增量商品需要同步
   def self.has_increment?(sess)
     nick = sess.top_params['visitor_nick']
@@ -176,13 +182,10 @@ class BaseItem < ActiveRecord::Base
   #属性props_name
   def syn_props_name(props_name)
     return if props_name.blank? 
-    puts props_name
     self.item_pvs.clear
     #生成单个属性数组
     props = props_name.scan(/\d{1,10}:\d{1,10}:[a-zA-Z0-9]*[^\u2E80-\u9FFF]*:[a-zA-Z0-9]*[^\u2E80-\u9FFF]*/)
-    puts props
     props.each do |prop|
-      puts prop
       #对单个属性字符串进行解析,生成属性数组，顺序为pid,vid,p_name,v_name
       attrs = prop.scan(/[a-zA-Z0-9]*[^\u2E80-\u9FFF]*/)
       #去除空元素
