@@ -24,9 +24,9 @@
     <div class="inner">
       <div class="actions-bar border-bottom" id='selector_wrap'>
         <div id='selector'>
-          <%= link_to_function "全选","selector.select_all(true)" %>
+          <%= link_to_function "全选","the_selector.select_all(true)" %>
           &nbsp;|&nbsp;
-          <%= link_to_function "不选","selector.select_all(false)"  %>
+          <%= link_to_function "不选","the_selector.select_all(false)"  %>
         </div>
         <span id='select_des'>选定书籍,可批量更新其信息...</span>
         <div id='btn_wrap'>
@@ -45,12 +45,12 @@
 </div>
 <% content_for :sidebar, render(:partial => 'side_bar_index') -%>
 <script type='text/javascript'>
-  selector = new com.strongu.Selector(<%= @taobao_books_ids.to_json %>,'select_des');
-  selector.add_check_listener('items_list');
+  the_selector = new com.strongu.Selector(<%= @taobao_books_ids.to_json %>,'select_des');
+  the_selector.add_check_listener('items_list');
   //批量更新
   var batch_update = function(){
     //设置需要更新的属性列表,默认更新全部
-    selector.selected_ids().each(function(book_id){
+    the_selector.selected_ids().each(function(book_id){
         var the_book = taobao_books.get(book_id);
         //发起ajax请求
         //判断是新增还是更新
