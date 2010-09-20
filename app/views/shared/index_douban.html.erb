@@ -22,9 +22,9 @@ var book_price_num_listener = function(evt,isbn13,type) {
     <div class="inner">
       <div class="actions-bar border-bottom" id='selector_wrap'>
         <div id='selector'>
-          <%= link_to_function "全选","selector.select_all(true)" %>
+          <%= link_to_function "全选","the_selector.select_all(true)" %>
           &nbsp;|&nbsp;
-          <%= link_to_function "不选","selector.select_all(false)"  %>
+          <%= link_to_function "不选","the_selector.select_all(false)"  %>
         </div>
         <span id='select_des'>选定书籍,可以批量上传到淘宝...</span>
         <div id='btn_wrap'>
@@ -62,8 +62,8 @@ var book_price_num_listener = function(evt,isbn13,type) {
 </div>
 <% content_for :sidebar, render(:partial => 'sidebar') -%>
 <script type='text/javascript'>
-  selector = new com.strongu.Selector(<%= @douban_book_isbns.to_json %>,'select_des');
-  selector.add_check_listener('items_list');
+  the_selector = new com.strongu.Selector(<%= @douban_book_isbns.to_json %>,'select_des');
+  the_selector.add_check_listener('items_list');
   //获取用户选择的要更新的属性
   var get_update_attrs = function() {
     var els = $$("#title,#isbn13,#isbn10,#author,#image,#publisher,#pubdate,#pages,#price,#binding,#summary,#author_intro");
@@ -75,7 +75,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
   var upload_item = function(){
     $('btn_batch_upload').addClassName('disabled');
     //设置需要更新的属性列表,默认更新全部
-    selector.selected_ids().each(function(isbn13){
+    the_selector.selected_ids().each(function(isbn13){
         var the_douban_book = douban_books.get(isbn13);
         //发起ajax请求
         //判断是新增还是更新
@@ -104,7 +104,7 @@ var book_price_num_listener = function(evt,isbn13,type) {
   var save_local = function(){
     $('btn_batch_marks').addClassName('disabled');
     //设置需要更新的属性列表,默认更新全部
-    selector.selected_ids().each(function(isbn13){
+    the_selector.selected_ids().each(function(isbn13){
         var the_douban_book = douban_books.get(isbn13);
         //发起ajax请求
         //判断是新增还是更新
