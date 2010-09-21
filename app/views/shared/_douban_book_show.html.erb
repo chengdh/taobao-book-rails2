@@ -5,7 +5,7 @@
     :complete => "$('ajax_#{douban_book.isbn13}').hide()",
     :success => "$('ok_#{douban_book.isbn13}').hide()",
     :failure => "$('failure_#{douban_book.isbn13}').hide()",
-    :html => {:method => :post ,:id => "douban_book_form_#{douban_book.isbn13}"} do |f| %>
+    :html => {:method => :post ,:id => "dbf_#{douban_book.isbn13}"} do |f| %>
     <% if !taobao_book.blank? %>
       <%= hidden_field_tag :id,taobao_book.id %>
     <% end %>
