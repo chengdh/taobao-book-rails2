@@ -6,9 +6,5 @@
   </div>
 <%end%>
 <script type='text/javascript'>
-  set_cid = function(){
-    var selected_item_cat = <%=item_cat.to_json%>;
-    if(!selected_item_cat.is_parent) 
-      $('taobao_book_cid').value = selected_item_cat.cid;
-  };
+  selected_item_cat = <%=item_cat.to_json%>;
 </script>
