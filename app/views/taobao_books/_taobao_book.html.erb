@@ -31,7 +31,7 @@
     </div>
   </td>
   <td>
-    <%= douban_book.blank? ? '' : link_to_function('豆瓣上也有它...',"$('book_#{douban_book.isbn13}').show();Modalbox.show($('book_#{douban_book.isbn13}'),{title : '#{douban_book.title}',width : 700,height : 600})",:class => 'sexybutton sexysimple sexygreen') %>
+    <%= douban_book.blank? ? '' : link_to_function('豆瓣上也有它...',Modalbox.show($('book_#{douban_book.isbn13}'),{title : '#{douban_book.title}',width : 700,height : 600})",:class => 'sexybutton sexysimple sexygreen') %>
     <%= render "shared/douban_book_show",:taobao_book =>taobao_book ,:show_operate => true,:douban_book => douban_book if !douban_book.blank?  %>
   </td>
   <td>
