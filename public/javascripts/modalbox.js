@@ -278,7 +278,7 @@ Modalbox.Methods = {
 			// If clonable element has ID attribute defined, modifying it to prevent duplicates
 			if(content.id) content.id = "MB_" + content.id;
 			/* Add prefix for IDs on all elements inside the DOM node */
-			$(content).select('*[id]').each(function(el){ alert(el.id);el.id = "MB_" + el.id; });
+			$(content).select('*[id]').each(function(el){ try{el.id = "MB_" + el.id; } catch(ex) {;}});
 			this.MBcontent.update(_htmlObj).down('div').show();
 			if(Prototype.Browser.IE) // Toggling back visibility for hidden selects in IE
 				$$("#MB_content select").invoke('setStyle', {'visibility': ''});
