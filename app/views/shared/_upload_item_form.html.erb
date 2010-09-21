@@ -80,3 +80,9 @@
     </div>
   </fieldset>
 <% end%>
+<script type='text/javascript'>
+/成功时调用设置选择的子类cid
+set_cid = function(selected_item_cat){
+  if(selected_item_cat.is_parent == 'true') $('taobao_book_cid').value = selected_item_cat.id;
+};
+</script>
