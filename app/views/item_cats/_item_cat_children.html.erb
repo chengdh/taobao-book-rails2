@@ -7,5 +7,6 @@
 <%end%>
 <script type='text/javascript'>
     var selected_item_cat = <%=item_cat.to_json%>;
+    alert(selected_item_cat.cid + ":" + selected_item_cat.name);
     if(!selected_item_cat.is_parent) $('taobao_book_cid').value = selected_item_cat.cid;
 </script>
