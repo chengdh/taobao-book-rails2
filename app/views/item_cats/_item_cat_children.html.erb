@@ -5,6 +5,7 @@
     <%=render "item_cats/item_cat_children" ,:item_cat => first_child_cat if first_child_cat.is_parent %>
   </div>
 <%end%>
+<script type='text/javascript'>
   //设置默认值
 <% if item_cat.is_parent and !item_cat.children.first.is_parent %>
   $('taobao_book_cid').value = '<%=item_cat.children.first.id%>'
