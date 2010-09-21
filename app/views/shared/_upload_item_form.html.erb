@@ -1,9 +1,3 @@
-<script type='text/javascript'>
-  var set_cid = function(selected_item_cat){
-    alert('ok');
-    $('taobao_book_cid').value = selected_item_cat.cid;
-  };
-</script>
 <% form_remote_tag :url => {:action => :upload_item},:html => {:id =>'upload_taobao_book_form',:class => "uniForm"} do %>
   <fieldset class="blockLabels">
     <div class ='ctrlHolder'>

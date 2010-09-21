@@ -5,13 +5,8 @@
     <%=render "item_cats/item_cat_children" ,:item_cat => first_child_cat if first_child_cat.is_parent %>
   </div>
 <%end%>
-
 <%if !item_cat.is_parent%>
   <script type='text/javascript'>
-
-    alert("set cid");
-    var selected_item_cat = <%=item_cat.to_json%>;
-    alert(selected_item_cat.cid);
-    set_cid(selected_item_cat);
+    $('taobao_book_cid').value = "<%=item_cat.id %>";
   </script>
 <%end%>
