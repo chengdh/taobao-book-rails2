@@ -1,6 +1,5 @@
 <script type='text/javascript'>
-  var selected_item_cat  = null ;
-  var set_cid = function(){
+  var set_cid = function(selected_item_cat){
     if( selected_item_cat !=null && !selected_item_cat.is_parent) 
       $('taobao_book_cid').value = selected_item_cat.cid;
   };

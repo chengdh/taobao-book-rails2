@@ -8,7 +8,7 @@
 
 <%if !item_cat.is_parent%>
   <script type='text/javascript'>
-    selected_item_cat = <%=item_cat.to_json%>;
-    set_cid();
+    var selected_item_cat = <%=item_cat.to_json%>;
+    set_cid(selected_item_cat);
   </script>
 <%end%>
