@@ -8,6 +8,8 @@
 
 <%if !item_cat.is_parent%>
   <script type='text/javascript'>
+
+    alert("set cid");
     var selected_item_cat = <%=item_cat.to_json%>;
     alert(selected_item_cat.cid);
     set_cid(selected_item_cat);
