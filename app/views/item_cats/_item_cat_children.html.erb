@@ -7,5 +7,5 @@
 <%end%>
 <script type='text/javascript'>
     var selected_item_cat = <%=item_cat.to_json%>;
-    if(!selected_item_cat.is_parent) $('taobao_book_cid').value = selected_item_cat.id;
+    if(!selected_item_cat.is_parent) $('taobao_book_cid').value = selected_item_cat.cid;
 </script>
