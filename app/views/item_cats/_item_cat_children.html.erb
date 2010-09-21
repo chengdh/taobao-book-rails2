@@ -6,5 +6,7 @@
   </div>
 <%end%>
 <script type='text/javascript'>
-  selected_item_cat = <%=item_cat.to_json%>;
+  <%if !item_cat.is_parent%>
+    selected_item_cat = <%=item_cat.to_json%>;
+  <%end%>
 </script>
