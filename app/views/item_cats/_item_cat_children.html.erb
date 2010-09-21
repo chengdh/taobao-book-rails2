@@ -1,4 +1,4 @@
-<% if item_cat.is_parent%>
+<% if item_cat.is_parent %>
   <% first_child_cat = item_cat.children.first %>
   <div id='item_cat_level<%=item_cat.id%>'>
     <%= select_tag "select_cid_#{item_cat.id}",options_from_collection_for_select(item_cat.children, 'id', 'name',item_cat.children.first.id),:onchange => remote_function(:update => "item_cat_level#{first_child_cat.id}",:method => :get,:with => "'id=' + value",:url => {:controller =>:item_cats,:action => :children}) %>

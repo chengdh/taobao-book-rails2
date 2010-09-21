@@ -1,1 +1,2 @@
 page[:taobao_book_cid].value = item_cat.id
+page["item_cat_level#{item_cat.parent.children.first.id}"].remove();
