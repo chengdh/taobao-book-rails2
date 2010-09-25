@@ -7,15 +7,4 @@ class ProvincesController < BaseController
      format.js {render :partial => "city"}
     end
   end
-  # DELETE /provinces/1
-  # DELETE /provinces/1.xml
-  def destroy
-    @province = Province.find(params[:id])
-    @province.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(provinces_url) }
-      format.xml  { head :ok }
-    end
-  end
 end
