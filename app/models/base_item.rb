@@ -248,11 +248,7 @@ class BaseItem < ActiveRecord::Base
     #updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
     updated_values["location.state"] = updated_values["state"]
     updated_values["location.city"] = updated_values["city"]
-    #FIXME 测试用,将location 写死了
-    updated_values["location.state"] = "河南"
-    updated_values["location.city"] = "郑州"
 
-    #TODO 暂时注释
     updated_values["input_pids"] = input_pids
     updated_values["input_str"] = input_str
     updated_values["props"] = props
