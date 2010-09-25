@@ -1,0 +1,2 @@
+<% @province = Province.find(1).children.first unless defined? @province %>
+<%= select_tag "taobao_book[city]",options_from_collection_for_select(@province.children, 'id', 'name') %>

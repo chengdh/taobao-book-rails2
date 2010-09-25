@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.resources :provinces,:collection => {:children => :get}
+
   map.resources :douban_books
 
   map.resources :item_cats,:collection => {:children => :get}

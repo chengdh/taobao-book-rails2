@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100913021446) do
+ActiveRecord::Schema.define(:version => 20100922014948) do
 
   create_table "douban_books", :force => true do |t|
     t.string   "nick",         :limit => 60,  :default => "", :null => false
@@ -182,6 +182,13 @@ ActiveRecord::Schema.define(:version => 20100913021446) do
     t.boolean  "is_parent"
     t.string   "status",     :limit => 20
     t.integer  "sort_order",               :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "provinces", :force => true do |t|
+    t.string   "name",       :limit => 40, :default => "", :null => false
+    t.integer  "parent_id",                                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
