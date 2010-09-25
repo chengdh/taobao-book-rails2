@@ -9,7 +9,7 @@ module ProvincesHelper
     end
   end
   def default_location
-    taobao_sess = session[:taobao_sessioin]
+    taobao_sess = session[:taobao_session]
     user = User.find(taobao_sess.top_params[:visitor_id])
     if user.user_location.blank?
       nil
