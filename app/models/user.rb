@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   set_primary_key :user_id
-  belongs_to :user_location,:foreign_key => "location_id"
+  belongs_to :user_location,:foreign_key => "location_id",:autosave => true
   belongs_to :buyer_credit,:class_name => "UserCredit",:foreign_key => "buyer_credit_id"
   belongs_to :seller_credit,:class_name => "UserCredit",:foreign_key => "seller_credit_id"
   #同步当前会话用户信息

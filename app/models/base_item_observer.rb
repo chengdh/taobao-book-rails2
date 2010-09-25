@@ -8,6 +8,5 @@ class BaseItemObserver < ActiveRecord::Observer
     user_location.city = item.city
     user.user_location = user_location
     user.save
-    logger.debug "user_location is saved"
   end
 end
