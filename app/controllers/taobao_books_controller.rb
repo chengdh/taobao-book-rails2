@@ -200,8 +200,8 @@ class TaobaoBooksController < BaseController
   def set_public_attr(taobao_book)
     taobao_book.stuff_status = params[:taobao_book][:stuff_status]
     taobao_book.cid = params[:taobao_book][:cid]
-    taobao_book.state = LocalArea.find(params[:taobao_book][:state]).name
-    taobao_book.city = LocalArea.find(params[:taobao_book][:city]).name
+    taobao_book.state = Province.find(params[:taobao_book][:state]).name
+    taobao_book.city = Province.find(params[:taobao_book][:city]).name
     taobao_book.freight_payer = params[:taobao_book][:freight_payer]
 
     if params[:taobao_book][:freight_payer] == 'buyer'
