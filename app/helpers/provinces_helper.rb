@@ -10,8 +10,8 @@ module ProvincesHelper
   end
   def default_location
     taobao_sess = session[:taobao_session]
-    logger.debug taobao_sess
-    user = User.nick_is(taobao_sess.top_params[:visitor_nick]).first
+    logger.debug taobao_sess.top_params["visitor_id"]
+    user = User.nick_is(taobao_sess.top_params["visitor_nick"]).first
     if user.user_location.blank?
       nil
     else
