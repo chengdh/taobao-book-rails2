@@ -1,6 +1,6 @@
 require 'open-uri'
 class TaobaoBooksController < BaseController
-  before_filter :syn_taobao,:only => :search_douban
+  before_filter [:syn_user_shop,:app_subscribe],:only => :search_douban
   def index
     @search = TaobaoBook.nick_is(taobao_session.top_params["visitor_nick"]).search(params[:search])
     @taobao_books = @search.paginate :page => params[:page],:order => "created_at DESC"
@@ -116,13 +116,9 @@ class TaobaoBooksController < BaseController
   end
 
   private
-  #正式环境下的数据同步
-  def syn_standard
+  #仅仅同步用户和店铺信息
+  def syn_user_shop
     sess = taobao_session
-    #订阅增量信息
-    #FIXME 沙箱不支持增量API
-    SynLog.app_subscribe(sess)
-    SynLog.user_authorize(sess)
     #同步user信息
     User.synchronize(sess)
     #店铺
@@ -130,6 +126,22 @@ class TaobaoBooksController < BaseController
       Shop.synchronize(sess)
     rescue
     end
+  end
+  #增量信息订阅
+  def app_subscribe
+    sess = taobao_session
+    #订阅增量信息
+    #FIXME 沙箱不支持增量API
+    SynLog.app_subscribe(sess)
+    SynLog.user_authorize(sess)
+
+  end
+  #正式环境下的数据同步
+  def syn_standard
+    sess = taobao_session
+    #订阅增量信息
+    app_subscribe
+    syn_user_shop
     #邮费模板
     Postage.synchronize(sess)
     #商品(书籍)
