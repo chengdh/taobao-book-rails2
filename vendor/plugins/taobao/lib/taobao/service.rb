@@ -23,7 +23,7 @@ module Taobao
       tmp_params.delete("image")
       @params.merge!(options)
       str = ENV['TAOBAO_APP_SECRET'] + (tmp_params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("") + ENV['TAOBAO_APP_SECRET']
-      @params["sign"] = Digest::MD5.hexdigest(str.URLEncode).upcase!
+      @params["sign"] = Digest::MD5.hexdigest(str).upcase!
     end
 
     def invoke
