@@ -12,11 +12,12 @@
   <body>
     <div id="container">
       <div id="header">
-
-        <h1><%=link_to '快手书商-书商好助手',:root%></h1>
+        <%nick = session[:taobao_session].top_params["visitor_nick"]
+          shop_name = Shop.nick_is(nick).blank? ? "" : "(#{Shop.nick_is(nick).first.title})" %>
+        <h1><%=link_to "快手书商-书商好助手#{shop_name}",:root%></h1>
         <div id='util-navigation'>
           <ul class="wat-cf">
-            <li><a href="#"><%= "欢迎您:#{session[:taobao_session].top_params["visitor_nick"]}" %></a></li>
+            <li><a href="#"><%= "欢迎您:#{nick}" %></a></li>
           </ul>
         </div>
         <div id="user-navigation">

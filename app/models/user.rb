@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
     end
     user.id = remote_user.user_id
     user.user_type = remote_user.type
+    user.nick = nick
     #同步location
     user.user_location.destroy unless user.user_location.blank?
     user.syn_location(remote_user.location)
