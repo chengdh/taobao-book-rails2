@@ -1,4 +1,5 @@
 require 'digest/md5'
+require 'iconv'
 
 module Taobao
   class Session
@@ -14,7 +15,8 @@ module Taobao
 
         if sign == params['top_sign']
           self.session_key = params['top_session']
-          @top_params = Hash[*(Base64.decode64(params['top_parameters']).URLDecode.split('&').collect {|v| v.split('=')}).flatten]
+          conv = Iconv.new('UTF-8','GBK')
+          @top_params = Hash[*(conv.iconv(Base64.decode64(params['top_parameters'])).split('&').collect {|v| v.split('=')}).flatten]
           @authorized = true
         else
           throw InvalidSignature.new('top_sign签名验证非法!')
