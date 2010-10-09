@@ -11,7 +11,7 @@ module ProvincesHelper
   def default_location
     taobao_sess = session[:taobao_session]
     user = User.find(taobao_sess.top_params["visitor_id"])
-    if user.user_location.blank?
+    if user.user_location.blank? or user.user_location.state.blank? or user.user_location.city.blank?
       nil
     else
       [Province.name_is(user.user_location.state).first,Province.name_is(user.user_location.city).first]
