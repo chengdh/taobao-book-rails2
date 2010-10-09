@@ -26,8 +26,9 @@ module Taobao
       #将nick进行urlencode编码
       conv = Iconv.new('UTF-8','GBK')
       tmp_params['nick'] = conv.iconv(tmp_params['nick']) if !tmp_params['nick'].blank?
-      #tmp_params['nicks'] = tmp_params['nicks'].URLEncode if !tmp_params['nicks'].blank?
-      #@params['nick'] = conv.iconv(@params['nick']) if !@params['nick'].blank?
+      tmp_params['nicks'] = conv.iconv(tmp_params['nicks']) if !tmp_params['nicks'].blank?
+      @params['nick'] = conv.iconv(@params['nick']) if !@params['nick'].blank?
+      @params['nicks'] = conv.iconv(@params['nicks']) if !@params['nicks'].blank?
 
       str = ENV['TAOBAO_APP_SECRET'] + (tmp_params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("") + ENV['TAOBAO_APP_SECRET']
       @params["sign"] = Digest::MD5.hexdigest(str).upcase!
