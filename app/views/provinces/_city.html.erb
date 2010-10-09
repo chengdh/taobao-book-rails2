@@ -1,12 +1,11 @@
-<% if !defined? @province
-@province = Province.find(1).children.first 
-selected_city = Province.find(1).children.first.children.first
-if !default_location.blank?
-  @province = default_location[0] 
-  selected_city = default_location[1] 
+<% 
+  if !defined? @province
+    @province = Province.find(1).children.first 
+    selected_city = Province.find(1).children.first.children.first
+    if !default_location.blank?
+      @province = default_location[0] 
+      selected_city = default_location[1] 
+    end
+  end
 %>
   <%= select_tag "taobao_book[city]",options_from_collection_for_select(@province.children, 'id', 'name',selected_city.id) %>
-<% end %>
-<% else %>
-  <%= select_tag "taobao_book[city]",options_from_collection_for_select(@province.children, 'id', 'name') %>
-<% end %>
