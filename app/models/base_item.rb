@@ -84,7 +84,7 @@ class BaseItem < ActiveRecord::Base
     nick = sess.top_params['visitor_nick']
     last_syn_time =  SynLog.find(nick).last_syn_time
     start_modified = last_syn_time.strftime('%Y-%m-%d %H:%M:%S')
-    start_modified = 7.days.ago.beginning_of_day.strftime('%Y-%m-%d %H:%M:%S') if start_modified <  7.days.ago.beginning_of_day.strftime('%Y-%m-%d %H:%M:%S') 
+    start_modified = 6.days.ago.beginning_of_day.strftime('%Y-%m-%d %H:%M:%S') if start_modified <  6.days.ago.beginning_of_day.strftime('%Y-%m-%d %H:%M:%S') 
     #FIXME 限制 start_modified 和 end_modified 必须在一天,而且必须在7天之内
     #查最后一次同步到7天之后有没有增量变化
     while start_modified <= Date.today.end_of_day.strftime('%Y-%m-%d %H:%M:%S')
