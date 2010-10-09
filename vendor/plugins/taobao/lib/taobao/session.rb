@@ -39,7 +39,7 @@ module Taobao
     private
     def decode_as_parameters(top_parameters)
       conv = Iconv.new('UTF-8','GBK')
-      result = conv.iconv(Base64.decode64(top_parameters))
+      result = conv.iconv(Base64.decode64(top_parameters).URLDecode)
       parameters ={}
       result.scan(/(\w+)=(\w+)/) {|key,value| parameters[key] = value}
       parameters
