@@ -16,7 +16,7 @@ module Taobao
         if sign == params['top_sign']
           self.session_key = params['top_session']
           conv = Iconv.new('UTF-8','GBK')
-          @top_params = Hash[*(Base64.decode64(params['top_parameters']).URLDecode.split('&').collect {|v| v.split('=')}).flatten]
+          @top_params = decode_as_parameters(params['top_parameters'])
           @authorized = true
         else
           throw InvalidSignature.new('top_sign签名验证非法!')
@@ -35,6 +35,14 @@ module Taobao
         raise res.sub_msg
       end
       res
+    end
+    private
+    def decode_as_parameters(top_parameters)
+      conv = Iconv.new('UTF-8','GBK')
+      result = conv.iconv(Base64.decode64(top_parameters))
+      parameters ={}
+      result.scan(/(\w+)=(\w+)/) {|key,value| parameters[key] = value}
+      parameters
     end
 
     class InvalidSignature < Exception
