@@ -1,6 +1,6 @@
 <% if !defined? @province%>
   <% @province = Province.find(1).children.first %>
-  <% if !default_location.blank?%>
+  <% if defined? default_location and !default_location.blank?%>
     <% 
       @province = default_location[0] 
       selected_city = default_location[1] 
