@@ -24,11 +24,10 @@ module Taobao
       tmp_params.delete("image")
       @params.merge!(options)
       #将nick进行urlencode编码
-      conv = Iconv.new('UTF-8','GBK')
-      tmp_params['nick'] = Iconv.conv('utf-8','gbk',tmp_params['nick']) if !tmp_params['nick'].blank?
-      tmp_params['nicks'] = Iconv.conv('utf-8','gbk',tmp_params['nicks']) if !tmp_params['nicks'].blank?
-      @params['nick'] = Iconv.conv('utf-8','gbk',@params['nick']) if !@params['nick'].blank?
-      @params['nicks'] = Iconv.conv('utf-8','gbk',@params['nicks']) if !@params['nicks'].blank?
+      #tmp_params['nick'] = Iconv.conv('utf-8','gbk',tmp_params['nick']) if !tmp_params['nick'].blank?
+      #tmp_params['nicks'] = Iconv.conv('utf-8','gbk',tmp_params['nicks']) if !tmp_params['nicks'].blank?
+      #@params['nick'] = Iconv.conv('utf-8','gbk',@params['nick']) if !@params['nick'].blank?
+      #@params['nicks'] = Iconv.conv('utf-8','gbk',@params['nicks']) if !@params['nicks'].blank?
 
       str = ENV['TAOBAO_APP_SECRET'] + (tmp_params.sort.collect { |c| "#{c[0]}#{c[1]}" }).join("") + ENV['TAOBAO_APP_SECRET']
       @params["sign"] = Digest::MD5.hexdigest(str).upcase!
