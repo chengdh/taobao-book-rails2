@@ -77,7 +77,7 @@ class TaobaoBooksController < BaseController
     begin
       savebook2taobao(@taobao_book)
       flash[:notice] = "#{@taobao_book.title}已成功上传至淘宝."
-    rescue => ex
+    #rescue => ex
       save_success = false
       flash[:error] = "#{@taobao_book.title}上传失败: #{ex.to_s}."
     end

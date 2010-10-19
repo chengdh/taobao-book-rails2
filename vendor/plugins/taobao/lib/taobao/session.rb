@@ -15,7 +15,6 @@ module Taobao
 
         if sign == params['top_sign']
           self.session_key = params['top_session']
-          conv = Iconv.new('UTF-8','GBK')
           @top_params = decode_as_parameters(params['top_parameters'])
           @authorized = true
         else
