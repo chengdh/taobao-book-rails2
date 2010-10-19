@@ -228,10 +228,10 @@ class BaseItem < ActiveRecord::Base
     remote_item = sess.invoke(taobao_method,updated_values)
     
     #重新设置本地taobao对象的pic_url
-    pic_url = BaseItem.get_pic_url(sess,remote_item.num_iid)
+    pic_url = BaseItem.get_pic_url(sess,remote_item.first.num_iid)
     self.pic_url = pic_url
-    self.id = remote_item.num_iid
-    self.iid = remote_item.iid
+    self.id = remote_item.first.num_iid
+    self.iid = remote_item.first.iid
   end
   #组装props字段
   def props
