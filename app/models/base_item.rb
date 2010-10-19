@@ -226,7 +226,6 @@ class BaseItem < ActiveRecord::Base
       taobao_method = "taobao.item.update"
     end
     remote_item = sess.invoke(taobao_method,updated_values)
-    logger.debug remote_item
     #重新设置本地taobao对象的pic_url
     pic_url = BaseItem.get_pic_url(sess,remote_item.first.num_iid)
     self.pic_url = pic_url

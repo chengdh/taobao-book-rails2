@@ -4,7 +4,7 @@ require 'pp'
 
 module Taobao
   class Parse
-    DEBUG = false
+    DEBUG = true
 
     class MyListener
       include REXML::StreamListener
