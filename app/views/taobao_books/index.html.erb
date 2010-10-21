@@ -49,6 +49,13 @@
   the_selector.add_check_listener('items_list');
   //批量更新
   var batch_update = function(){
+  //判断是否选择了书籍
+    if(the_selector.selected_ids().size() == 0)
+    {
+      $('select_des').update('请先选定要批量更新的书籍.');
+      return;
+    }
+
     //设置需要更新的属性列表,默认更新全部
     the_selector.selected_ids().each(function(book_id){
         var the_book = taobao_books.get(book_id);
