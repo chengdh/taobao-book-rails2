@@ -38,11 +38,7 @@ com.strongu.Selector.prototype = {
 	//更新选择信息
 	update_select_des: function() {
 		ret = "当前未选中任何书籍信息.";
-		var select_count = 0;
-		var selected_ids = this.cached_ids.values().each(function(sel) {
-			if (sel) select_count++;
-		},
-		this);
+		var select_count = this.selected_ids().size();
 		if (select_count > 0) ret = "当前共选中" + select_count + "本书籍."
 		this.el_select_des.update(ret);
 	},

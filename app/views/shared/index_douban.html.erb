@@ -73,7 +73,12 @@ var book_price_num_listener = function(evt,isbn13,type) {
   };
   //批量上传到taobao
   var upload_item = function(){
-    $('btn_batch_upload').addClassName('disabled');
+    //判断是否选择了书籍
+    if(the_selector.selected_ids().size() == 0)
+    {
+      $('select_des').update('请选定要上传的书籍后再进行上传操作.');
+      return;
+    }
     //设置需要更新的属性列表,默认更新全部
     the_selector.selected_ids().each(function(isbn13){
         var the_douban_book = douban_books.get(isbn13);
@@ -98,11 +103,15 @@ var book_price_num_listener = function(evt,isbn13,type) {
 }); 
         },window);
 
-    $('btn_batch_upload').removeClassName('disabled');
   };
   //批量收藏
   var save_local = function(){
-    $('btn_batch_marks').addClassName('disabled');
+    //判断是否选择了书籍
+    if(the_selector.selected_ids().size() == 0)
+    {
+      $('select_des').update('当前未选定要收藏的书籍..');
+      return;
+    }
     //设置需要更新的属性列表,默认更新全部
     the_selector.selected_ids().each(function(isbn13){
         var the_douban_book = douban_books.get(isbn13);
@@ -120,6 +129,5 @@ var book_price_num_listener = function(evt,isbn13,type) {
               }); 
         },window);
 
-    $('btn_batch_marks').removeClassName('disabled');
   };
 </script>
