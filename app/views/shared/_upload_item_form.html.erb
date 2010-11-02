@@ -81,8 +81,10 @@
       </p>
     </div>
     <div class='ctrlHolder' >
+
+      <%= label_tag "taobao_book[action_point]","返点比例:" %>
       返点比例:
-      <%= text_field_tag "taobao_book[auction_point]",20,:class => 'very-short-text' %>%
+      <%= text_field_tag "taobao_book[auction_point]","",:class => 'very-short-text' %>%
       <p class='formHint'>
         针对商城卖家,返点比例应为5的倍数
       </p>

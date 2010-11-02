@@ -247,7 +247,6 @@ class BaseItem < ActiveRecord::Base
   #生成要更新到淘宝的属性hash
   def updated_hash
     updated_values = self.attributes
-    #删除不需要更新的字段
     updated_values["type"] = "fixed"
     updated_values["list_time"] = updated_values["list_time"].strftime('%Y-%m-%d %H:%M:%S') unless updated_values["list_time"].blank?
     #updated_values["delist_time"] = updated_values["delist_time"].strftime('%Y-%m-%d %H:%M:%S')
