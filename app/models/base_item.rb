@@ -226,7 +226,7 @@ class BaseItem < ActiveRecord::Base
       taobao_method = "taobao.item.update"
     end
     remote_item = sess.invoke(taobao_method,updated_values)
-    
+
     #重新设置本地taobao对象的pic_url
     pic_url = BaseItem.get_pic_url(sess,remote_item.first.num_iid)
     self.pic_url = pic_url
@@ -261,12 +261,12 @@ class BaseItem < ActiveRecord::Base
     updated_values.delete("state")
     updated_values.delete("city")
     updated_values.delete("product_id")
-    updated_values.delete("auction_point")
     updated_values.delete("created_at")
     updated_values.delete("updated_at")
     #去除是空值的字段
     updated_values.each {|key,value| updated_values.delete(key) if value.blank?}
-
+    #将boolean型字段修改为字符
+    updated_values.each {|key,value| updated_values[key] = value.to_s if [TrueClass,FalseClass].include?(value.class)}
     updated_values
   end
   #根据记录总数计算总页数

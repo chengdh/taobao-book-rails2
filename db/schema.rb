@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100922014948) do
+ActiveRecord::Schema.define(:version => 20101102013417) do
 
   create_table "douban_books", :force => true do |t|
     t.string   "nick",         :limit => 60,  :default => "", :null => false
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20100922014948) do
     t.string   "approve_status",                                               :default => "onsale"
     t.integer  "postage_id",     :limit => 8
     t.integer  "product_id",     :limit => 8
-    t.decimal  "auction_point",                 :precision => 15, :scale => 2
+    t.integer  "auction_point"
     t.integer  "outer_id",       :limit => 8
     t.boolean  "is_virtural",                                                  :default => false
     t.boolean  "is_taobao",                                                    :default => true

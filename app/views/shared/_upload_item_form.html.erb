@@ -74,6 +74,19 @@
       <%= label_tag "taobao_book[seller_cids]","所属店铺类目:" %>
       <%= select_tag "taobao_book[seller_cids]",option_groups_seller_cats_for_select %>
     </div>
+    <div class='ctrlHolder' >
+      <%= check_box_tag "taobao_book[has_invoice]",1 %>提供发票
+      <p class='formHint'>
+        针对商城卖家,必须提供发票
+      </p>
+    </div>
+    <div class='ctrlHolder' >
+      返点比例:
+      <%= text_field_tag "taobao_book[auction_point]",20,:class => 'very-short-text' %>%
+      <p class='formHint'>
+        针对商城卖家,返点比例应为5的倍数
+      </p>
+    </div>
 
     <div class='ctrlHolder' >
       <%= check_box_tag "taobao_book[show_case]",1 %>橱窗推荐
